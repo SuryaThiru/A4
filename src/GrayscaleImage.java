@@ -1,3 +1,10 @@
+/**
+ * For a greyscale image there is only one value per pixel. On a scale of 0-1, 0 indicates black
+ * and 1 indicates white. Values in between indicate shades of grey. This value is traditionally
+ * represented using an integer. The number of bits used to store this value dictates how many
+ * "levels of grey" are supported. For example, an 8-bit representation creates 256 distinct levels
+ * (including black and white).
+ */
 public class GrayscaleImage implements ImageModel {
   private byte[] data;
   private int width;
