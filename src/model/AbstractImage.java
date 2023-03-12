@@ -52,7 +52,7 @@ public abstract class AbstractImage implements Image {
    * @param y represents the column.
    * @param pixel represents the pixel object to be set at the given place.
    */
-  public void setPixel(int x, int y, Pixel pixel) {
+  protected void setPixel(int x, int y, Pixel pixel) {
     pixels[y][x] = pixel;
   }
 
@@ -62,7 +62,7 @@ public abstract class AbstractImage implements Image {
    * @param y represents the column.
    * @return returns a pixel value at x, y of type Pixel.
    */
-  public Pixel getPixel(int x, int y) {
+  protected Pixel getPixel(int x, int y) {
     return pixels[x][y];
   }
 }
