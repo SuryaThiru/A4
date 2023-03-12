@@ -7,12 +7,6 @@ import java.util.Scanner;
 public class ImageControllerImpl implements ImageController {
   private ImageModel image;
 
-  private int width;
-
-  private int height;
-
-  private int maxValue;
-
   public void load(String imagePath, String imageName) throws IOException {
 
     Scanner sc = ppmFileValidation(imagePath);
@@ -21,15 +15,7 @@ public class ImageControllerImpl implements ImageController {
       throw new IOException("Invalid file / file name");
     }
 
-    String content = extractSpecification(sc);
-
-    if (maxValue == 1) {
-      image = new GrayscaleImageModel(width, height, maxValue);
-    } else if (maxValue == 255) {
-      image = new RGBModel(width, height, maxValue);
-    } else {
-      throw new IllegalArgumentException("Invalid max color value: " + maxValue);
-    }
+    String content = extractContent(sc);
 
     if (content == null) {
       throw new FileSystemException("no content in file");
@@ -38,13 +24,21 @@ public class ImageControllerImpl implements ImageController {
     image.load(content);
   }
 
-  private String extractSpecification(Scanner sc) {
-    width = sc.nextInt();
+  private String extractContent(Scanner sc) {
+    int width = sc.nextInt();
     System.out.println("Width of image: " + width);
-    height = sc.nextInt();
+    int height = sc.nextInt();
     System.out.println("Height of image: " + height);
-    maxValue = sc.nextInt();
+    int maxValue = sc.nextInt();
     System.out.println("Maximum value of a color in this file (usually 255): " + maxValue);
+
+    if (maxValue == 1) {
+      image = new GrayscaleImageModel(width, height, maxValue);
+    } else if (maxValue == 255) {
+      image = new RGBModel(width, height, maxValue);
+    } else {
+      throw new IllegalArgumentException("Invalid max color value: " + maxValue);
+    }
 
     sc.useDelimiter("\\A");
     return sc.hasNext() ? sc.next() : null;
