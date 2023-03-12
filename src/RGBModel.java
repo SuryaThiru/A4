@@ -7,22 +7,19 @@ import java.util.Scanner;
  * is a combination of these three base colors. On a scale of 0-1, black is represented as (0,0,0),
  * white as (1,1,1) and bright, pure yellow is represented as (1,1,0).
  */
-public class ColorImageModel implements ImageModel {
-
-  private PPMImage image;
+public class RGBModel extends AbstractImageModel {
   private GrayscaleImageModel redChannel;
   private GrayscaleImageModel greenChannel;
   private GrayscaleImageModel blueChannel;
 
-  public ColorImageModel(PPMImage image) {
-    this.image = image;
-    split();
+  public RGBModel(int width, int height, int maxValue) {
+    super(width, height, maxValue);
   }
 
   private void split() {
-    Pixel[][] pixels = image.getPixels();
-    int height = image.getHeight();
-    int width = image.getWidth();
+    Pixel[][] pixels = this.pixels;
+    int height = this.height;
+    int width = this.width;
 
     Pixel[][] redPixels = new Pixel[height][width];
     Pixel[][] greenPixels = new Pixel[height][width];
@@ -37,25 +34,24 @@ public class ColorImageModel implements ImageModel {
       }
     }
 
-    redChannel = new GrayscaleImageModel(new PPMImage(width, height, image.getMaxColorValue(),
-            redPixels));
-    greenChannel = new GrayscaleImageModel(new PPMImage(width, height, image.getMaxColorValue(),
-            greenPixels));
-    blueChannel = new GrayscaleImageModel(new PPMImage(width, height, image.getMaxColorValue(),
-            bluePixels));
+    redChannel = new GrayscaleImageModel(width, height, maxColorValue, redPixels);
+    greenChannel = new GrayscaleImageModel(width, height, maxColorValue, greenPixels);
+    blueChannel = new GrayscaleImageModel(width, height, maxColorValue, bluePixels);
   }
 
   public void load(String content) {
     Scanner sc = new Scanner(content);
 
-    for (int i = 0; i < image.getHeight(); i++) {
-      for (int j = 0; j < image.getWidth(); j++) {
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
-        image.setPixel(i, j, new Pixel(r, g, b));
+        this.setPixel(i, j, new Pixel(r, g, b));
       }
     }
+
+    split();
   }
 
   public void save(String filePath) {
@@ -76,17 +72,14 @@ public class ColorImageModel implements ImageModel {
 
   @Override
   public ImageModel[] splitChannels() throws UnsupportedOperationException {
-    return new ImageModel[0];
-  }
+    ImageModel[] imageModels = new ImageModel[3];
 
-//  public ImageModel[] splitChannels() {
-//    // Split color image into separate red, green, blue channels
-//    return new ImageModel[] {
-//            new GrayscaleImage(width, height),
-//            new GrayscaleImage(width, height),
-//            new GrayscaleImage(width, height)
-//    };
-//  }
+    imageModels[0] = redChannel;
+    imageModels[1] = greenChannel;
+    imageModels[2] = blueChannel;
+
+    return imageModels;
+  }
 
   public void combineChannels(ImageModel[] channels) {
     // Combine separate red, green, blue channels into a single color image

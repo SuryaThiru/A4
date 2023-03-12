@@ -24,9 +24,9 @@ public class ImageControllerImpl implements ImageController {
     String content = extractSpecification(sc);
 
     if (maxValue == 1) {
-      image = new GrayscaleImageModel(new PPMImage(width, height, maxValue));
+      image = new GrayscaleImageModel(width, height, maxValue);
     } else if (maxValue == 255) {
-      image = new ColorImageModel(new PPMImage(width, height, maxValue));
+      image = new RGBModel(width, height, maxValue);
     } else {
       throw new IllegalArgumentException("Invalid max color value: " + maxValue);
     }

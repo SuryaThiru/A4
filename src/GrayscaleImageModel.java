@@ -7,21 +7,24 @@ import java.util.Scanner;
  * "levels of grey" are supported. For example, an 8-bit representation creates 256 distinct levels
  * (including black and white).
  */
-public class GrayscaleImageModel implements ImageModel {
+public class GrayscaleImageModel extends AbstractImageModel {
 
-  private PPMImage image;
+  public GrayscaleImageModel(int width, int height, int maxValue) {
+    super(width, height, maxValue);
+  }
 
-  public GrayscaleImageModel(PPMImage image) {
-    this.image = image;
+  public GrayscaleImageModel(int width, int height, int maxValue, Pixel[][] pixels) {
+    super(width, height, maxValue);
+    this.pixels = pixels;
   }
 
   public void load(String content) {
     Scanner sc = new Scanner(content);
 
-    for (int i = 0; i < image.getHeight(); i++) {
-      for (int j = 0; j < image.getWidth(); j++) {
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
         int intensity = sc.nextInt();
-        image.setPixel(i, j, new Pixel(intensity, intensity, intensity));
+        setPixel(i, j, new Pixel(intensity, intensity, intensity));
       }
     }
   }
