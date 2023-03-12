@@ -60,16 +60,19 @@ public class RGBImage extends AbstractImage {
     // Save color image to file
   }
 
-  public void flipHorizontal() {
-    // Flip color image horizontally
-  }
-
-  public void flipVertical() {
-    // Flip color image vertically
-  }
-
+  @Override
   public void brighten(int increment) {
     // Brighten color image by given increment
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        Pixel pixel = this.getPixel(i, j);
+        int newRed = Math.min(pixel.getRed() + increment, maxColorValue);
+        int newGreen = Math.min(pixel.getGreen() + increment, maxColorValue);
+        int newBlue = Math.min(pixel.getBlue() + increment, maxColorValue);
+        this.setPixel(i, j, new Pixel(newRed, newGreen, newBlue));
+      }
+    }
+
   }
 
   @Override
