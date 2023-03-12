@@ -7,10 +7,15 @@ import java.nio.file.FileSystemException;
 import java.util.Scanner;
 
 import model.GrayscaleImage;
+import model.Image;
 import model.RGBImage;
 
-public class PPMImage implements Image {
-  private model.Image image;
+public class PPMImageController implements ImageController {
+  private Image image;
+
+  public PPMImageController(Image image) {
+    this.image = image;
+  }
 
   public void load(String imagePath, String imageName) throws IOException {
 
