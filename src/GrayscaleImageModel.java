@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * For a greyscale image there is only one value per pixel. On a scale of 0-1, 0 indicates black
  * and 1 indicates white. Values in between indicate shades of grey. This value is traditionally
@@ -5,13 +7,23 @@
  * "levels of grey" are supported. For example, an 8-bit representation creates 256 distinct levels
  * (including black and white).
  */
-public class GrayscaleImage implements ImageModel {
-  private byte[] data;
-  private int width;
-  private int height;
+public class GrayscaleImageModel implements ImageModel {
 
-  public void load(String filePath) {
-    // Load grayscale image from file
+  private PPMImage image;
+
+  public GrayscaleImageModel(PPMImage image) {
+    this.image = image;
+  }
+
+  public void load(String content) {
+    Scanner sc = new Scanner(content);
+
+    for (int i = 0; i < image.getHeight(); i++) {
+      for (int j = 0; j < image.getWidth(); j++) {
+        int intensity = sc.nextInt();
+        image.setPixel(i, j, new Pixel(intensity, intensity, intensity));
+      }
+    }
   }
 
   public void save(String filePath) {
@@ -30,13 +42,11 @@ public class GrayscaleImage implements ImageModel {
     // Brighten grayscale image by given increment
   }
 
-  public ImageModel[] splitChannels() {
-    // Grayscale image has only one channel
-    return new ImageModel[] { this };
+  public ImageModel[] splitChannels() throws UnsupportedOperationException {
+    throw new UnsupportedOperationException("Splitting of greyscale images are not allowed");
   }
 
   public void combineChannels(ImageModel[] channels) {
-    throw new UnsupportedOperationException("Cannot combine channels for grayscale image");
   }
 }
 

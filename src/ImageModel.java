@@ -3,7 +3,7 @@
  * logic to the operations that can be performed by the user.
  */
 public interface ImageModel {
-  public void load(String filePath);
+  public void load(String content);
 
   public void save(String filePath);
 
@@ -13,7 +13,7 @@ public interface ImageModel {
 
   public void brighten(int increment);
 
-  public ImageModel[] splitChannels();
+  public ImageModel[] splitChannels() throws UnsupportedOperationException;
 
-  public void combineChannels(ImageModel[] channels);
+  public void combineChannels(ImageModel[] channels) throws UnsupportedOperationException;
 }
