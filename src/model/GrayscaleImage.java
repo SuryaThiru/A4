@@ -11,6 +11,7 @@ import java.util.Scanner;
  */
 public class GrayscaleImage extends AbstractImage {
 
+  //TODO we can build a builder class within
   public GrayscaleImage(int width, int height, int maxValue) {
     super(width, height, maxValue);
   }
