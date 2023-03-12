@@ -1,3 +1,5 @@
+package model;
+
 import java.util.Scanner;
 
 /**
@@ -7,13 +9,13 @@ import java.util.Scanner;
  * "levels of grey" are supported. For example, an 8-bit representation creates 256 distinct levels
  * (including black and white).
  */
-public class GrayscaleImageModel extends AbstractImageModel {
+public class GrayscaleImage extends AbstractImage {
 
-  public GrayscaleImageModel(int width, int height, int maxValue) {
+  public GrayscaleImage(int width, int height, int maxValue) {
     super(width, height, maxValue);
   }
 
-  public GrayscaleImageModel(int width, int height, int maxValue, Pixel[][] pixels) {
+  public GrayscaleImage(int width, int height, int maxValue, Pixel[][] pixels) {
     super(width, height, maxValue);
     this.pixels = pixels;
   }
@@ -45,11 +47,11 @@ public class GrayscaleImageModel extends AbstractImageModel {
     // Brighten grayscale image by given increment
   }
 
-  public ImageModel[] splitChannels() throws UnsupportedOperationException {
+  public Image[] splitChannels() throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Splitting of greyscale images are not allowed");
   }
 
-  public void combineChannels(ImageModel[] channels) {
+  public void combineChannels(Image[] channels) {
   }
 }
 

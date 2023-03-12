@@ -100,7 +100,7 @@
 //  private void applyRGBSplit(String sourceImageName, String destImageNameRed, String destImage
 //
 //
-//Pixel
+//model.Pixel
 //  Red  (0, 255)
 //  Green (0, 255)
 //  Blue  (0, 255)

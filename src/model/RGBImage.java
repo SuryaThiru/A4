@@ -1,3 +1,5 @@
+package model;
+
 import java.util.Scanner;
 
 /**
@@ -7,12 +9,12 @@ import java.util.Scanner;
  * is a combination of these three base colors. On a scale of 0-1, black is represented as (0,0,0),
  * white as (1,1,1) and bright, pure yellow is represented as (1,1,0).
  */
-public class RGBModel extends AbstractImageModel {
-  private GrayscaleImageModel redChannel;
-  private GrayscaleImageModel greenChannel;
-  private GrayscaleImageModel blueChannel;
+public class RGBImage extends AbstractImage {
+  private GrayscaleImage redChannel;
+  private GrayscaleImage greenChannel;
+  private GrayscaleImage blueChannel;
 
-  public RGBModel(int width, int height, int maxValue) {
+  public RGBImage(int width, int height, int maxValue) {
     super(width, height, maxValue);
   }
 
@@ -34,9 +36,9 @@ public class RGBModel extends AbstractImageModel {
       }
     }
 
-    redChannel = new GrayscaleImageModel(width, height, maxColorValue, redPixels);
-    greenChannel = new GrayscaleImageModel(width, height, maxColorValue, greenPixels);
-    blueChannel = new GrayscaleImageModel(width, height, maxColorValue, bluePixels);
+    redChannel = new GrayscaleImage(width, height, maxColorValue, redPixels);
+    greenChannel = new GrayscaleImage(width, height, maxColorValue, greenPixels);
+    blueChannel = new GrayscaleImage(width, height, maxColorValue, bluePixels);
   }
 
   public void load(String content) {
@@ -71,17 +73,17 @@ public class RGBModel extends AbstractImageModel {
   }
 
   @Override
-  public ImageModel[] splitChannels() throws UnsupportedOperationException {
-    ImageModel[] imageModels = new ImageModel[3];
+  public Image[] splitChannels() throws UnsupportedOperationException {
+    Image[] images = new Image[3];
 
-    imageModels[0] = redChannel;
-    imageModels[1] = greenChannel;
-    imageModels[2] = blueChannel;
+    images[0] = redChannel;
+    images[1] = greenChannel;
+    images[2] = blueChannel;
 
-    return imageModels;
+    return images;
   }
 
-  public void combineChannels(ImageModel[] channels) {
+  public void combineChannels(Image[] channels) {
     // Combine separate red, green, blue channels into a single color image
   }
 }

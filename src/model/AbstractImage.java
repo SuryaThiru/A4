@@ -1,11 +1,13 @@
-public abstract class AbstractImageModel implements ImageModel {
+package model;
+
+public abstract class AbstractImage implements Image {
 
   protected int width;
   protected int height;
   protected int maxColorValue;
   protected Pixel[][] pixels;
 
-  public AbstractImageModel(int width, int height, int maxColorValue) {
+  public AbstractImage(int width, int height, int maxColorValue) {
     this.width = width;
     this.height = height;
     this.maxColorValue = maxColorValue;

@@ -1,11 +1,16 @@
+package controller;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
 import java.util.Scanner;
 
-public class ImageControllerImpl implements ImageController {
-  private ImageModel image;
+import model.GrayscaleImage;
+import model.RGBImage;
+
+public class PPMImage implements Image {
+  private model.Image image;
 
   public void load(String imagePath, String imageName) throws IOException {
 
@@ -33,9 +38,9 @@ public class ImageControllerImpl implements ImageController {
     System.out.println("Maximum value of a color in this file (usually 255): " + maxValue);
 
     if (maxValue == 1) {
-      image = new GrayscaleImageModel(width, height, maxValue);
+      image = new GrayscaleImage(width, height, maxValue);
     } else if (maxValue == 255) {
-      image = new RGBModel(width, height, maxValue);
+      image = new RGBImage(width, height, maxValue);
     } else {
       throw new IllegalArgumentException("Invalid max color value: " + maxValue);
     }
