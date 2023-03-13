@@ -13,11 +13,11 @@ public class GrayscaleImage extends AbstractImage {
 
   //TODO we can build a builder class within
   public GrayscaleImage(int width, int height, int maxValue) {
-    super(width, height, maxValue);
+    super(width, height, maxValue, "P2");
   }
 
   public GrayscaleImage(int width, int height, int maxValue, Pixel[][] pixels) {
-    super(width, height, maxValue);
+    super(width, height, maxValue, "P2");
     this.pixels = pixels;
   }
 

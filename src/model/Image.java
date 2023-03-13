@@ -1,21 +1,23 @@
 package model;
 
+import java.io.IOException;
+
 /**
  * This interface acts as a Model in the Image Manipulation Application and holds all the
  * logic to the operations that can be performed by the user.
  */
 public interface Image {
-  public void load(String content);
+  void load(String content);
 
-  public void save(String filePath);
+  void save(String filePath, String fileName) throws IOException;
 
-  public void flipHorizontal();
+  void flipHorizontal();
 
-  public void flipVertical();
+  void flipVertical();
 
-  public void brighten(int increment);
+  void brighten(int increment);
 
-  public Image[] splitChannels() throws UnsupportedOperationException;
+  Image[] splitChannels() throws UnsupportedOperationException;
 
-  public void combineChannels(Image[] channels) throws UnsupportedOperationException;
+  void combineChannels(Image[] channels) throws UnsupportedOperationException;
 }
