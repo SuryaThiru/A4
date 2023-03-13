@@ -93,4 +93,18 @@ public class PPMImageController implements ImageController {
     image.brighten(increment);
   }
 
+  public static void testVertical() {
+    // Brighten color image by given increment
+    image.flipVertical();
+  }
+
+  public static void testHorizontal() {
+    // Brighten color image by given increment
+    image.flipHorizontal();
+  }
+
+  public static void testSave(String filePath, String fileName) throws IOException {
+    image.save(filePath, fileName);
+  }
+
 }

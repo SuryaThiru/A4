@@ -21,9 +21,9 @@ public class GrayscaleImage extends AbstractImage {
     this.pixels = pixels;
   }
 
-  public void save(String filePath) {
-    // Save grayscale image to file
-  }
+//  public void save(String filePath) {
+//    // Save grayscale image to file
+//  }
 
   public void load(String content) {
     Scanner sc = new Scanner(content);

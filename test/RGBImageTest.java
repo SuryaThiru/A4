@@ -38,5 +38,16 @@ public class RGBImageTest {
 
   }
 
+  @Test
+  public void testSave() throws IOException {
+
+    Image model = new RGBImage(0, 0, 0);
+    ImageController controller = new PPMImageController(model);
+    controller.load("images/Koala.ppm", "Koala");
+    PPMImageController.testSave("images/Koala-bs.ppm", "Koalaaa");
+//    PPMImageController.testBrighten(10);
+
+  }
+
 
 }

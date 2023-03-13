@@ -9,7 +9,7 @@ import java.io.IOException;
 public interface Image {
   void load(String content);
 
-  void save(String filePath);
+  void save(String filePath, String fileName) throws IOException;
 
   /**
    * This method flips the image horizontally by swapping each pixel in a row with its
