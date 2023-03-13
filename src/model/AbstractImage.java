@@ -1,8 +1,13 @@
 package model;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public abstract class AbstractImage implements Image {
 
   protected int width;
+  protected String magicNumber;
   protected int height;
   protected int maxColorValue;
   protected Pixel[][] pixels;

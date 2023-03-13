@@ -15,7 +15,7 @@ public class RGBImage extends AbstractImage {
   private GrayscaleImage blueChannel;
 
   public RGBImage(int width, int height, int maxValue) {
-    super(width, height, maxValue);
+    super(width, height, maxValue, "P3");
   }
 
   public void load(String content) {
@@ -90,7 +90,7 @@ public class RGBImage extends AbstractImage {
   }
 
   public void combineChannels(Image[] channels) {
-    // Combine separate red, green, blue channels into a single color image
+    throw new UnsupportedOperationException("Splitting of greyscale images are not allowed");
   }
 
 }
