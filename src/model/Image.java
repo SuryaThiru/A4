@@ -7,6 +7,7 @@ import java.io.IOException;
  * logic to the operations that can be performed by the user.
  */
 public interface Image {
+
   void load(String content);
 
   void save(String filePath, String fileName) throws IOException;
@@ -30,6 +31,14 @@ public interface Image {
    * @param increment represents the increment value.
    */
   void brighten(int increment);
+
+  /**
+   * This method loops through all pixels in the image, and decreases their red, green, and blue
+   * values by the given decrement parameter.
+   *
+   * @param decrement represents the decrement value.
+   */
+  void darken(int decrement);
 
   Image[] splitChannels() throws UnsupportedOperationException;
 

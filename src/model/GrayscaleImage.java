@@ -21,10 +21,7 @@ public class GrayscaleImage extends AbstractImage {
     this.pixels = pixels;
   }
 
-//  public void save(String filePath) {
-//    // Save grayscale image to file
-//  }
-
+  @Override
   public void load(String content) {
     Scanner sc = new Scanner(content);
 
@@ -36,12 +33,17 @@ public class GrayscaleImage extends AbstractImage {
     }
   }
 
+  @Override
   public void brighten(int increment) {
     // Brighten grayscale image by given increment
+    if (increment < 0) {
+      darken(Math.abs(increment));
+      return;
+    }
     int maxValue = maxColorValue;
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        Pixel pixel = getPixel(i, j);
+        Pixel pixel = getPixel(j, i);
         // In Greyscale, all channels have equal values.
         int intensity = pixel.getRed() + increment;
         if (intensity > maxValue) {
@@ -52,6 +54,24 @@ public class GrayscaleImage extends AbstractImage {
     }
 
   }
+
+  @Override
+  public void darken(int decrement) {
+    // Darken grayscale image by given decrement
+    int minValue = 0;
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        Pixel pixel = getPixel(j, i);
+        // In Greyscale, all channels have equal values.
+        int intensity = pixel.getRed() - decrement;
+        if (intensity < minValue) {
+          intensity = minValue;
+        }
+        setPixel(i, j, new Pixel(intensity, intensity, intensity));
+      }
+    }
+  }
+
 
   public Image[] splitChannels() throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Splitting of greyscale images are not allowed");
