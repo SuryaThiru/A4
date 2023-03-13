@@ -93,6 +93,11 @@ public class PPMImageController implements ImageController {
     image.brighten(increment);
   }
 
+  public static void testDarken(int decrement) {
+    // Darken color image by given increment
+    image.darken(decrement);
+  }
+
   public static void testVertical() {
     // Brighten color image by given increment
     image.flipVertical();

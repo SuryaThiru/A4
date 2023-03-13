@@ -21,6 +21,29 @@ public abstract class AbstractImage implements Image {
   }
 
   @Override
+  public void save(String filePath, String fileName) throws IOException {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+      writer.write(magicNumber + "\n");
+      writer.write(width + " " + height + "\n");
+      writer.write(maxColorValue + "\n");
+
+      // Write the image data
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+          Pixel pixel = getPixel(x, y);
+
+          if (magicNumber == "P2") {
+            writer.write(pixel.getRed() + " ");
+            continue;
+          }
+          writer.write(pixel.getRed() + " " + pixel.getGreen() + " " + pixel.getBlue() + " ");
+        }
+        writer.newLine();
+      }
+    }
+  }
+
+  @Override
   public void flipHorizontal() {
     // Flip color image horizontally
     Pixel[][] pixels = this.pixels;
@@ -74,26 +97,4 @@ public abstract class AbstractImage implements Image {
     return pixels[y][x];
   }
 
-  @Override
-  public void save(String filePath, String fileName) throws IOException {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-      writer.write(magicNumber + "\n");
-      writer.write(width + " " + height + "\n");
-      writer.write(maxColorValue + "\n");
-
-      // Write the image data
-      for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-          Pixel pixel = getPixel(x, y);
-
-          if (magicNumber == "P2") {
-            writer.write(pixel.getRed() + " ");
-            continue;
-          }
-          writer.write(pixel.getRed() + " " + pixel.getGreen() + " " + pixel.getBlue() + " ");
-        }
-        writer.newLine();
-      }
-    }
-  }
 }

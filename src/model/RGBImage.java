@@ -27,7 +27,7 @@ public class RGBImage extends AbstractImage {
         int g = sc.nextInt();
         int b = sc.nextInt();
         this.setPixel(i, j, new Pixel(r, g, b));
-        System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
+//        System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
       }
     }
 
@@ -57,26 +57,38 @@ public class RGBImage extends AbstractImage {
     blueChannel = new GrayscaleImage(width, height, maxColorValue, bluePixels);
   }
 
-
-
-//  public void save(String filePath) {
-//    // Save color image to file
-//  }
-
   @Override
   public void brighten(int increment) {
     // Brighten color image by given increment
+    if (increment < 0) {
+      darken(Math.abs(increment));
+      return;
+    }
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        Pixel pixel = this.getPixel(i, j);
+        Pixel pixel = this.getPixel(j, i);
         int newRed = Math.min(pixel.getRed() + increment, maxColorValue);
         int newGreen = Math.min(pixel.getGreen() + increment, maxColorValue);
         int newBlue = Math.min(pixel.getBlue() + increment, maxColorValue);
         this.setPixel(i, j, new Pixel(newRed, newGreen, newBlue));
       }
     }
-
   }
+
+  @Override
+  public void darken(int decrement) {
+    // Darken color image by given decrement
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        Pixel pixel = this.getPixel(j, i);
+        int newRed = Math.max(pixel.getRed() - decrement, 0);
+        int newGreen = Math.max(pixel.getGreen() - decrement, 0);
+        int newBlue = Math.max(pixel.getBlue() - decrement, 0);
+        this.setPixel(i, j, new Pixel(newRed, newGreen, newBlue));
+      }
+    }
+  }
+
 
   @Override
   public Image[] splitChannels() throws UnsupportedOperationException {
