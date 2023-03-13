@@ -12,10 +12,11 @@ public abstract class AbstractImage implements Image {
   protected int maxColorValue;
   protected Pixel[][] pixels;
 
-  protected AbstractImage(int width, int height, int maxColorValue) {
+  protected AbstractImage(int width, int height, int maxColorValue, String magicNumber) {
     this.width = width;
     this.height = height;
     this.maxColorValue = maxColorValue;
+    this.magicNumber = magicNumber;
     this.pixels = new Pixel[height][width];
   }
 
@@ -53,8 +54,9 @@ public abstract class AbstractImage implements Image {
 
   /**
    * This method sets the pixel values at a particular row and column.
-   * @param x represents the row.
-   * @param y represents the column.
+   *
+   * @param x     represents the row.
+   * @param y     represents the column.
    * @param pixel represents the pixel object to be set at the given place.
    */
   protected void setPixel(int x, int y, Pixel pixel) {
@@ -63,11 +65,35 @@ public abstract class AbstractImage implements Image {
 
   /**
    * This method return the pixel values at a particular row and column.
+   *
    * @param x represents the row.
    * @param y represents the column.
    * @return returns a pixel value at x, y of type Pixel.
    */
   protected Pixel getPixel(int x, int y) {
-    return pixels[x][y];
+    return pixels[y][x];
+  }
+
+  @Override
+  public void save(String filePath, String fileName) throws IOException {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+      writer.write(magicNumber + "\n");
+      writer.write(width + " " + height + "\n");
+      writer.write(maxColorValue + "\n");
+
+      // Write the image data
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+          Pixel pixel = getPixel(x, y);
+
+          if (magicNumber == "P2") {
+            writer.write(pixel.getRed() + " ");
+            continue;
+          }
+          writer.write(pixel.getRed() + " " + pixel.getGreen() + " " + pixel.getBlue() + " ");
+        }
+        writer.newLine();
+      }
+    }
   }
 }

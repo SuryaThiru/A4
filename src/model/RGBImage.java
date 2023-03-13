@@ -59,9 +59,9 @@ public class RGBImage extends AbstractImage {
 
 
 
-  public void save(String filePath) {
-    // Save color image to file
-  }
+//  public void save(String filePath) {
+//    // Save color image to file
+//  }
 
   @Override
   public void brighten(int increment) {
