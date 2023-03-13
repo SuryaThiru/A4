@@ -10,7 +10,7 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 import controller.ImageController;
-import controller.PPMImageController;
+import controller.ImageControllerImp;
 import model.Image;
 import model.RGBImage;
 
@@ -38,8 +38,10 @@ public class RGBImageTest {
 //    int width = 0, height = 0, maxValue = 0;
 //
     Image model = new RGBImage(0, 0, 0);
-    ImageController controller = new PPMImageController(model);
-    controller.load("images/Koala.ppm", "Koala");
+    ImageController controller = new ImageControllerImp(model);
+    controller.Load("images/Koala.ppm", "Koala");
+    controller.Brighten(10, "Koala", "Koala-brighten");
+
 
 //    ImageUtil.readPPM("images/Koala.ppm");
 
@@ -49,9 +51,10 @@ public class RGBImageTest {
   public void testSave() throws IOException {
 
     Image model = new RGBImage(0, 0, 0);
-    ImageController controller = new PPMImageController(model);
-    controller.load("images/Koala.ppm", "Koala");
-    PPMImageController.testSave("images/Koala-bs.ppm", "Koalaaa");
+    ImageController controller = new ImageControllerImp(model);
+    controller.Load("images/earth-grayscale.ppm", "earth");
+    controller.Save("images/earth-grayscale-bs.ppm", "earth");
+    controller.Load("images/earth-grayscale-bs.ppm", "earth-dup");
 //    PPMImageController.testBrighten(10);
 
   }
@@ -59,37 +62,37 @@ public class RGBImageTest {
   @Test
   public void testHorizontalFlip() throws IOException {
     Image model = new RGBImage(0, 0, 0);
-    ImageController controller = new PPMImageController(model);
-    controller.load("images/Koala.ppm", "Koala");
-    PPMImageController.testHorizontal();
-    PPMImageController.testSave("images/testHorizontal.ppm", "Koala-horizontalFlip");
+    ImageController controller = new ImageControllerImp(model);
+    controller.Load("images/Koala.ppm", "Koala");
+    controller.FlipHorizontal("Koala", "Koala-horizontalFlip");
+    controller.Save("images/testHorizontal.ppm", "Koala-horizontalFlip");
   }
 
   @Test
   public void testVerticalFlip() throws IOException {
     Image model = new RGBImage(0, 0, 0);
-    ImageController controller = new PPMImageController(model);
-    controller.load("images/Koala.ppm", "Koala");
-    PPMImageController.testVertical();
-    PPMImageController.testSave("images/testVertical.ppm", "Koala-verticalFlip");
+    ImageController controller = new ImageControllerImp(model);
+    controller.Load("images/Koala.ppm", "Koala");
+    controller.FlipHorizontal("Koala", "Koala-verticalFlip");
+    controller.Save("images/testVertical.ppm", "Koala-verticalFlip");
   }
 
   @Test
   public void testBrighten() throws IOException {
     Image model = new RGBImage(0, 0, 0);
-    ImageController controller = new PPMImageController(model);
-    controller.load("images/Koala.ppm", "Koala");
-    PPMImageController.testBrighten(30);
-    PPMImageController.testSave("images/testBrighten.ppm", "Koala-brighten");
+    ImageController controller = new ImageControllerImp(model);
+    controller.Load("images/Koala.ppm", "Koala");
+    controller.Brighten(30, "Koala", "Koala-brighten");
+    controller.Save("images/testBrighten.ppm", "Koala-brighten");
   }
 
   @Test
   public void testDarken() throws IOException {
     Image model = new RGBImage(0, 0, 0);
-    ImageController controller = new PPMImageController(model);
-    controller.load("images/Koala.ppm", "Koala");
-    PPMImageController.testDarken(30);
-    PPMImageController.testSave("images/testDarken.ppm", "Koala-darken");
+    ImageController controller = new ImageControllerImp(model);
+    controller.Load("images/Koala.ppm", "Koala");
+    controller.Darken(30, "Koala", "Koala-darken");
+    controller.Save("images/testDarken.ppm", "Koala-darken");
   }
 
 

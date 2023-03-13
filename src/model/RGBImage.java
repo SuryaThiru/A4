@@ -2,6 +2,8 @@ package model;
 
 import java.util.Scanner;
 
+import static helper.ImageUtil.getPixels;
+
 /**
  * For a color image, the pixel's color is represented by breaking it into individual components
  * (usually 3) in some way. The most common representation is the red-green-blue (RGB) model.
@@ -15,7 +17,7 @@ public class RGBImage extends AbstractImage {
   private GrayscaleImage blueChannel;
 
   public RGBImage(int width, int height, int maxValue) {
-    super(width, height, maxValue, "P3");
+    super(width, height, maxValue);
   }
 
   public void load(String content) {
@@ -26,8 +28,7 @@ public class RGBImage extends AbstractImage {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
-        this.setPixel(i, j, new Pixel(r, g, b));
-//        System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
+        pixels[i][j] = new Pixel(r, g, b);
       }
     }
 
@@ -46,9 +47,9 @@ public class RGBImage extends AbstractImage {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         Pixel pixel = pixels[i][j];
-        redPixels[i][j] = new Pixel(pixel.getRed(), 0, 0);
-        greenPixels[i][j] = new Pixel(0, pixel.getGreen(), 0);
-        bluePixels[i][j] = new Pixel(0, 0, pixel.getBlue());
+        redPixels[i][j] = new Pixel(pixel.getChannels(0), 0, 0);
+        greenPixels[i][j] = new Pixel(0, pixel.getChannels(1), 0);
+        bluePixels[i][j] = new Pixel(0, 0, pixel.getChannels(2));
       }
     }
 
@@ -66,11 +67,11 @@ public class RGBImage extends AbstractImage {
     }
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        Pixel pixel = this.getPixel(j, i);
-        int newRed = Math.min(pixel.getRed() + increment, maxColorValue);
-        int newGreen = Math.min(pixel.getGreen() + increment, maxColorValue);
-        int newBlue = Math.min(pixel.getBlue() + increment, maxColorValue);
-        this.setPixel(i, j, new Pixel(newRed, newGreen, newBlue));
+        Pixel pixel = pixels[i][j];
+        int newRed = Math.min(pixel.getChannels(0) + increment, maxColorValue);
+        int newGreen = Math.min(pixel.getChannels(1) + increment, maxColorValue);
+        int newBlue = Math.min(pixel.getChannels(2) + increment, maxColorValue);
+        pixels[i][j] = new Pixel(newRed, newGreen, newBlue);
       }
     }
   }
@@ -80,13 +81,19 @@ public class RGBImage extends AbstractImage {
     // Darken color image by given decrement
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        Pixel pixel = this.getPixel(j, i);
-        int newRed = Math.max(pixel.getRed() - decrement, 0);
-        int newGreen = Math.max(pixel.getGreen() - decrement, 0);
-        int newBlue = Math.max(pixel.getBlue() - decrement, 0);
-        this.setPixel(i, j, new Pixel(newRed, newGreen, newBlue));
+        Pixel pixel = pixels[i][j];
+        int newRed = Math.max(pixel.getChannels(0) - decrement, 0);
+        int newGreen = Math.max(pixel.getChannels(1) - decrement, 0);
+        int newBlue = Math.max(pixel.getChannels(2) - decrement, 0);
+        pixels[i][j] = new Pixel(newRed, newGreen, newBlue);
       }
     }
+  }
+
+  @Override
+  public Image duplicate() {
+    return new GrayscaleImage(width, height, maxColorValue,
+            getPixels(pixels, width, height));
   }
 
 

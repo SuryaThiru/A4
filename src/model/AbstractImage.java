@@ -7,36 +7,29 @@ import java.io.IOException;
 public abstract class AbstractImage implements Image {
 
   protected int width;
-  protected String magicNumber;
   protected int height;
   protected int maxColorValue;
   protected Pixel[][] pixels;
 
-  protected AbstractImage(int width, int height, int maxColorValue, String magicNumber) {
+  protected AbstractImage(int width, int height, int maxColorValue) {
     this.width = width;
     this.height = height;
     this.maxColorValue = maxColorValue;
-    this.magicNumber = magicNumber;
     this.pixels = new Pixel[height][width];
   }
 
   @Override
-  public void save(String filePath, String fileName) throws IOException {
+  public void save(String filePath) throws IOException {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-      writer.write(magicNumber + "\n");
+      writer.write("P3" + "\n");
       writer.write(width + " " + height + "\n");
       writer.write(maxColorValue + "\n");
 
       // Write the image data
-      for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-          Pixel pixel = getPixel(x, y);
-
-          if (magicNumber == "P2") {
-            writer.write(pixel.getRed() + " ");
-            continue;
-          }
-          writer.write(pixel.getRed() + " " + pixel.getGreen() + " " + pixel.getBlue() + " ");
+      for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+          Pixel pixel = pixels[i][j];
+          writer.write(pixel.getChannels(0) + " " + pixel.getChannels(1) + " " + pixel.getChannels(2) + " ");
         }
         writer.newLine();
       }
@@ -73,28 +66,6 @@ public abstract class AbstractImage implements Image {
         pixels[height - i - 1][j] = temp;
       }
     }
-  }
-
-  /**
-   * This method sets the pixel values at a particular row and column.
-   *
-   * @param x     represents the row.
-   * @param y     represents the column.
-   * @param pixel represents the pixel object to be set at the given place.
-   */
-  protected void setPixel(int x, int y, Pixel pixel) {
-    pixels[x][y] = pixel;
-  }
-
-  /**
-   * This method return the pixel values at a particular row and column.
-   *
-   * @param x represents the row.
-   * @param y represents the column.
-   * @return returns a pixel value at x, y of type Pixel.
-   */
-  protected Pixel getPixel(int x, int y) {
-    return pixels[y][x];
   }
 
 }

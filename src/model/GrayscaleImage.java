@@ -2,6 +2,8 @@ package model;
 
 import java.util.Scanner;
 
+import static helper.ImageUtil.getPixels;
+
 /**
  * For a greyscale image there is only one value per pixel. On a scale of 0-1, 0 indicates black
  * and 1 indicates white. Values in between indicate shades of grey. This value is traditionally
@@ -13,11 +15,11 @@ public class GrayscaleImage extends AbstractImage {
 
   //TODO we can build a builder class within
   public GrayscaleImage(int width, int height, int maxValue) {
-    super(width, height, maxValue, "P2");
+    super(width, height, maxValue);
   }
 
   public GrayscaleImage(int width, int height, int maxValue, Pixel[][] pixels) {
-    super(width, height, maxValue, "P2");
+    super(width, height, maxValue);
     this.pixels = pixels;
   }
 
@@ -28,7 +30,7 @@ public class GrayscaleImage extends AbstractImage {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         int intensity = sc.nextInt();
-        setPixel(i, j, new Pixel(intensity, intensity, intensity));
+        pixels[i][j] = new Pixel(intensity, intensity, intensity);
       }
     }
   }
@@ -43,13 +45,13 @@ public class GrayscaleImage extends AbstractImage {
     int maxValue = maxColorValue;
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        Pixel pixel = getPixel(j, i);
+        Pixel pixel = pixels[i][j];
         // In Greyscale, all channels have equal values.
-        int intensity = pixel.getRed() + increment;
+        int intensity = pixel.getChannels(0) + increment;
         if (intensity > maxValue) {
           intensity = maxValue;
         }
-        setPixel(i, j, new Pixel(intensity, intensity, intensity));
+        pixels[i][j] = new Pixel(intensity, intensity, intensity);
       }
     }
 
@@ -61,15 +63,21 @@ public class GrayscaleImage extends AbstractImage {
     int minValue = 0;
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        Pixel pixel = getPixel(j, i);
+        Pixel pixel = pixels[i][j];
         // In Greyscale, all channels have equal values.
-        int intensity = pixel.getRed() - decrement;
+        int intensity = pixel.getChannels(0) - decrement;
         if (intensity < minValue) {
           intensity = minValue;
         }
-        setPixel(i, j, new Pixel(intensity, intensity, intensity));
+        pixels[i][j] = new Pixel(intensity, intensity, intensity);
       }
     }
+  }
+
+  @Override
+  public Image duplicate() {
+    return new GrayscaleImage(width, height, maxColorValue,
+            getPixels(pixels, width, height));
   }
 
 

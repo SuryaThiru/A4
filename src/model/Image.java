@@ -10,7 +10,7 @@ public interface Image {
 
   void load(String content);
 
-  void save(String filePath, String fileName) throws IOException;
+  void save(String filePath) throws IOException;
 
   /**
    * This method flips the image horizontally by swapping each pixel in a row with its
@@ -39,6 +39,14 @@ public interface Image {
    * @param decrement represents the decrement value.
    */
   void darken(int decrement);
+
+  /**
+   This method creates a duplicate of the image
+   * values by the given decrement parameter.
+   *
+   * @return the duplicate image object with current image properties
+   */
+  Image duplicate();
 
   Image[] splitChannels() throws UnsupportedOperationException;
 
