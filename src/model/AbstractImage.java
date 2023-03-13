@@ -12,11 +12,10 @@ public abstract class AbstractImage implements Image {
   protected int maxColorValue;
   protected Pixel[][] pixels;
 
-  protected AbstractImage(int width, int height, int maxColorValue, String magicNumber) {
+  protected AbstractImage(int width, int height, int maxColorValue) {
     this.width = width;
     this.height = height;
     this.maxColorValue = maxColorValue;
-    this.magicNumber = magicNumber;
     this.pixels = new Pixel[height][width];
   }
 
@@ -72,7 +71,7 @@ public abstract class AbstractImage implements Image {
     return pixels[x][y];
   }
 
-  public void save(String filePath) throws IOException {
+  public void save(String filePath) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
       writer.write(magicNumber);
       writer.write(width + " " + height + "\n");
