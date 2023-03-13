@@ -7,7 +7,7 @@ public abstract class AbstractImage implements Image {
   protected int maxColorValue;
   protected Pixel[][] pixels;
 
-  public AbstractImage(int width, int height, int maxColorValue) {
+  protected AbstractImage(int width, int height, int maxColorValue) {
     this.width = width;
     this.height = height;
     this.maxColorValue = maxColorValue;
@@ -53,7 +53,7 @@ public abstract class AbstractImage implements Image {
    * @param pixel represents the pixel object to be set at the given place.
    */
   protected void setPixel(int x, int y, Pixel pixel) {
-    pixels[y][x] = pixel;
+    pixels[x][y] = pixel;
   }
 
   /**
