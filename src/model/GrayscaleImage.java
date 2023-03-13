@@ -21,6 +21,10 @@ public class GrayscaleImage extends AbstractImage {
     this.pixels = pixels;
   }
 
+  public void save(String filePath) {
+    // Save grayscale image to file
+  }
+
   public void load(String content) {
     Scanner sc = new Scanner(content);
 
@@ -32,20 +36,21 @@ public class GrayscaleImage extends AbstractImage {
     }
   }
 
-  public void save(String filePath) {
-    // Save grayscale image to file
-  }
-
-  public void flipHorizontal() {
-    // Flip grayscale image horizontally
-  }
-
-  public void flipVertical() {
-    // Flip grayscale image vertically
-  }
-
   public void brighten(int increment) {
     // Brighten grayscale image by given increment
+    int maxValue = maxColorValue;
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        Pixel pixel = getPixel(i, j);
+        // In Greyscale, all channels have equal values.
+        int intensity = pixel.getRed() + increment;
+        if (intensity > maxValue) {
+          intensity = maxValue;
+        }
+        setPixel(i, j, new Pixel(intensity, intensity, intensity));
+      }
+    }
+
   }
 
   public Image[] splitChannels() throws UnsupportedOperationException {

@@ -18,6 +18,22 @@ public class RGBImage extends AbstractImage {
     super(width, height, maxValue);
   }
 
+  public void load(String content) {
+    Scanner sc = new Scanner(content);
+
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        int r = sc.nextInt();
+        int g = sc.nextInt();
+        int b = sc.nextInt();
+        this.setPixel(i, j, new Pixel(r, g, b));
+        System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
+      }
+    }
+
+    split();
+  }
+
   private void split() {
     Pixel[][] pixels = this.pixels;
     int height = this.height;
@@ -41,35 +57,25 @@ public class RGBImage extends AbstractImage {
     blueChannel = new GrayscaleImage(width, height, maxColorValue, bluePixels);
   }
 
-  public void load(String content) {
-    Scanner sc = new Scanner(content);
 
-    for (int i = 0; i < this.height; i++) {
-      for (int j = 0; j < this.width; j++) {
-        int r = sc.nextInt();
-        int g = sc.nextInt();
-        int b = sc.nextInt();
-        this.setPixel(i, j, new Pixel(r, g, b));
-      }
-    }
-
-    split();
-  }
 
   public void save(String filePath) {
     // Save color image to file
   }
 
-  public void flipHorizontal() {
-    // Flip color image horizontally
-  }
-
-  public void flipVertical() {
-    // Flip color image vertically
-  }
-
+  @Override
   public void brighten(int increment) {
     // Brighten color image by given increment
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        Pixel pixel = this.getPixel(i, j);
+        int newRed = Math.min(pixel.getRed() + increment, maxColorValue);
+        int newGreen = Math.min(pixel.getGreen() + increment, maxColorValue);
+        int newBlue = Math.min(pixel.getBlue() + increment, maxColorValue);
+        this.setPixel(i, j, new Pixel(newRed, newGreen, newBlue));
+      }
+    }
+
   }
 
   @Override
@@ -86,4 +92,5 @@ public class RGBImage extends AbstractImage {
   public void combineChannels(Image[] channels) {
     // Combine separate red, green, blue channels into a single color image
   }
+
 }

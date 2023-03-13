@@ -8,10 +8,11 @@ import java.util.Scanner;
 
 import model.GrayscaleImage;
 import model.Image;
+import model.Pixel;
 import model.RGBImage;
 
 public class PPMImageController implements ImageController {
-  private Image image;
+  private static Image image;
 
   public PPMImageController(Image image) {
     this.image = image;
@@ -86,4 +87,10 @@ public class PPMImageController implements ImageController {
 
     return sc;
   }
+
+  public static void testBrighten(int increment) {
+    // Brighten color image by given increment
+    image.brighten(increment);
+  }
+
 }

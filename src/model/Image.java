@@ -5,17 +5,31 @@ package model;
  * logic to the operations that can be performed by the user.
  */
 public interface Image {
-  public void load(String content);
+  void load(String content);
 
-  public void save(String filePath);
+  void save(String filePath);
 
-  public void flipHorizontal();
+  /**
+   * This method flips the image horizontally by swapping each pixel in a row with its
+   * corresponding pixel on the other side of the row.
+   */
+  void flipHorizontal();
 
-  public void flipVertical();
+  /**
+   * This method function flips the image vertically by swapping each pixel in a column with its
+   * corresponding pixel on the other side of the column.
+   */
+  void flipVertical();
 
-  public void brighten(int increment);
+  /**
+   * This method loops through all pixels in the image, and increases their red, green, and blue
+   * values by the given increment parameter.
+   *
+   * @param increment represents the increment value.
+   */
+  void brighten(int increment);
 
-  public Image[] splitChannels() throws UnsupportedOperationException;
+  Image[] splitChannels() throws UnsupportedOperationException;
 
-  public void combineChannels(Image[] channels) throws UnsupportedOperationException;
+  void combineChannels(Image[] channels) throws UnsupportedOperationException;
 }
