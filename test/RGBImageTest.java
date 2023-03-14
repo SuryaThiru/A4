@@ -52,9 +52,9 @@ public class RGBImageTest {
 
     Image model = new RGBImage(0, 0, 0);
     ImageController controller = new ImageControllerImp(model);
-    controller.Load("images/earth-grayscale.ppm", "earth");
-    controller.Save("images/earth-grayscale-bs.ppm", "earth");
-    controller.Load("images/earth-grayscale-bs.ppm", "earth-dup");
+    controller.Load("images/test-image.ppm", "img");
+    controller.Save("images/test-image-ds.ppm", "img");
+    controller.Load("images/test-image-ds.ppm", "img-dup");
 //    PPMImageController.testBrighten(10);
 
   }
