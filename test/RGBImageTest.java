@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 import controller.ImageController;
 import controller.ImageControllerImp;
+import model.GrayscaleImage;
 import model.Image;
 import model.RGBImage;
 
@@ -47,9 +48,8 @@ public class RGBImageTest {
 
     Image model = new RGBImage(0, 0, 0);
     ImageController controller = new ImageControllerImp(model);
-    controller.load("images/test-image.ppm", "img");
-    controller.save("images/test-image-ds.ppm", "img");
-    controller.load("images/test-image-ds.ppm", "img-dup");
+    controller.load("images/earth-grayscale.ppm", "img");
+    controller.save("images/earth-grayscale-ds.ppm", "img");
 //    PPMImageController.testBrighten(10);
 
   }

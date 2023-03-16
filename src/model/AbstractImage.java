@@ -3,6 +3,7 @@ package model;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 public abstract class AbstractImage implements Image {
 
@@ -16,6 +17,11 @@ public abstract class AbstractImage implements Image {
     this.height = height;
     this.maxColorValue = maxColorValue;
     this.pixels = new Pixel[height][width];
+  }
+
+  @Override
+  public Image load(String content) {
+    throw new IllegalArgumentException("loading is currently supported in rgbmodel");
   }
 
   @Override
@@ -69,8 +75,6 @@ public abstract class AbstractImage implements Image {
     }
   }
 
-  protected void combine(Image image) {
 
-  }
 
 }

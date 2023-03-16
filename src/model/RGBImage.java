@@ -20,19 +20,34 @@ public class RGBImage extends AbstractImage {
     super(width, height, maxValue);
   }
 
-  public void load(String content) {
+  public Image load(String content) {
     Scanner sc = new Scanner(content);
+    width = sc.nextInt();
+    height = sc.nextInt();
+    int maxValue = sc.nextInt();
+
+    pixels = new Pixel[height][width];
+
+    boolean isGrayscale = true;
 
     for (int i = 0; i < this.height; i++) {
       for (int j = 0; j < this.width; j++) {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
+        if(!(r == g && r == b)) {
+          isGrayscale = false;
+        }
         pixels[i][j] = new Pixel(r, g, b);
       }
     }
 
+    if (isGrayscale) {
+      return new GrayscaleImage(width, height, maxValue, pixels);
+    }
+
     split();
+    return this;
   }
 
   private void split() {
@@ -96,6 +111,9 @@ public class RGBImage extends AbstractImage {
             getPixels(pixels, width, height));
   }
 
+  public boolean isGrayscale() {
+    return false;
+  }
 
   @Override
   public Image[] splitChannels() throws UnsupportedOperationException {

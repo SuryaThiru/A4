@@ -5,9 +5,7 @@ import java.nio.file.FileSystemException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import model.GrayscaleImage;
 import model.Image;
-import model.RGBImage;
 
 import static helper.ImageUtil.getFileExtension;
 import static helper.ImageUtil.ppmFileValidation;
@@ -41,7 +39,8 @@ public class ImageControllerImp implements ImageController {
       throw new FileSystemException("no content in file");
     }
 
-    image.load(content);
+    image = image.load(content);
+    images.put(imageName, image);
   }
 
   public void split(String imageName, String redImageName, String greenImageName,
@@ -132,29 +131,29 @@ public class ImageControllerImp implements ImageController {
   }
 
   private String extractContent(Scanner sc, String imageName) {
-    int width = sc.nextInt();
-    int height = sc.nextInt();
-    int maxValue = sc.nextInt();
-
-    if (isGrayscalePPM(maxValue)) {
-      image = new GrayscaleImage(width, height, maxValue);
-    } else if (isRGBScalePPM(maxValue)) {
-      image = new RGBImage(width, height, maxValue);
-    } else {
-      throw new IllegalArgumentException("Invalid max color value: " + maxValue);
-    }
-
-    images.put(imageName, image);
+//    int width = sc.nextInt();
+//    int height = sc.nextInt();
+//    int maxValue = sc.nextInt();
+//
+////    if (isGrayscalePPM(maxValue)) {
+////      image = new GrayscaleImage(width, height, maxValue);
+////    } else if (isRGBScalePPM(maxValue)) {
+////      image = new RGBImage(width, height, maxValue);
+////    } else {
+////      throw new IllegalArgumentException("Invalid max color value: " + maxValue);
+////    }
+////
+////    images.put(imageName, image);
     sc.useDelimiter("\\A");
     return sc.hasNext() ? sc.next() : null;
   }
 
-  private boolean isGrayscalePPM(int maxColorValue) {
-    return maxColorValue == 1;
-  }
-
-  private boolean isRGBScalePPM(int maxColorValue) {
-    return maxColorValue == 255;
-  }
+//  private boolean isGrayscalePPM(int maxColorValue) {
+//    return maxColorValue == 1;
+//  }
+//
+//  private boolean isRGBScalePPM(int maxColorValue) {
+//    return maxColorValue == 255;
+//  }
 
 }

@@ -8,7 +8,7 @@ import java.io.IOException;
  */
 public interface Image {
 
-  void load(String content);
+  Image load(String content);
 
   void save(String filePath) throws IOException;
 
@@ -51,4 +51,6 @@ public interface Image {
   Image[] splitChannels() throws UnsupportedOperationException;
 
   void combineChannels(Image[] channels) throws UnsupportedOperationException;
+
+  boolean isGrayscale();
 }
