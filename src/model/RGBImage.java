@@ -102,6 +102,7 @@ public class RGBImage extends AbstractImage {
 
   @Override
   public void darken(int decrement) {
+    if (decrement < 0) {  brighten(Math.abs(decrement));  return;}
     // Darken color image by given decrement
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
