@@ -52,6 +52,12 @@ public interface Image {
 
   void combineChannels(Image[] channels) throws UnsupportedOperationException;
 
+  Image combineByValue();
+
+  Image combineByIntensity();
+
+  Image combineByLuma() throws UnsupportedOperationException;
+
   boolean compareImages(Image updatedImage) throws UnsupportedOperationException;
 
   boolean validateCombineChannels(Image[] channels) throws IllegalArgumentException;

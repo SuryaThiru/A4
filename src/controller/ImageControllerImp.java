@@ -153,6 +153,53 @@ public class ImageControllerImp implements ImageController {
     images.put(updatedImageName, updatedImage);
   }
 
+  public void combineByValue(String imageName, String updatedImageName) throws IOException {
+    image = images.get(imageName);
+    if(image == null) {
+      throw new IOException("image not found");
+    }
+
+    Image updatedImage = image.combineByValue();
+    images.put(updatedImageName, updatedImage);
+  }
+
+  public void combineByLuma(String imageName, String updatedImageName) throws IOException {
+    image = images.get(imageName);
+    if(image == null) {
+      throw new IOException("image not found");
+    }
+
+    Image updatedImage = image.duplicate();
+    updatedImage.combineByLuma();
+
+    images.put(updatedImageName, updatedImage);
+  }
+
+  public void combineByIntensity(String imageName, String updatedImageName) throws IOException {
+    image = images.get(imageName);
+    if(image == null) {
+      throw new IOException("image not found");
+    }
+
+    Image updatedImage = image.duplicate();
+    updatedImage.combineByIntensity();
+
+    images.put(updatedImageName, updatedImage);
+  }
+
+  public void combineByComponent(int color, String imageName, String updatedImageName)
+          throws IOException {
+    image = images.get(imageName);
+    if(image == null) {
+      throw new IOException("image not found");
+    }
+
+    Image updatedImage = image.duplicate();
+    Image[] splitImages= updatedImage.splitChannels();
+
+    images.put(updatedImageName, splitImages[color].duplicate());
+  }
+
   private String extractContent(Scanner sc) {
 
     sc.useDelimiter("\\A");

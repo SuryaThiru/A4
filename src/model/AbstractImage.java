@@ -125,5 +125,84 @@ public abstract class AbstractImage implements Image {
     return true;
   }
 
+  @Override
+  public Image combineByValue() {
+    int numberOfChannels = pixels[0][0].channels.length;
+    Pixel[][] p = new Pixel[width][height];
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        Pixel pixel = new Pixel();
+        pixel.channels = new int[numberOfChannels];
+        int value = 0;
+        for(int k = 0; k < numberOfChannels; k++) {
+          value = Math.max(value, pixels[x][y].getChannels(k));
+          pixel.channels[k] = value;
+        }
+        p[y][x] = pixel;
+      }
+    }
+
+    return new GrayscaleImage(width, height, maxColorValue, p);
+  }
+
+  @Override
+  public Image combineByIntensity() {
+    int numberOfChannels = pixels[0][0].channels.length;
+    Pixel[][] p = new Pixel[width][height];
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        Pixel pixel = new Pixel();
+        pixel.channels = new int[numberOfChannels];
+        for(int k = 0; k < numberOfChannels; k++) {
+          pixel.channels[k] = calculateIntensity(pixels[x][y].channels);
+        }
+        p[y][x] = pixel;
+      }
+    }
+
+    return new GrayscaleImage(width, height, maxColorValue, p);
+  }
+
+  protected int calculateIntensity(int[] channels) {
+    int sum = 0;
+    int channelLength = channels.length;
+    for(int i = 0; i < channelLength; i++) {
+      sum = sum + channels[i];
+    }
+
+    return sum/channelLength;
+  }
+
+  @Override
+  public Image combineByLuma() throws UnsupportedOperationException {
+    int numberOfChannels = pixels[0][0].channels.length;
+
+    if(numberOfChannels != 3) {
+      throw new IllegalArgumentException("image should contain rgb component");
+    }
+    Pixel[][] p = new Pixel[width][height];
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        Pixel pixel = new Pixel();
+        pixel.channels = new int[numberOfChannels];
+        for(int k = 0; k < numberOfChannels; k++) {
+          pixel.channels[k] = calculateLuma(pixels[x][y].channels);
+        }
+        p[y][x] = pixel;
+      }
+    }
+
+    return new GrayscaleImage(width, height, maxColorValue, p);
+  }
+
+  protected int calculateLuma(int[] channels) {
+    return (int)(0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]);
+  }
+
+
+
 
 }

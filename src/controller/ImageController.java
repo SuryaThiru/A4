@@ -24,5 +24,9 @@ public interface ImageController {
                String blueImageName) throws IOException;
 
   void testCombine(String imageName, String updatedImageName) throws IOException;
+  void combineByValue(String imageName, String updatedImageName) throws IOException;
+  void combineByLuma(String imageName, String updatedImageName) throws IOException;
+  void combineByIntensity(String imageName, String updatedImageName) throws IOException;
+  void combineByComponent(int color, String imageName, String updatedImageName) throws IOException;
 
 }

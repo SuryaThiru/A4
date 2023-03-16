@@ -80,6 +80,43 @@ public class MainController {
           this.out.append(String.format("combined red: %s green: %s blue: %s to %s"
                   + "successfully\n", redImageName, greenImageName, blueImageName, imageName));
           break;
+        case "greyscale":
+          String conversionType = scan.next();
+          imageName = scan.next();
+          updatedImageName = scan.next();
+          switch (conversionType) {
+            case "value-component":
+            imageControllerImp.combineByValue(imageName, updatedImageName);
+            this.out.append(String.format("greyscale split of %s by %s to %s is successful\n",
+                    imageName, conversionType, updatedImageName));
+            break;
+            case "luma-component":
+              imageControllerImp.combineByLuma(imageName, updatedImageName);
+              this.out.append(String.format("greyscale split of %s by %s to %s is successful\n",
+                      imageName, conversionType, updatedImageName));
+              break;
+            case "intensity-component":
+              imageControllerImp.combineByIntensity(imageName, updatedImageName);
+              this.out.append(String.format("greyscale split of %s by %s to %s is successful\n",
+                      imageName, conversionType, updatedImageName));
+              break;
+            case "red-component":
+              imageControllerImp.combineByComponent(0, imageName, updatedImageName);
+              this.out.append(String.format("greyscale split of %s by %s to %s is successful\n",
+                      imageName, conversionType, updatedImageName));
+              break;
+            case "green-component":
+              imageControllerImp.combineByComponent(1, imageName, updatedImageName);
+              this.out.append(String.format("greyscale split of %s by %s to %s is successful\n",
+                      imageName, conversionType, updatedImageName));
+              break;
+            case "blue-component":
+              imageControllerImp.combineByComponent(2, imageName, updatedImageName);
+              this.out.append(String.format("greyscale split of %s by %s to %s is successful\n",
+                      imageName, conversionType, updatedImageName));
+              break;
+          }
+          break;
         case "q":
           return;
         default:
