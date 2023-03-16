@@ -80,6 +80,17 @@ public class MainController {
           this.out.append(String.format("combined red: %s green: %s blue: %s to %s"
                   + "successfully\n", redImageName, greenImageName, blueImageName, imageName));
           break;
+        case "compare":
+          imageName = scan.next();
+          updatedImageName = scan.next();
+          boolean f = imageControllerImp.compareImages(imageName, updatedImageName);
+          if(!f) {
+            this.out.append(String.format("%s is not the same as %s\n", imageName,
+                    updatedImageName));
+            break;
+          }
+          this.out.append(String.format("%s is the same as %s\n", imageName, updatedImageName));
+          break;
         case "greyscale":
           String conversionType = scan.next();
           imageName = scan.next();

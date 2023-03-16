@@ -77,7 +77,7 @@ public class ImageControllerImp implements ImageController {
     images.put(updatedName, image);
   }
 
-  public void testCombine(String imageName, String updatedName) throws IOException {
+  public boolean compareImages(String imageName, String updatedName) throws IOException {
     image = images.get(imageName);
     if(image == null) {
       throw new IOException("image not found");
@@ -88,12 +88,7 @@ public class ImageControllerImp implements ImageController {
       throw new IOException("updated image not found");
     }
 
-    boolean flag = image.compareImages(updatedImage);
-    if(!flag) {
-      System.out.println("Not the same images");
-      return ;
-    }
-    System.out.println("same images");
+    return image.compareImages(updatedImage);
   }
 
   public void save(String filePath, String fileName) throws IOException {

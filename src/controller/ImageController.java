@@ -2,8 +2,6 @@ package controller;
 
 import java.io.IOException;
 
-import model.Image;
-
 public interface ImageController {
 
   void load(String imagePath, String imageName) throws IOException;
@@ -23,7 +21,7 @@ public interface ImageController {
   void combine(String imageName, String redImageName, String greenImageName,
                String blueImageName) throws IOException;
 
-  void testCombine(String imageName, String updatedImageName) throws IOException;
+  boolean compareImages(String imageName, String updatedImageName) throws IOException;
   void combineByValue(String imageName, String updatedImageName) throws IOException;
   void combineByLuma(String imageName, String updatedImageName) throws IOException;
   void combineByIntensity(String imageName, String updatedImageName) throws IOException;
