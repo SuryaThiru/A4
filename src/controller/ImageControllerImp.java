@@ -23,7 +23,7 @@ public class ImageControllerImp implements ImageController {
     this.images = new HashMap<>();
   }
 
-  public void Load(String imagePath, String imageName) throws IOException {
+  public void load(String imagePath, String imageName) throws IOException {
     String fileExtension = getFileExtension(imagePath);
     if (!fileExtension.equals("ppm")) {
       throw new IOException("the current file extension is not supported by the application");
@@ -44,7 +44,36 @@ public class ImageControllerImp implements ImageController {
     image.load(content);
   }
 
-  public void Save(String filePath, String fileName) throws IOException {
+  public void split(String imageName, String redImageName, String greenImageName,
+                    String blueImageName) throws IOException {
+    image = images.get(imageName);
+    if(image == null) {
+      throw new IOException("image not found");
+    }
+
+    Image[] imageSplits = image.splitChannels();
+    images.put(redImageName, imageSplits[0]);
+    images.put(blueImageName, imageSplits[1]);
+    images.put(greenImageName, imageSplits[2]);
+  }
+
+  public void combine(String updatedName, String redImageName, String greenImageName,
+                    String blueImageName) throws IOException {
+    Image[] combineChannels = new Image[3];
+    combineChannels[0] = images.get(redImageName);
+    combineChannels[1] = images.get(greenImageName);
+    combineChannels[2] = images.get(blueImageName);
+
+    if(combineChannels[0] == null || combineChannels[1] == null || combineChannels[2] == null) {
+      throw new IOException("image not found: " + redImageName + "- " + combineChannels[0] + " "
+              + greenImageName + "- " + combineChannels[1] + " " + blueImageName + "- "
+              + combineChannels[2]);
+    }
+
+    image.combineChannels(combineChannels);
+  }
+
+  public void save(String filePath, String fileName) throws IOException {
     image = images.get(fileName);
     if(image == null) {
       throw new IOException("image not found");
@@ -53,7 +82,8 @@ public class ImageControllerImp implements ImageController {
     image.save(filePath);
   }
 
-  public void Brighten(int increment, String imageName, String updatedImageName) throws IOException {
+  public void brighten(int increment, String imageName, String updatedImageName)
+          throws IOException {
     image = images.get(imageName);
     if(image == null) {
       throw new IOException("image not found");
@@ -65,7 +95,7 @@ public class ImageControllerImp implements ImageController {
     updatedImage.brighten(increment);
   }
 
-  public void Darken(int increment, String imageName, String updatedImageName) throws IOException {
+  public void darken(int increment, String imageName, String updatedImageName) throws IOException {
     image = images.get(imageName);
     if(image == null) {
       throw new IOException("image not found");
@@ -77,7 +107,7 @@ public class ImageControllerImp implements ImageController {
     updatedImage.darken(increment);
   }
 
-  public void FlipVertical(String imageName, String updatedImageName) throws IOException {
+  public void flipVertical(String imageName, String updatedImageName) throws IOException {
     image = images.get(imageName);
     if(image == null) {
       throw new IOException("image not found");
@@ -89,7 +119,7 @@ public class ImageControllerImp implements ImageController {
     updatedImage.flipVertical();
   }
 
-  public void FlipHorizontal(String imageName, String updatedImageName) throws IOException {
+  public void flipHorizontal(String imageName, String updatedImageName) throws IOException {
     image = images.get(imageName);
     if(image == null) {
       throw new IOException("image not found");
@@ -108,7 +138,7 @@ public class ImageControllerImp implements ImageController {
 
     if (isGrayscalePPM(maxValue)) {
       image = new GrayscaleImage(width, height, maxValue);
-    } else if (isColourScalePPM(maxValue)) {
+    } else if (isRGBScalePPM(maxValue)) {
       image = new RGBImage(width, height, maxValue);
     } else {
       throw new IllegalArgumentException("Invalid max color value: " + maxValue);
@@ -123,7 +153,7 @@ public class ImageControllerImp implements ImageController {
     return maxColorValue == 1;
   }
 
-  private boolean isColourScalePPM(int maxColorValue) {
+  private boolean isRGBScalePPM(int maxColorValue) {
     return maxColorValue == 255;
   }
 

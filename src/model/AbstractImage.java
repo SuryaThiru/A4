@@ -29,7 +29,8 @@ public abstract class AbstractImage implements Image {
       for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
           Pixel pixel = pixels[i][j];
-          writer.write(pixel.getChannels(0) + " " + pixel.getChannels(1) + " " + pixel.getChannels(2) + " ");
+          writer.write(pixel.getChannels(0) + " " + pixel.getChannels(1)
+                  + " " + pixel.getChannels(2) + " ");
         }
         writer.newLine();
       }
@@ -66,6 +67,10 @@ public abstract class AbstractImage implements Image {
         pixels[height - i - 1][j] = temp;
       }
     }
+  }
+
+  protected void combine(Image image) {
+
   }
 
 }
