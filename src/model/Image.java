@@ -52,7 +52,7 @@ public interface Image {
 
   void combineChannels(Image[] channels) throws UnsupportedOperationException;
 
-  boolean testCombine(Image updatedImage) throws UnsupportedOperationException;
+  boolean compareImages(Image updatedImage) throws UnsupportedOperationException;
 
   boolean validateCombineChannels(Image[] channels) throws IllegalArgumentException;
 

@@ -3,6 +3,7 @@ package model;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public abstract class AbstractImage implements Image {
@@ -86,11 +87,6 @@ public abstract class AbstractImage implements Image {
   }
 
   @Override
-  public boolean testCombine(Image updatedImage) throws IllegalArgumentException {
-    return false;
-  }
-
-  @Override
   public int getWidth() {
     return width;
   }
@@ -103,6 +99,30 @@ public abstract class AbstractImage implements Image {
   @Override
   public Pixel getPixel(int x, int y) {
     return pixels[x][y];
+  }
+
+  @Override
+  public boolean compareImages(Image updatedImage)
+          throws IllegalArgumentException {
+
+    if (!((width == updatedImage.getWidth())
+            && (height == updatedImage.getHeight()))) {
+      throw new IllegalArgumentException("the two image should be of the same height and width");
+    }
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        if (!(updatedImage.getPixel(y, x).channels.length
+                == this.getPixel(y, x). channels.length)) {
+          return false;
+        }
+        if (!(Arrays.equals(this.getPixel(y, x).channels, updatedImage.getPixel(y,x).channels))) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
 
