@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Scanner;
-
 import static helper.ImageUtil.getPixels;
 
 /**
@@ -37,7 +35,6 @@ public class GrayscaleImage extends AbstractImage {
         pixels[i][j] = new Pixel(intensity, intensity, intensity);
       }
     }
-
   }
 
   @Override

@@ -22,14 +22,12 @@ public class MainController {
   public void go(ImageController imageControllerImp, Image image) throws IOException {
     Objects.requireNonNull(image);
     Scanner scan = new Scanner(this.in);
-    while (true) {
-      menuScript(scan, imageControllerImp, image);
-    }
+    while (menuScript(scan, imageControllerImp, image));
   }
 
-  private void menuScript(Scanner scan, ImageController imageControllerImp, Image image)
+  private boolean menuScript(Scanner scan, ImageController imageControllerImp, Image image)
           throws IOException {
-    String t = scan. next();
+    String t = scan.next();
 
     switch (t) {
       case "load":
@@ -149,11 +147,12 @@ public class MainController {
         }
         break;
       case "q":
-        return;
+        return false;
       default:
         System.out.println("invalid selection. select again");
         go(imageControllerImp, image);
     }
+    return true;
   }
 
   public static void main(String[] args) {

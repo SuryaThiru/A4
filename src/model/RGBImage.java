@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 import static helper.ImageUtil.getPixels;
@@ -19,6 +18,11 @@ public class RGBImage extends AbstractImage {
 
   public RGBImage(int width, int height, int maxValue) {
     super(width, height, maxValue);
+  }
+
+  public RGBImage(int width, int height, int maxValue, Pixel[][] pixels) {
+    super(width, height, maxValue);
+    this.pixels = pixels;
   }
 
   @Override

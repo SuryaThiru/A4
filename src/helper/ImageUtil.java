@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import model.Pixel;
+import model.RGBImage;
 
 public class ImageUtil {
   public static Scanner ppmFileValidation(String filename) {
@@ -79,14 +80,14 @@ public class ImageUtil {
    *
    * @param filename the path of the file.
    */
-  public static void readPPM(String filename) {
+  public static RGBImage readPPM(String filename) {
     Scanner sc;
 
     try {
       sc = new Scanner(new FileInputStream(filename));
     } catch (FileNotFoundException e) {
       System.out.println("File " + filename + " not found!");
-      return;
+      return null;
     }
     StringBuilder builder = new StringBuilder();
     //read the file line by line, and populate a string. This will throw away any comment lines
@@ -113,13 +114,16 @@ public class ImageUtil {
     int maxValue = sc.nextInt();
     System.out.println("Maximum value of a color in this file (usually 255): " + maxValue);
 
+    Pixel[][] p = new Pixel[height][width];
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
-        System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
+        p[i][j] = new Pixel(r, g, b);
       }
     }
+
+    return new RGBImage(width, height, maxValue, p);
   }
 }
