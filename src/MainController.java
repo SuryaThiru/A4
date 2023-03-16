@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.NotActiveException;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -26,7 +28,7 @@ public class MainController {
   }
 
   private boolean menuScript(Scanner scan, ImageController imageControllerImp, Image image)
-          throws IOException {
+          throws IOException, NoSuchElementException {
     String t = scan.next();
 
     switch (t) {
@@ -137,6 +139,12 @@ public class MainController {
         break;
       case "run":
         String scriptFilePath = scan.next();
+        int lastDotIndex = scriptFilePath.lastIndexOf(".");
+        if (lastDotIndex > 0 && !scriptFilePath.substring(lastDotIndex + 1)
+                .equals("txt")) {
+          throw new IOException("invalid script being used. only txt files are allowed. "
+                  + "Try again\n");
+        }
         try (BufferedReader reader = new BufferedReader(new FileReader(scriptFilePath))) {
           String line;
           while ((line = reader.readLine()) != null) {
