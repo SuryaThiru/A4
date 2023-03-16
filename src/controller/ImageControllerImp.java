@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import model.Image;
+import model.RGBImage;
 
 import static helper.ImageUtil.getFileExtension;
 import static helper.ImageUtil.ppmFileValidation;
@@ -52,8 +53,8 @@ public class ImageControllerImp implements ImageController {
 
     Image[] imageSplits = image.splitChannels();
     images.put(redImageName, imageSplits[0]);
-    images.put(blueImageName, imageSplits[1]);
-    images.put(greenImageName, imageSplits[2]);
+    images.put(greenImageName, imageSplits[1]);
+    images.put(blueImageName, imageSplits[2]);
   }
 
   public void combine(String updatedName, String redImageName, String greenImageName,
@@ -69,7 +70,30 @@ public class ImageControllerImp implements ImageController {
               + combineChannels[2]);
     }
 
+    image = new RGBImage(0, 0, 255);
+
+    image.validateCombineChannels(combineChannels);
     image.combineChannels(combineChannels);
+    images.put(updatedName, image);
+  }
+
+  public void testCombine(String imageName, String updatedName) throws IOException {
+    image = images.get(imageName);
+    if(image == null) {
+      throw new IOException("image not found");
+    }
+
+    Image updatedImage = images.get(updatedName);
+    if(updatedImage == null) {
+      throw new IOException("updated image not found");
+    }
+
+    boolean flag = image.testCombine(updatedImage);
+    if(!flag) {
+      System.out.println("Not the same images");
+      return ;
+    }
+    System.out.println("same images");
   }
 
   public void save(String filePath, String fileName) throws IOException {
@@ -89,9 +113,8 @@ public class ImageControllerImp implements ImageController {
     }
 
     Image updatedImage = image.duplicate();
-    images.put(updatedImageName, updatedImage);
-
     updatedImage.brighten(increment);
+    images.put(updatedImageName, updatedImage);
   }
 
   public void darken(int increment, String imageName, String updatedImageName) throws IOException {
@@ -101,9 +124,9 @@ public class ImageControllerImp implements ImageController {
     }
 
     Image updatedImage = image.duplicate();
-    images.put(updatedImageName, updatedImage);
-
     updatedImage.darken(increment);
+
+    images.put(updatedImageName, updatedImage);
   }
 
   public void flipVertical(String imageName, String updatedImageName) throws IOException {
@@ -113,9 +136,9 @@ public class ImageControllerImp implements ImageController {
     }
 
     Image updatedImage = image.duplicate();
-    images.put(updatedImageName, updatedImage);
-
     updatedImage.flipVertical();
+
+    images.put(updatedImageName, updatedImage);
   }
 
   public void flipHorizontal(String imageName, String updatedImageName) throws IOException {
@@ -125,9 +148,9 @@ public class ImageControllerImp implements ImageController {
     }
 
     Image updatedImage = image.duplicate();
-    images.put(updatedImageName, updatedImage);
-
     updatedImage.flipHorizontal();
+
+    images.put(updatedImageName, updatedImage);
   }
 
   private String extractContent(Scanner sc, String imageName) {

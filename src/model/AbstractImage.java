@@ -44,6 +44,11 @@ public abstract class AbstractImage implements Image {
   }
 
   @Override
+  public boolean isGrayscale() {
+    return false;
+  }
+
+  @Override
   public void flipHorizontal() {
     // Flip color image horizontally
     Pixel[][] pixels = this.pixels;
@@ -75,6 +80,30 @@ public abstract class AbstractImage implements Image {
     }
   }
 
+  @Override
+  public boolean validateCombineChannels(Image[] channels) throws IllegalArgumentException {
+    return false;
+  }
+
+  @Override
+  public boolean testCombine(Image updatedImage) throws IllegalArgumentException {
+    return false;
+  }
+
+  @Override
+  public int getWidth() {
+    return width;
+  }
+
+  @Override
+  public int getHeight() {
+    return height;
+  }
+
+  @Override
+  public Pixel getPixel(int x, int y) {
+    return pixels[x][y];
+  }
 
 
 }

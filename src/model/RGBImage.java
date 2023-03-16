@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static helper.ImageUtil.getPixels;
@@ -20,11 +21,12 @@ public class RGBImage extends AbstractImage {
     super(width, height, maxValue);
   }
 
+  @Override
   public Image load(String content) {
     Scanner sc = new Scanner(content);
     width = sc.nextInt();
     height = sc.nextInt();
-    int maxValue = sc.nextInt();
+    maxColorValue = sc.nextInt();
 
     pixels = new Pixel[height][width];
 
@@ -43,7 +45,7 @@ public class RGBImage extends AbstractImage {
     }
 
     if (isGrayscale) {
-      return new GrayscaleImage(width, height, maxValue, pixels);
+      return new GrayscaleImage(width, height, maxColorValue, pixels);
     }
 
     split();
@@ -62,9 +64,12 @@ public class RGBImage extends AbstractImage {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         Pixel pixel = pixels[i][j];
-        redPixels[i][j] = new Pixel(pixel.getChannels(0), 0, 0);
-        greenPixels[i][j] = new Pixel(0, pixel.getChannels(1), 0);
-        bluePixels[i][j] = new Pixel(0, 0, pixel.getChannels(2));
+        redPixels[i][j] = new Pixel(pixel.getChannels(0),
+                pixel.getChannels(0), pixel.getChannels(0));
+        greenPixels[i][j] = new Pixel(pixel.getChannels(1),
+                pixel.getChannels(1), pixel.getChannels(1));
+        bluePixels[i][j] = new Pixel(pixel.getChannels(2),
+                pixel.getChannels(2), pixel.getChannels(2));
       }
     }
 
@@ -111,10 +116,6 @@ public class RGBImage extends AbstractImage {
             getPixels(pixels, width, height));
   }
 
-  public boolean isGrayscale() {
-    return false;
-  }
-
   @Override
   public Image[] splitChannels() throws UnsupportedOperationException {
     Image[] images = new Image[3];
@@ -126,8 +127,77 @@ public class RGBImage extends AbstractImage {
     return images;
   }
 
-  public void combineChannels(Image[] channels) {
-    throw new UnsupportedOperationException("Splitting of greyscale images are not allowed");
+  @Override
+  public void combineChannels(Image[] channels) throws IllegalArgumentException {
+
+    int width = channels[0].getWidth();
+    int height = channels[0].getHeight();
+
+    this.width = width;
+    this.height = height;
+    this.maxColorValue = 255;
+    pixels = new Pixel[height][width];
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        Pixel pixel = new Pixel();
+        pixel.channels = new int[channels.length];
+        pixel.channels[0] = channels[0].getPixel(y, x).getChannels(0);
+        pixel.channels[1] = channels[1].getPixel(y, x).getChannels(0);
+        pixel.channels[2] = channels[2].getPixel(y, x).getChannels(0);
+
+        pixels[y][x] = pixel;
+      }
+    }
+
+    split();
+  }
+
+  @Override
+  public boolean validateCombineChannels(Image[] channels) throws IllegalArgumentException {
+    int length = channels.length;
+
+    if (length != 3) {
+      throw new IllegalArgumentException("three images are expected to combine the channels");
+    }
+
+    for (int i = 0; i < length; i++) {
+      if(!channels[i].isGrayscale()) {
+        throw new IllegalArgumentException("three images are expected to be grayscale images");
+      }
+    }
+
+    if (!((channels[0].getWidth() == channels[1].getWidth()
+            && channels[0].getWidth() == channels[2].getWidth())
+            && (channels[0].getHeight() == channels[1].getHeight()
+            && channels[0].getHeight() == channels[2].getHeight()))) {
+      throw new IllegalArgumentException("the three image should be of the same height and width");
+    }
+
+    return true;
+  }
+
+  @Override
+  public boolean testCombine(Image updatedImage)
+          throws IllegalArgumentException {
+
+    if (!((width == updatedImage.getWidth())
+            && (height == updatedImage.getHeight()))) {
+      throw new IllegalArgumentException("the two image should be of the same height and width");
+    }
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        if (!(updatedImage.getPixel(y, x).channels.length == 3)) {
+          return false;
+        }
+        if (!(Arrays.equals(this.getPixel(y, x).channels, updatedImage.getPixel(y,x).channels))) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
 }

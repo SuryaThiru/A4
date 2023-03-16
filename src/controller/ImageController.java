@@ -23,4 +23,6 @@ public interface ImageController {
   void combine(String imageName, String redImageName, String greenImageName,
                String blueImageName) throws IOException;
 
+  void testCombine(String imageName, String updatedImageName) throws IOException;
+
 }

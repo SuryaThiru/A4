@@ -52,5 +52,15 @@ public interface Image {
 
   void combineChannels(Image[] channels) throws UnsupportedOperationException;
 
+  boolean testCombine(Image updatedImage) throws UnsupportedOperationException;
+
+  boolean validateCombineChannels(Image[] channels) throws IllegalArgumentException;
+
   boolean isGrayscale();
+
+  int getWidth();
+
+  int getHeight();
+
+  Pixel getPixel(int x, int y);
 }

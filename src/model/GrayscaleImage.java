@@ -63,51 +63,19 @@ public class GrayscaleImage extends AbstractImage {
             getPixels(pixels, width, height));
   }
 
-
+  @Override
   public Image[] splitChannels() throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Splitting of one bit images are not allowed");
   }
 
+  @Override
   public boolean isGrayscale() {
     return true;
   }
 
-
-  public void combineChannels(Image[] channels) throws IllegalArgumentException {
-//    if (channels.length != 3) {
-//      throw new IllegalArgumentException("three images are expected to combine the channels");
-//    }
-//
-//    for (int i = 0; i < channels; i++) {
-//      if(!channels[i].isGrayscale()) {
-//        throw new IllegalArgumentException("three images are expected to be grayscale images");
-//      }
-//    }
-//
-//    if (!((channels[0].width == channels[1].width && channels[0].width == channels[2].width)
-//            && (channels[0].height == channels[1].height
-//            && channels[0].height == channels[2].height))) {
-//      throw new IllegalArgumentException("the three image should be of the same height and width");
-//    }
-//
-//    int width = channels[0].width;
-//    int height = channels[0].height;
-//
-//    RGBImage rgbImage = new RGBImage(width, height, 255);
-//    Pixel pixels[][] = new Pixel[width][height];
-//
-//    for (int y = 0; y < height; y++) {
-//      for (int x = 0; x < width; x++) {
-//        Pixel pixel = new Pixel();
-//        pixel.channels[0] = channels[0].pixels[x][y].getChannels(0);
-//        pixel.channels[1] = channels[1].pixels[x][y].getChannels(0);
-//        pixel.channels[2] = channels[2].pixels[x][y].getChannels(0);
-//
-//        pixels[x][y] = pixel;
-//      }
-//    }
-//
-//    rgbImage.pixels = pixels;
+  @Override
+  public void combineChannels(Image[] channels) {
+    throw new UnsupportedOperationException("Splitting of greyscale images are not allowed");
   }
 }
 
