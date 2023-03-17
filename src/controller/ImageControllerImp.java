@@ -47,7 +47,7 @@ public class ImageControllerImp implements ImageController {
   public void split(String imageName, String redImageName, String greenImageName,
                     String blueImageName) throws IOException {
     image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
@@ -58,13 +58,13 @@ public class ImageControllerImp implements ImageController {
   }
 
   public void combine(String updatedName, String redImageName, String greenImageName,
-                    String blueImageName) throws IOException {
+                      String blueImageName) throws IOException {
     Image[] combineChannels = new Image[3];
     combineChannels[0] = images.get(redImageName);
     combineChannels[1] = images.get(greenImageName);
     combineChannels[2] = images.get(blueImageName);
 
-    if(combineChannels[0] == null || combineChannels[1] == null || combineChannels[2] == null) {
+    if (combineChannels[0] == null || combineChannels[1] == null || combineChannels[2] == null) {
       throw new IOException("image not found: " + redImageName + "- " + combineChannels[0] + " "
               + greenImageName + "- " + combineChannels[1] + " " + blueImageName + "- "
               + combineChannels[2]);
@@ -79,12 +79,12 @@ public class ImageControllerImp implements ImageController {
 
   public boolean compareImages(String imageName, String updatedName) throws IOException {
     image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
     Image updatedImage = images.get(updatedName);
-    if(updatedImage == null) {
+    if (updatedImage == null) {
       throw new IOException("updated image not found");
     }
 
@@ -93,7 +93,7 @@ public class ImageControllerImp implements ImageController {
 
   public void save(String filePath, String fileName) throws IOException {
     image = images.get(fileName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
@@ -103,7 +103,7 @@ public class ImageControllerImp implements ImageController {
   public void brighten(int increment, String imageName, String updatedImageName)
           throws IOException {
     image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
@@ -114,7 +114,7 @@ public class ImageControllerImp implements ImageController {
 
   public void darken(int increment, String imageName, String updatedImageName) throws IOException {
     image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
@@ -126,7 +126,7 @@ public class ImageControllerImp implements ImageController {
 
   public void flipVertical(String imageName, String updatedImageName) throws IOException {
     image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
@@ -138,7 +138,7 @@ public class ImageControllerImp implements ImageController {
 
   public void flipHorizontal(String imageName, String updatedImageName) throws IOException {
     image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
@@ -150,7 +150,7 @@ public class ImageControllerImp implements ImageController {
 
   public void combineByValue(String imageName, String updatedImageName) throws IOException {
     image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
@@ -160,7 +160,7 @@ public class ImageControllerImp implements ImageController {
 
   public void combineByLuma(String imageName, String updatedImageName) throws IOException {
     image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
@@ -172,7 +172,7 @@ public class ImageControllerImp implements ImageController {
 
   public void combineByIntensity(String imageName, String updatedImageName) throws IOException {
     image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
@@ -185,12 +185,12 @@ public class ImageControllerImp implements ImageController {
   public void combineByComponent(int color, String imageName, String updatedImageName)
           throws IOException {
     image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("image not found");
     }
 
     Image updatedImage = image.duplicate();
-    Image[] splitImages= updatedImage.splitChannels();
+    Image[] splitImages = updatedImage.splitChannels();
 
     images.put(updatedImageName, splitImages[color].duplicate());
   }

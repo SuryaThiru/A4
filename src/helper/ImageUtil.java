@@ -7,6 +7,9 @@ import java.util.Scanner;
 import model.Pixel;
 import model.RGBImage;
 
+/**
+ * This file contains the utility methods being used in the application.
+ */
 public class ImageUtil {
   public static Scanner ppmFileValidation(String filename) {
     Scanner sc;

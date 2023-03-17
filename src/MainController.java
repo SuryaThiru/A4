@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.NotActiveException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
@@ -12,19 +11,33 @@ import controller.ImageControllerImp;
 import model.Image;
 import model.RGBImage;
 
+/**
+ * This class represents the main controller and determines the steps after each input.
+ */
 public class MainController {
   final Readable in;
   final Appendable out;
 
+  /**
+   * The constructor is used to initialize the class variables.
+   * @param in represents the input stream.
+   * @param out represents the output stream.
+   */
   MainController(Readable in, Appendable out) {
     this.in = in;
     this.out = out;
   }
 
+  /**
+   * This method is used as the main method which determines all the steps.
+   * @param imageControllerImp represents the image controller.
+   * @param image represents an image.
+   * @throws IOException throws exception when inout is not valid.
+   */
   public void go(ImageController imageControllerImp, Image image) throws IOException {
     Objects.requireNonNull(image);
     Scanner scan = new Scanner(this.in);
-    while (menuScript(scan, imageControllerImp, image));
+    while (menuScript(scan, imageControllerImp, image)) ;
   }
 
   private boolean menuScript(Scanner scan, ImageController imageControllerImp, Image image)
@@ -163,6 +176,11 @@ public class MainController {
     return true;
   }
 
+  /**
+   * This is the main function form which the program starts.
+   *
+   * @param args represents various arguments from the command line.
+   */
   public static void main(String[] args) {
     Image imageModel = new RGBImage(0, 0, 0);
     ImageController imageController = new ImageControllerImp(imageModel);

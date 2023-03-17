@@ -4,8 +4,10 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Scanner;
 
+/**
+ * This abstract class for Greyscale and RGBImage and contains the common functionality.
+ */
 public abstract class AbstractImage implements Image {
 
   protected int width;
@@ -113,10 +115,10 @@ public abstract class AbstractImage implements Image {
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         if (!(updatedImage.getPixel(y, x).channels.length
-                == this.getPixel(y, x). channels.length)) {
+                == this.getPixel(y, x).channels.length)) {
           return false;
         }
-        if (!(Arrays.equals(this.getPixel(y, x).channels, updatedImage.getPixel(y,x).channels))) {
+        if (!(Arrays.equals(this.getPixel(y, x).channels, updatedImage.getPixel(y, x).channels))) {
           return false;
         }
       }
@@ -135,7 +137,7 @@ public abstract class AbstractImage implements Image {
         Pixel pixel = new Pixel();
         pixel.channels = new int[numberOfChannels];
         int value = 0;
-        for(int k = 0; k < numberOfChannels; k++) {
+        for (int k = 0; k < numberOfChannels; k++) {
           value = Math.max(value, pixels[x][y].getChannels(k));
           pixel.channels[k] = value;
         }
@@ -155,7 +157,7 @@ public abstract class AbstractImage implements Image {
       for (int x = 0; x < width; x++) {
         Pixel pixel = new Pixel();
         pixel.channels = new int[numberOfChannels];
-        for(int k = 0; k < numberOfChannels; k++) {
+        for (int k = 0; k < numberOfChannels; k++) {
           pixel.channels[k] = calculateIntensity(pixels[x][y].channels);
         }
         p[y][x] = pixel;
@@ -168,18 +170,18 @@ public abstract class AbstractImage implements Image {
   protected int calculateIntensity(int[] channels) {
     int sum = 0;
     int channelLength = channels.length;
-    for(int i = 0; i < channelLength; i++) {
+    for (int i = 0; i < channelLength; i++) {
       sum = sum + channels[i];
     }
 
-    return sum/channelLength;
+    return sum / channelLength;
   }
 
   @Override
   public Image combineByLuma() throws UnsupportedOperationException {
     int numberOfChannels = pixels[0][0].channels.length;
 
-    if(numberOfChannels != 3) {
+    if (numberOfChannels != 3) {
       throw new IllegalArgumentException("image should contain rgb component");
     }
     Pixel[][] p = new Pixel[width][height];
@@ -188,7 +190,7 @@ public abstract class AbstractImage implements Image {
       for (int x = 0; x < width; x++) {
         Pixel pixel = new Pixel();
         pixel.channels = new int[numberOfChannels];
-        for(int k = 0; k < numberOfChannels; k++) {
+        for (int k = 0; k < numberOfChannels; k++) {
           pixel.channels[k] = calculateLuma(pixels[x][y].channels);
         }
         p[y][x] = pixel;
@@ -199,10 +201,8 @@ public abstract class AbstractImage implements Image {
   }
 
   protected int calculateLuma(int[] channels) {
-    return (int)(0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]);
+    return (int) (0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]);
   }
-
-
 
 
 }
