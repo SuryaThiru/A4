@@ -5,21 +5,32 @@ import java.util.Scanner;
 import static helper.ImageUtil.getPixels;
 
 /**
- * For a color image, the pixel's color is represented by breaking it into individual components
- * (usually 3) in some way. The most common representation is the red-green-blue (RGB) model.
- * In this model, a color is represented by three numbers (components): red, green, blue. Any color
- * is a combination of these three base colors. On a scale of 0-1, black is represented as (0,0,0),
- * white as (1,1,1) and bright, pure yellow is represented as (1,1,0).
+ * This class represents an RGB Image and contains the operations performed on it.
  */
 public class RGBImage extends AbstractImage {
   private GrayscaleImage redChannel;
   private GrayscaleImage greenChannel;
   private GrayscaleImage blueChannel;
 
+  /**
+   * Instantiates the class objects.
+   *
+   * @param width    represents the width of the image.
+   * @param height   represents the height of the image.
+   * @param maxValue represents the maxvalue of the image.
+   */
   public RGBImage(int width, int height, int maxValue) {
     super(width, height, maxValue);
   }
 
+  /**
+   * Instantiates the class objects.
+   *
+   * @param width    represents the width of the image.
+   * @param height   represents the height of the image.
+   * @param maxValue represents the maxvalue of the image.
+   * @param pixels   represents the pixels of the image.
+   */
   public RGBImage(int width, int height, int maxValue, Pixel[][] pixels) {
     super(width, height, maxValue);
     this.pixels = pixels;
@@ -41,7 +52,7 @@ public class RGBImage extends AbstractImage {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
-        if(!(r == g && r == b)) {
+        if (!(r == g && r == b)) {
           isGrayscale = false;
         }
         pixels[i][j] = new Pixel(r, g, b);
@@ -102,6 +113,10 @@ public class RGBImage extends AbstractImage {
 
   @Override
   public void darken(int decrement) {
+    if (decrement < 0) {
+      brighten(Math.abs(decrement));
+      return;
+    }
     // Darken color image by given decrement
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
@@ -165,8 +180,8 @@ public class RGBImage extends AbstractImage {
       throw new IllegalArgumentException("three images are expected to combine the channels");
     }
 
-    for (int i = 0; i < length; i++) {
-      if(!channels[i].isGrayscale()) {
+    for (Image channel : channels) {
+      if (!channel.isGrayscale()) {
         throw new IllegalArgumentException("three images are expected to be grayscale images");
       }
     }

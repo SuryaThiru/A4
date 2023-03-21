@@ -9,7 +9,7 @@ import controller.ImageControllerImp;
 import model.RGBImage;
 import model.Image;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This class is used to test the various operations performed by the Image Controller.
@@ -17,28 +17,28 @@ import static org.junit.Assert.*;
 public class ImageControllerTest {
 
   @Test
-  public void testLoadScript() {
+  public void testLoadScript() throws IOException {
 
     StringBuffer out = new StringBuffer();
-    Reader in = new StringReader("images/testScript2.txt");
+    Reader in = new StringReader("run res/scripts/testScript2.txt\nq");
 
     Image model = new RGBImage(0, 0, 0);
     MainController controller = new MainController(in, out);
     ImageController ic = new ImageControllerImp(model);
-
-    assertEquals("loaded fractal successfully", out.toString());
+    controller.startProgram(ic, model);
+    assertEquals("loaded fractal successfully\n", out.toString());
 
   }
 
   @Test(expected = IOException.class)
   public void testLoadScriptWrongFile() throws IOException {
     StringBuffer out = new StringBuffer();
-    Reader in = new StringReader("run images/flower.ppm");
+    Reader in = new StringReader("run res/scripts/flower.ppm\nrun images/flower.ppm\nq");
 
     Image model = new RGBImage(0, 0, 0);
     MainController controller = new MainController(in, out);
     ImageController ic = new ImageControllerImp(model);
-    controller.go(ic, model);
+    controller.startProgram(ic, model);
   }
 
 
@@ -46,14 +46,14 @@ public class ImageControllerTest {
   public void testLoadTerminal() throws IOException {
 
     StringBuffer out = new StringBuffer();
-    Reader in = new StringReader("load images/mockImage.ppm mockImage \nq");
+    Reader in = new StringReader("load res/images/flower.ppm flower \nq");
     Image model = new RGBImage(0, 0, 0);
 
     MainController controller = new MainController(in, out);
     ImageController ic = new ImageControllerImp(model);
-    controller.go(ic, model);
+    controller.startProgram(ic, model);
 
-    assertEquals("loaded mockImage successfully\n", out.toString());
+    assertEquals("loaded flower successfully\n", out.toString());
 
   }
 
@@ -66,7 +66,7 @@ public class ImageControllerTest {
 
     MainController controller = new MainController(in, out);
     ImageController ic = new ImageControllerImp(model);
-    controller.go(ic, model);
+    controller.startProgram(ic, model);
 
   }
 
@@ -74,12 +74,12 @@ public class ImageControllerTest {
   public void testSaveBeforeLoad() throws IOException {
     Image model = new RGBImage(0, 0, 0);
 
-    Reader in = new StringReader("save images/flower.ppm fractal");
+    Reader in = new StringReader("save res/images/flower.ppm fractal");
     StringBuffer out = new StringBuffer();
 
     MainController controller = new MainController(in, out);
     ImageController ic = new ImageControllerImp(model);
-    controller.go(ic, model);
+    controller.startProgram(ic, model);
 
     assertEquals("image not loaded", out.toString());
   }
@@ -88,49 +88,49 @@ public class ImageControllerTest {
   public void testSaveTerminal() throws IOException {
     Image model = new RGBImage(0, 0, 0);
 
-    Reader in = new StringReader("load images/flower.ppm fractal" +
-            "\nsave images/flower-save.ppm fractal\n");
+    Reader in = new StringReader("load res/images/flower.ppm fractal" +
+            "\nsave res/images/flower-save.ppm fractal\nq");
     StringBuffer out = new StringBuffer();
 
     MainController controller = new MainController(in, out);
     ImageController ic = new ImageControllerImp(model);
-    controller.go(ic, model);
+    controller.startProgram(ic, model);
 
-    assertEquals("loaded image flower" + "\n"
-            + "saved image flower-save", out.toString());
+    assertEquals("loaded fractal successfully" + "\n"
+            + "saved fractal successfully\n", out.toString());
   }
 
   @Test
   public void testSaveScript() throws IOException {
     Image model = new RGBImage(0, 0, 0);
 
-    Reader in = new StringReader("images/testScript1.txt");
+    Reader in = new StringReader("run res/scripts/testScript1.txt\nq");
     StringBuffer out = new StringBuffer();
 
     MainController controller = new MainController(in, out);
     ImageController ic = new ImageControllerImp(model);
-    controller.go(ic, model);
+    controller.startProgram(ic, model);
 
-    assertEquals("loaded image fractal" + "\n"
-            + "increased brightness by 10 for fractal" + "\n"
-            + "successfully flipped fractal-brighter vertically" + "\n"
-            + "saved image fractal-brighter-vertical", out.toString());
+    assertEquals("loaded fractal successfully" + "\n"
+            + "increased the brightness of fractal by 10 to fractal-brighter successfully" + "\n"
+            + "flipped fractal-brighter to fractal-brighter-vertical vertically successfully"
+            + "\nsaved fractal-brighter-vertical successfully\n", out.toString());
   }
 
   @Test
   public void testDoubleLoad() throws IOException {
     Image model = new RGBImage(0, 0, 0);
 
-    Reader in = new StringReader("load images/flower.ppm fractal" +
-            "\n load images/flower-brighten.ppm flower-brightened");
+    Reader in = new StringReader("load res/images/flower.ppm fractal" +
+            "\n load res/images/flower-brighten.ppm flower-brightened \nq");
     StringBuffer out = new StringBuffer();
 
     MainController controller = new MainController(in, out);
     ImageController ic = new ImageControllerImp(model);
-    controller.go(ic, model);
+    controller.startProgram(ic, model);
 
-    assertEquals("loaded image fractal" + "\n"
-            + "loaded image flower-brightened" + "\n", out.toString());
+    assertEquals("loaded fractal successfully" + "\n"
+            + "loaded flower-brightened successfully" + "\n", out.toString());
   }
 
 
