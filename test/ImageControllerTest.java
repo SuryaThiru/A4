@@ -122,7 +122,7 @@ public class ImageControllerTest {
     Image model = new RGBImage(0, 0, 0);
 
     Reader in = new StringReader("load res/images/flower.ppm fractal" +
-            "\n load res/images/flower-brighten.ppm flower-brightened \nq");
+            "\n load res/images/flower-brightened.ppm flower-brightened \nq");
     StringBuffer out = new StringBuffer();
 
     MainController controller = new MainController(in, out);
