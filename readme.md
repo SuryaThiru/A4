@@ -1,11 +1,7 @@
 # Image Manipulation and Enhancement using Java
 This application is used to perform image manipulation techniques on an image using command line or a script file.
 
-<<<<<<< HEAD
-It can perform the following tasks :
-=======
 It can perform the following tasks : 
->>>>>>> feature/after-readme
 1. Load a PPM Image.
 2. Brighten that image.
 3. Darken that image.
@@ -23,11 +19,7 @@ It can perform the following tasks :
 load res/images/flower.ppm flower
 ```
 
-<<<<<<< HEAD
-### brighten flower by adding 10
-=======
 ### brighten flower by adding 10  
->>>>>>> feature/after-readme
 ```
 brighten 10 flower flower-brighter
 ```
@@ -101,10 +93,6 @@ run res/scripts/testScript1.txt
    vertical-flip fractal-brighter fractal-brighter-vertical
    save images/fractal-brighter-vertical.ppm fractal-brighter-vertical
    q
-<<<<<<< HEAD
-```
-=======
 ```
 
 
->>>>>>> feature/after-readme
