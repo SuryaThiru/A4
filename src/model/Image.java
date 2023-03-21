@@ -43,7 +43,7 @@ public interface Image {
   void brighten(int increment);
 
   /**
-   * This method loops through all pixels in the image, and decreases their red, green, and blue
+   * This method loops through all pixels in the image, and decreases their red, green, and blue.
    * values by the given decrement parameter.
    *
    * @param decrement represents the decrement value.
@@ -86,7 +86,7 @@ public interface Image {
 
   /**
    * This method is used to combine the channels by the Luma value of the rgb components.
-   * @return
+   * @return returns the Image object.
    * @throws UnsupportedOperationException is thrown when trying to combine greyscale images.
    */
   Image combineByLuma() throws UnsupportedOperationException;

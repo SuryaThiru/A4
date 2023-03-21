@@ -114,8 +114,8 @@ public abstract class AbstractImage implements Image {
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        if (!(updatedImage.getPixel(y, x).channels.length
-                == this.getPixel(y, x).channels.length)) {
+        if ((updatedImage.getPixel(y, x).channels.length
+                != this.getPixel(y, x).channels.length)) {
           return false;
         }
         if (!(Arrays.equals(this.getPixel(y, x).channels, updatedImage.getPixel(y, x).channels))) {
@@ -170,8 +170,8 @@ public abstract class AbstractImage implements Image {
   protected int calculateIntensity(int[] channels) {
     int sum = 0;
     int channelLength = channels.length;
-    for (int i = 0; i < channelLength; i++) {
-      sum = sum + channels[i];
+    for (int channel : channels) {
+      sum = sum + channel;
     }
 
     return sum / channelLength;

@@ -1,0 +1,2 @@
+load res/images/flower.ppm fractal
+q

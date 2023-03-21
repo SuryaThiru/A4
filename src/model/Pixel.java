@@ -18,6 +18,7 @@ public class Pixel {
 
   /**
    * This method is used to return all the channels available in the Pixel.
+   *
    * @param index represents the index of the pixel.
    * @return returns an integer value.
    */
@@ -41,8 +42,19 @@ public class Pixel {
     return true;
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    for (int channel : channels) {
+      result = prime * result + channel;
+    }
+    return result;
+  }
+
   /**
    * This method is used to return the total number of channels in a pixel.
+   *
    * @return returns an integer value.
    */
   public int numChannels() {

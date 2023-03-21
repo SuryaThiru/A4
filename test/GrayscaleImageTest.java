@@ -7,13 +7,16 @@ import model.Image;
 
 import static helper.ImageUtil.ppmFileValidation;
 
+/**
+ * This class represents the tests for the greyscale images.
+ */
 public class GrayscaleImageTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testLoad() {
-    String imagePath = "images/flower-greyscale.ppm";
+    String imagePath = "res/images/flower-greyscale.ppm";
 
-    Image model = new GrayscaleImage(0,0,0,null);
+    Image model = new GrayscaleImage(0, 0, 0, null);
     Scanner sc = ppmFileValidation(imagePath);
     String content = extractContent(sc);
     model.load(content);

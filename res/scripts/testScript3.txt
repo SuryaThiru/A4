@@ -1,0 +1,4 @@
+load res/images/flower.ppm fractal
+greyscale red-component fractal fractal-red
+save res/images/flower-grayscale.ppm fractal-red
+q
