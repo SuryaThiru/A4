@@ -112,7 +112,7 @@ public class RGBImageTest {
     String content = extractContent(sc);
     model.load(content);
     model.darken(-25);
-    assertEquals(true, checkImages(model, "res/images/flower-brighten.ppm"));
+    assertEquals(true, checkImages(model, "res/images/flower-brightened.ppm"));
 
   }
 
@@ -168,7 +168,7 @@ public class RGBImageTest {
     String content = extractContent(sc);
     model.load(content);
     Image duplicate = model.duplicate();
-    assertTrue(duplicate instanceof GrayscaleImage);
+    assertTrue(duplicate instanceof RGBImage);
   }
 
   @Test

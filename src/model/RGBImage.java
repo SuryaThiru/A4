@@ -131,8 +131,11 @@ public class RGBImage extends AbstractImage {
 
   @Override
   public Image duplicate() {
-    return new GrayscaleImage(width, height, maxColorValue,
+    RGBImage t = new RGBImage(width, height, maxColorValue,
             getPixels(pixels, width, height));
+    t.split();
+
+    return t;
   }
 
   @Override
