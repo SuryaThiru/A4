@@ -99,6 +99,60 @@ public abstract class AbstractImage implements Image {
 
   }
 
+  private void filter(int channel, int[][] kernel) {
+    int[][] newValues = new int[height][width];
+    int kernelSize = kernel.length;
+    int halfKernelSize = kernelSize / 2;
+
+    // Loop over each pixel
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int sum = 0;
+
+        // Loop over each kernel element
+        for (int ky = 0; ky < kernelSize; ky++) {
+          int pixelY = y + ky - halfKernelSize;
+          if (pixelY < 0 || pixelY >= height) {
+            continue;
+          }
+
+          for (int kx = 0; kx < kernelSize; kx++) {
+            int pixelX = x + kx - halfKernelSize;
+            if (pixelX < 0 || pixelX >= width) {
+              continue;
+            }
+
+            sum += pixels[pixelY][pixelX].getChannels(channel) * kernel[ky][kx];
+          }
+        }
+
+        newValues[y][x] = sum;
+      }
+    }
+
+    // Set the new values
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int[] channels = new int[pixels[y][x].numChannels()];
+        for (int c = 0; c < channels.length; c++) {
+          channels[c] = pixels[y][x].getChannels(c);
+        }
+        channels[channel] = newValues[y][x];
+        pixels[y][x] = new Pixel(channels);
+      }
+    }
+
+  }
+
+  @Override
+  public void blur() {
+    // Call filter with the kernel constant.
+  }
+
+  @Override
+  public void sharpen() {
+    // Call filter with the kernel constant.
+  }
 
   @Override
   public boolean isGrayscale() {

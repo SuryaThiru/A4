@@ -154,4 +154,14 @@ public interface Image {
    * @return returns a pixel object.
    */
   Pixel getPixel(int x, int y);
+
+  /**
+   * This method is used to blur the current image.
+   */
+  void blur();
+
+  /**
+   * This method is used to sharpen the current image.
+   */
+  void sharpen();
 }
