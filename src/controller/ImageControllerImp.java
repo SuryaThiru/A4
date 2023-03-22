@@ -1,9 +1,12 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 import model.Image;
 import model.RGBImage;
@@ -16,7 +19,7 @@ import static helper.ImageUtil.ppmFileValidation;
  */
 public class ImageControllerImp implements ImageController {
 
-  private HashMap<String, Image> images;
+  private final HashMap<String, Image> images;
 
   private Image image;
 
@@ -33,6 +36,14 @@ public class ImageControllerImp implements ImageController {
   @Override
   public void load(String imagePath, String imageName) throws IOException {
     String fileExtension = getFileExtension(imagePath);
+
+    if (fileExtension.equals("png") || fileExtension.equals("jpeg")
+            || fileExtension.equals("bmp")) {
+      image = image.loadOtherFormats(ImageIO.read(new File(imagePath)));
+      images.put(imageName, image);
+      return;
+    }
+
     if (!fileExtension.equals("ppm")) {
       throw new IOException("the current file extension is not supported by the application");
     }
@@ -49,7 +60,8 @@ public class ImageControllerImp implements ImageController {
       throw new FileSystemException("no content in file");
     }
 
-    image = image.load(content);
+    // image = image.load(content);
+    image = image.loadOtherFormats(ImageIO.read(new File(imagePath)));
     images.put(imageName, image);
   }
 

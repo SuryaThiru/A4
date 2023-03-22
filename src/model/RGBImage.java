@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.image.BufferedImage;
 import java.util.Scanner;
 
 import static helper.ImageUtil.getPixels;

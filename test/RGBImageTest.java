@@ -1,6 +1,10 @@
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 import model.GrayscaleImage;
 import model.Image;
@@ -207,6 +211,42 @@ public class RGBImageTest {
 
     Image x = model.combineByLuma();
     assertTrue(x instanceof GrayscaleImage);
+  }
+
+
+  @Test
+  public void testJpegLoading() throws IOException {
+    String imagePath = "res/images/flower.jpeg";
+    Image model = new RGBImage(0, 0, 0);
+    model.loadOtherFormats(ImageIO.read(new File(imagePath)));
+    model.save("res/images/test-jpeg.ppm");
+  }
+
+  @Test
+  public void testPngLoading() throws IOException {
+    String imagePath = "res/images/flower.png";
+    Image model = new RGBImage(0, 0, 0);
+    model.loadOtherFormats(ImageIO.read(new File(imagePath)));
+    model.save("res/images/test-png.ppm");
+  }
+
+  @Test
+  public void testBmpLoading() throws IOException {
+    String imagePath = "res/images/flower.bmp";
+    Image model = new RGBImage(0, 0, 0);
+    model.loadOtherFormats(ImageIO.read(new File(imagePath)));
+    model.save("res/images/test-bmp.ppm");
+  }
+
+  @Test
+  public void testPPMLoadJPEGSave() throws IOException {
+    String imagePath = "res/images/flower.ppm";
+    Image model = new RGBImage(0, 0, 0);
+    Scanner sc = ppmFileValidation(imagePath);
+    String content = extractContent(sc);
+
+    model.load(content);
+    model.save("res/images/test-load-save-jpeg.jpeg");
   }
 
   private boolean checkImages(Image model, String imagePath) {
