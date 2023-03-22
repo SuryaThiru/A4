@@ -1,5 +1,0 @@
-load images/flower.ppm fractal
-brighten 10 fractal fractal-brighter
-vertical-flip fractal-brighter fractal-brighter-vertical
-save images/fractal-brighter-vertical.ppm fractal-brighter-vertical
-q

@@ -1,2 +1,0 @@
-load images/flower.ppm fractal
-q

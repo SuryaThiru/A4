@@ -1,5 +1,6 @@
 package helper;
 
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -31,7 +32,7 @@ public class ImageUtil {
     while (sc.hasNextLine()) {
       String s = sc.nextLine();
       if (s.charAt(0) != '#') {
-        builder.append(s + System.lineSeparator());
+        builder.append(s).append(System.lineSeparator());
       }
     }
 
@@ -52,7 +53,7 @@ public class ImageUtil {
   }
 
   /**
-   * This methid is used to get file extension.
+   * This method is used to get file extension.
    *
    * @param fileName filename.
    * @return returns
@@ -97,6 +98,24 @@ public class ImageUtil {
 
     return p;
   }
+
+  //  public static Pixel[][] imageConvert(BufferedImage image) {
+  //    int width = image.getWidth();
+  //    int height = image.getHeight();
+  //    Pixel[][] pixels = new Pixel[width][height];
+  //
+  //    for (int x = 0; x < width; x++) {
+  //      for (int y = 0; y < height; y++) {
+  //        int rgb = image.getRGB(x, y);
+  //        int red = (rgb >> 16) & 0xFF;
+  //        int green = (rgb >> 8) & 0xFF;
+  //        int blue = rgb & 0xFF;
+  //        pixels[x][y] = new Pixel(red, green, blue);
+  //      }
+  //    }
+  //
+  //    return pixels;
+  //  }
 
   //  /**
   //   * Read an image file in the PPM format and print the colors.
