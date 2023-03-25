@@ -1,15 +1,7 @@
 package model;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Arrays;
-
-import javax.imageio.ImageIO;
-
-import static helper.ImageUtil.getFileExtension;
 
 /**
  * This abstract class for Greyscale and RGBImage and contains the common functionality.
@@ -33,7 +25,8 @@ public abstract class AbstractImage implements Image {
     throw new IllegalArgumentException("loading is currently supported in rgb model");
   }
 
-  public Image loadOtherFormats(BufferedImage image) {
+  @Override
+  public Image load(BufferedImage image) {
     this.width = image.getWidth();
     this.height = image.getHeight();
     this.maxColorValue = 255;
@@ -52,51 +45,6 @@ public abstract class AbstractImage implements Image {
     this.pixels = pixels;
 
     return this;
-  }
-
-  @Override
-  public void save(String filePath) throws IOException {
-    // extract extension from filePath and determine the type of save.
-    String fileExtension = getFileExtension(filePath);
-    if (fileExtension.equals("png") || fileExtension.equals("jpeg")
-            || fileExtension.equals("bmp")) {
-      this.saveOtherFormats(filePath, fileExtension);
-      return;
-    }
-
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-      writer.write("P3" + "\n");
-      writer.write(width + " " + height + "\n");
-      writer.write(maxColorValue + "\n");
-
-      // Write the image data
-      for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-          Pixel pixel = pixels[i][j];
-          writer.write(pixel.getChannels(0) + " " + pixel.getChannels(1)
-                  + " " + pixel.getChannels(2) + " ");
-        }
-        writer.newLine();
-      }
-
-    }
-  }
-
-  private void saveOtherFormats(String filePath, String fileExtension) throws IOException {
-    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        Pixel pixel = pixels[y][x];
-        int rgb = (pixel.getChannels(0) << 16) | (pixel.getChannels(1) << 8)
-                | pixel.getChannels(2);
-        image.setRGB(x, y, rgb);
-      }
-    }
-
-    File output = new File(filePath);
-    ImageIO.write(image, fileExtension, output);
-
   }
 
   private void filter(int channel, double[][] kernel) {
@@ -248,6 +196,12 @@ public abstract class AbstractImage implements Image {
   public Pixel getPixel(int x, int y) {
     return pixels[x][y];
   }
+
+  @Override
+  public int getMaxColorValue() {
+    return maxColorValue;
+  }
+
 
   @Override
   public boolean compareImages(Image updatedImage)

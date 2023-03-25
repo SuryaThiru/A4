@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * This interface acts as a Model in the Image Manipulation Application and holds all the
@@ -23,15 +22,7 @@ public interface Image {
    * @param image represents a BufferedImage object.
    * @return returns an Image object.
    */
-  Image loadOtherFormats(BufferedImage image);
-
-  /**
-   * This method is used for saving the image to a certain file path.
-   *
-   * @param filePath represents file path to which the image is to be saved.
-   * @throws IOException throws an Exception if the image to be saved is null.
-   */
-  void save(String filePath) throws IOException;
+  Image load(BufferedImage image);
 
   /**
    * This method flips the image horizontally by swapping each pixel in a row with its
@@ -164,4 +155,11 @@ public interface Image {
    * This method is used to sharpen the current image.
    */
   void sharpen();
+
+  /**
+   * This method is used to get the maxColorValue of the image.
+   *
+   * @return returns the maxColorValue.
+   */
+  int getMaxColorValue();
 }

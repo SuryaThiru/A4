@@ -1,6 +1,9 @@
 package controller;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
 import java.util.HashMap;
@@ -9,6 +12,7 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import model.Image;
+import model.Pixel;
 import model.RGBImage;
 
 import static helper.ImageUtil.getFileExtension;
@@ -39,7 +43,7 @@ public class ImageControllerImp implements ImageController {
 
     if (fileExtension.equals("png") || fileExtension.equals("jpeg")
             || fileExtension.equals("bmp")) {
-      image = image.loadOtherFormats(ImageIO.read(new File(imagePath)));
+      image = image.load(ImageIO.read(new File(imagePath)));
       images.put(imageName, image);
       return;
     }
@@ -60,8 +64,7 @@ public class ImageControllerImp implements ImageController {
       throw new FileSystemException("no content in file");
     }
 
-    // image = image.load(content);
-    image = image.loadOtherFormats(ImageIO.read(new File(imagePath)));
+    image = image.load(content);
     images.put(imageName, image);
   }
 
@@ -122,7 +125,55 @@ public class ImageControllerImp implements ImageController {
       throw new IOException("image not found");
     }
 
-    image.save(filePath);
+    int width = image.getWidth();
+    int height = image.getHeight();
+    int maxColorValue = image.getMaxColorValue();
+
+    // extract extension from filePath and determine the type of save.
+    String fileExtension = getFileExtension(filePath);
+    if (fileExtension.equals("png") || fileExtension.equals("jpeg")
+            || fileExtension.equals("bmp")) {
+      BufferedImage bufferedImage = save(width, height);
+      File output = new File(filePath);
+      ImageIO.write(bufferedImage, fileExtension, output);
+    }
+
+    save(width, height, maxColorValue, filePath);
+  }
+
+  private void save(int width, int height, int maxColorValue, String filePath)
+          throws IOException {
+    BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+    writer.write("P3" + "\n");
+    writer.write(width + " " + height + "\n");
+    writer.write(maxColorValue + "\n");
+
+    // Write the image data
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        Pixel pixel = image.getPixel(i, j);
+        writer.write(pixel.getChannels(0) + " " + pixel.getChannels(1)
+                + " " + pixel.getChannels(2) + " ");
+      }
+      writer.newLine();
+    }
+
+    writer.close();
+  }
+
+  private BufferedImage save(int width, int height) {
+    BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+    for (int x = 0; x < height; x++) {
+      for (int y = 0; y < width; y++) {
+        Pixel pixel = image.getPixel(x, y);
+        int rgb = (pixel.getChannels(0) << 16) | (pixel.getChannels(1) << 8)
+                | pixel.getChannels(2);
+        bufferedImage.setRGB(y, x, rgb);
+      }
+    }
+
+    return bufferedImage;
   }
 
   @Override
