@@ -99,7 +99,7 @@ public abstract class AbstractImage implements Image {
 
   }
 
-  private void filter(int channel, int[][] kernel) {
+  private void filter(int channel, double[][] kernel) {
     int[][] newValues = new int[height][width];
     int kernelSize = kernel.length;
     int halfKernelSize = kernelSize / 2;
@@ -147,11 +147,49 @@ public abstract class AbstractImage implements Image {
   @Override
   public void blur() {
     // Call filter with the kernel constant.
+    //    double[][] kernel = new double[3][3];
+    double[][] kernel = {{0.06, 0.13, 0.06}, {0.13, 0.25, 0.13}, {0.06, 0.13, 0.06}};
+
+    //    kernel[0][0] = 0.06;
+    //    kernel[0][1] = 0.13;
+    //    kernel[0][2] = 0.06;
+    //    kernel[1][0] = 0.13;
+    //    kernel[1][1] = 0.25;
+    //    kernel[1][2] = 0.13;
+    //    kernel[2][0] = 0.06;
+    //    kernel[2][1] = 0.13;
+    //    kernel[2][2] = 0.06;
+
+    filter(0, kernel);
+    filter(1, kernel);
+    filter(2, kernel);
+
   }
 
   @Override
   public void sharpen() {
     // Call filter with the kernel constant.
+    double centerWeight = 1.0;
+    double edgeWeight = 0.25;
+    double cornerWeight = -0.13;
+
+    double[][] kernel = new double[5][5];
+
+    for (int i = 0; i < kernel.length; i++) {
+      for (int j = 0; j < kernel[0].length; j++) {
+        if (i == 0 || i == kernel.length - 1 || j == 0 || j == kernel[0].length - 1) {
+          kernel[i][j] = cornerWeight;
+        } else if (i == 2 && j == 2) {
+          kernel[i][j] = centerWeight;
+        } else {
+          kernel[i][j] = edgeWeight;
+        }
+      }
+    }
+
+    filter(0, kernel);
+    filter(1, kernel);
+    filter(2, kernel);
   }
 
   @Override
