@@ -249,6 +249,32 @@ public class RGBImageTest {
     model.save("res/images/test-load-save-jpeg.jpeg");
   }
 
+  @Test
+  public void testBlur() {
+    String imagePath = "res/images/flower.ppm";
+
+    Image model = new RGBImage(0, 0, 0);
+    Scanner sc = ppmFileValidation(imagePath);
+    String content = extractContent(sc);
+    model.load(content);
+    model.blur();
+    //model.save("res/images/flower-blurred.ppm");
+    assertTrue(checkImages(model, "res/images/flower-blurred.ppm"));
+  }
+
+  @Test
+  public void testSharpen() {
+    String imagePath = "res/images/flower.ppm";
+
+    Image model = new RGBImage(0, 0, 0);
+    Scanner sc = ppmFileValidation(imagePath);
+    String content = extractContent(sc);
+    model.load(content);
+    model.sharpen();
+    //model.save("res/images/flower-sharpened.ppm");
+    assertTrue(checkImages(model, "res/images/flower-sharpened.ppm"));
+  }
+
   private boolean checkImages(Image model, String imagePath) {
 
     // stored flipped image.
