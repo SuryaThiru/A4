@@ -214,3 +214,75 @@ public class MainController {
   }
 
 }
+
+/**
+public class LoadCommand implements Command {
+  private Scanner scan;
+  private ImageController imageControllerImp;
+  private Image image;
+
+  public LoadCommand(Scanner scan, ImageController imageControllerImp, Image image) {
+    this.scan = scan;
+    this.imageControllerImp = imageControllerImp;
+    this.image = image;
+  }
+
+  @Override
+  public void execute() throws IOException {
+    String imagePath = scan.next();
+    String imageName = scan.next();
+    imageControllerImp.load(imagePath, imageName);
+    System.out.printf("loaded %s successfully\n", imageName);
+  }
+}
+**/
+
+/**
+ private boolean menuScript(Scanner scan, ImageController imageControllerImp, Image image)
+          throws IOException, NoSuchElementException {
+    String t = scan.next();
+    Command command;
+
+    switch (t) {
+      case "load":
+        command = new LoadCommand(scan, imageControllerImp, image);
+        break;
+      case "save":
+        command = new SaveCommand(scan, imageControllerImp, image);
+        break;
+      case "vertical-flip":
+        command = new VerticalFlipCommand(scan, imageControllerImp, image);
+        break;
+      case "horizontal-flip":
+        command = new HorizontalFlipCommand(scan, imageControllerImp, image);
+        break;
+      case "brighten":
+        command = new BrightenCommand(scan, imageControllerImp, image);
+        break;
+      case "darken":
+        command = new DarkenCommand(scan, imageControllerImp, image);
+        break;
+      case "rgb-split":
+        command = new RgbSplitCommand(scan, imageControllerImp, image);
+        break;
+      case "rgb-combine":
+        command = new RgbCombineCommand(scan, imageControllerImp, image);
+        break;
+      case "compare":
+        command = new CompareCommand(scan, imageControllerImp, image);
+        break;
+      case "dither":
+        command = new DitherCommand(scan, imageControllerImp, image);
+        break;
+      case "greyscale":
+        command = new GreyscaleCommand(scan, imageControllerImp, image);
+        break;
+      default:
+        throw new IllegalArgumentException("Invalid command: " + t);
+    }
+
+    command.execute();
+
+    return true;
+  }
+**/
