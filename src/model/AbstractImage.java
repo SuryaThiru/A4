@@ -30,7 +30,7 @@ public abstract class AbstractImage implements Image {
     this.width = image.getWidth();
     this.height = image.getHeight();
     this.maxColorValue = 255;
-    Pixel[][] pixels = new Pixel[width][height];
+    Pixel[][] pixels = new Pixel[height][width];
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
@@ -46,6 +46,7 @@ public abstract class AbstractImage implements Image {
 
     return this;
   }
+
 
   private void filter(int channel, double[][] kernel) {
     int[][] newValues = new int[height][width];
@@ -284,14 +285,15 @@ public abstract class AbstractImage implements Image {
     if (numberOfChannels != 3) {
       throw new IllegalArgumentException("image should contain rgb component");
     }
-    Pixel[][] p = new Pixel[width][height];
+//    Pixel[][] p = new Pixel[width][height];
+    Pixel[][] p = new Pixel[height][width];
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         Pixel pixel = new Pixel();
         pixel.channels = new int[numberOfChannels];
         for (int k = 0; k < numberOfChannels; k++) {
-          pixel.channels[k] = calculateLuma(pixels[x][y].channels);
+          pixel.channels[k] = calculateLuma(pixels[y][x].channels);
         }
         p[y][x] = pixel;
       }
@@ -300,8 +302,97 @@ public abstract class AbstractImage implements Image {
     return new GrayscaleImage(width, height, maxColorValue, p);
   }
 
+  @Override
+  public Image combineBySepia() throws UnsupportedOperationException {
+    int numberOfChannels = pixels[0][0].channels.length;
+
+    if (numberOfChannels != 3) {
+      throw new IllegalArgumentException("image should contain rgb component");
+    }
+
+    Image greyscale = this.combineByLuma();
+    int width = greyscale.getWidth();
+    int height = greyscale.getHeight();
+
+    Pixel[][] p = new Pixel[height][width];
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+
+        int r = greyscale.getPixel(y, x).getChannels(0);
+        int g = greyscale.getPixel(y, x).getChannels(1);
+        int b = greyscale.getPixel(y, x).getChannels(2);
+
+        int newR = (int) Math.round(0.393 * r + 0.769 * g + 0.189 * b);
+        int newG = (int) Math.round(0.349 * r + 0.686 * g + 0.168 * b);
+        int newB = (int) Math.round(0.272 * r + 0.534 * g + 0.131 * b);
+
+        newR = Math.max(0, Math.min(255, newR));
+        newG = Math.max(0, Math.min(255, newG));
+        newB = Math.max(0, Math.min(255, newB));
+
+        p[y][x] = new Pixel(newR, newG, newB);
+
+      }
+    }
+
+    return new GrayscaleImage(width, height, maxColorValue, p);
+
+  }
+
+
   protected int calculateLuma(int[] channels) {
-    return (int) (0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]);
+    return (int) Math.round(0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]);
+  }
+
+
+  @Override
+  public Image dither() {
+    int numberOfChannels = pixels[0][0].channels.length;
+
+    if (numberOfChannels != 3) {
+      throw new IllegalArgumentException("image should contain rgb component");
+    }
+
+    Image greyscale = this.combineByLuma();
+    int width = greyscale.getWidth();
+    int height = greyscale.getHeight();
+
+    int[][] greyPixels = new int[height][width];
+    Pixel[][] newPixels = new Pixel[height][width];
+
+    // Convert to greyscale
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        greyPixels[y][x] = calculateLuma(pixels[y][x].channels);
+      }
+    }
+
+    // Dither
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int oldColor = greyPixels[y][x];
+        int newColor = oldColor > 127 ? 255 : 0;
+        int error = oldColor - newColor;
+        newPixels[y][x] = new Pixel(newColor, newColor, newColor);
+
+        if (x < width - 1) {
+          greyPixels[y][x+1] += (int) (7.0/16 * error);
+        }
+        if (y < height - 1 && x > 0) {
+          greyPixels[y+1][x-1] += (int) (3.0/16 * error);
+        }
+        if (y < height - 1) {
+          greyPixels[y+1][x] += (int) (5.0/16 * error);
+        }
+        if (y < height - 1 && x < width - 1) {
+          greyPixels[y+1][x+1] += (int) (1.0/16 * error);
+        }
+      }
+    }
+
+    return new GrayscaleImage(width, height, maxColorValue, newPixels);
+
   }
 
 
