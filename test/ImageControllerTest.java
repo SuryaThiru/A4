@@ -1,14 +1,18 @@
 import org.junit.Test;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Scanner;
 
 import controller.ImageController;
 import controller.ImageControllerImp;
+import model.Pixel;
 import model.RGBImage;
 import model.Image;
 
+import static helper.ImageUtil.ppmFileValidation;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -132,5 +136,95 @@ public class ImageControllerTest {
             + "loaded flower-brightened successfully" + "\n", out.toString());
   }
 
+  @Test
+  public void testCombineBySepiaPPM() throws IOException {
+    Image model = new RGBImage(0, 0, 0);
+
+//    Reader in = new StringReader("run res/scripts/testScriptSepia.txt\nq");
+    Reader in = new StringReader("load res/images/flower.ppm fractal\n"
+            +"greyscale sepia-component fractal fractal-sepia\n"
+            +"save res/images/fractal-sepia.ppm fractal-sepia\n"
+            +"q");
+    StringBuffer out = new StringBuffer();
+
+    MainController controller = new MainController(in, out);
+    ImageController ic = new ImageControllerImp(model);
+    controller.startProgram(ic, model);
+
+    assertEquals("loaded fractal successfully" + "\n"
+            + "converting fractal to a sepia-toned Image - fractal-sepia is successful\n"
+            + "saved fractal-sepia successfully"
+            + "\n", out.toString());
+  }
+
+  @Test
+  public void testCombineBySepiaPNG() throws IOException {
+    Image model = new RGBImage(0, 0, 0);
+
+//    Reader in = new StringReader("run res/scripts/testScriptSepia.txt\nq");
+    Reader in = new StringReader("load res/images/flower.ppm fractal\n"
+            +"greyscale sepia-component fractal fractal-sepia\n"
+            +"save res/images/fractal-sepia.ppm fractal-sepia\n"
+            +"q");
+//        Reader in = new StringReader("load res/images/manhattan.png manhattan\n"
+//            +"greyscale sepia-component manhattan manhattan-sepia\n"
+//            +"save res/images/manhattan-sepia.png manhattan-sepia\n"
+//            +"q");
+    StringBuffer out = new StringBuffer();
+
+    MainController controller = new MainController(in, out);
+    ImageController ic = new ImageControllerImp(model);
+    controller.startProgram(ic, model);
+
+    assertEquals("loaded fractal successfully" + "\n"
+            + "converting fractal to a sepia-toned Image - fractal-sepia is successful\n"
+            + "saved fractal-sepia successfully"
+            + "\n", out.toString());
+  }
+
+  @Test
+  public void testDither() throws IOException {
+    Image model = new RGBImage(0, 0, 0);
+
+    Reader in = new StringReader("load res/images/flower.ppm fractal\n"
+            +"dither fractal fractal-dithered\n"
+            +"save res/images/fractal-dithered.ppm fractal-dithered\n"
+            +"q");
+//    Reader in = new StringReader("load res/images/manhattan.png manhattan\n"
+//            +"dither manhattan manhattan-dithered\n"
+//            +"save res/images/manhattan-dithered.ppm manhattan-dithered\n"
+//            +"q");
+    StringBuffer out = new StringBuffer();
+
+    MainController controller = new MainController(in, out);
+    ImageController ic = new ImageControllerImp(model);
+    controller.startProgram(ic, model);
+
+    assertEquals("loaded fractal successfully" + "\n"
+            + "dither conversion of fractal to fractal-dithered is successful\n"
+            + "saved fractal-dithered successfully"
+            + "\n", out.toString());
+  }
+
+
+//  @Test
+//  public void testPNGLoading() throws IOException {
+//    Image model = new RGBImage(0, 0, 0);
+//
+////    Reader in = new StringReader("run res/scripts/testScriptSepia.txt\nq");
+//    Reader in = new StringReader("load res/images/manhattan.png manhattan\n"
+//            +"save res/images/manhattan-png.png manhattan\n"
+//            +"q");
+//    StringBuffer out = new StringBuffer();
+//
+//    MainController controller = new MainController(in, out);
+//    ImageController ic = new ImageControllerImp(model);
+//    controller.startProgram(ic, model);
+//
+//    assertEquals("loaded fractal successfully" + "\n"
+//            + "converting fractal to a sepia-toned Image - fractal-sepia is successful\n"
+//            + "saved fractal-sepia successfully"
+//            + "\n", out.toString());
+//  }
 
 }

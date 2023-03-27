@@ -162,4 +162,20 @@ public interface Image {
    * @return returns the maxColorValue.
    */
   int getMaxColorValue();
+
+  /**
+   * This method is used to convert an Image to a sepia toned Image.
+   *
+   * @return returns the Image object.
+   * @throws UnsupportedOperationException is thrown when trying to combine greyscale images.
+   */
+  Image combineBySepia() throws UnsupportedOperationException;
+
+  /**
+   * This method is used to convert an RGB Image to a Dithered Image.
+   * @return  returns the Image Object.
+   * @throws UnsupportedOperationException is thrown when trying to combine greyscale images.
+   */
+  Image dither() throws UnsupportedOperationException;
+
 }

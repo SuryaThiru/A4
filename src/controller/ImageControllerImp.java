@@ -279,10 +279,39 @@ public class ImageControllerImp implements ImageController {
     images.put(updatedImageName, splitImages[color].duplicate());
   }
 
+  @Override
+  public void combineBySepia(String imageName, String updatedImageName) throws IOException {
+    image = images.get(imageName);
+    if (image == null) {
+      throw new IOException("image not found");
+    }
+
+    Image updatedImage = image.duplicate();
+    Image sepia = updatedImage.combineBySepia();
+
+    images.put(updatedImageName, sepia);
+
+  }
+
+  @Override
+  public void dither(String imageName, String updatedImageName) throws IOException {
+    image = images.get(imageName);
+    if (image == null) {
+      throw new IOException("image not found");
+    }
+
+    Image updatedImage = image.duplicate();
+    Image ditheredImage = updatedImage.dither();
+
+    images.put(updatedImageName, ditheredImage);
+  }
+
+
   private String extractContent(Scanner sc) {
 
     sc.useDelimiter("\\A");
     return sc.hasNext() ? sc.next() : null;
   }
+
 
 }

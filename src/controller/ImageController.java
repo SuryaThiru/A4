@@ -136,4 +136,22 @@ public interface ImageController {
    */
   void combineByComponent(int color, String imageName, String updatedImageName) throws IOException;
 
+  /**
+   * This method converts an GRB image into a sepia toned Image.
+   *
+   * @param imageName        represents the current Image name
+   * @param updatedImageName represents the updatedImage name.
+   * @throws IOException throws an exception if the operation is not supported.
+   */
+  void combineBySepia(String imageName, String updatedImageName) throws IOException;
+
+  /**
+   * This method is used to convert an RGB Image to a Dithered Image.
+   *
+   * @param imageName        represents the current Image name
+   * @param updatedImageName represents the updatedImage name.
+   * @throws IOException throws an exception if the operation is not supported.
+   */
+  void dither(String imageName, String updatedImageName) throws IOException;
+
 }

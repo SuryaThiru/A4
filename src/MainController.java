@@ -117,6 +117,14 @@ public class MainController {
         }
         this.out.append(String.format("%s is the same as %s\n", imageName, updatedImageName));
         break;
+      case "dither":
+        imageName = scan.next();
+        updatedImageName = scan.next();
+
+        imageControllerImp.dither(imageName, updatedImageName);
+        this.out.append(String.format("dither conversion of %s to %s is successful\n",
+                imageName, updatedImageName));
+        break;
       case "greyscale":
         String conversionType = scan.next();
         imageName = scan.next();
@@ -151,6 +159,12 @@ public class MainController {
             imageControllerImp.combineByComponent(2, imageName, updatedImageName);
             this.out.append(String.format("greyscale split of %s by %s to %s is successful\n",
                     imageName, conversionType, updatedImageName));
+            break;
+          case "sepia-component":
+            imageControllerImp.combineBySepia(imageName, updatedImageName);
+            this.out.append(String.format("converting %s to a sepia-toned "
+                            + "Image - %s is successful\n",
+                    imageName, updatedImageName));
             break;
 
           default:
@@ -198,4 +212,5 @@ public class MainController {
       e.printStackTrace();
     }
   }
+
 }
