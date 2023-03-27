@@ -212,77 +212,103 @@ public class MainController {
       e.printStackTrace();
     }
   }
+//
+//  public interface Command {
+//    void execute() throws IOException;
+//  }
+//
+//  public static class LoadCommand implements Command {
+//    private final Scanner scan;
+//    private final ImageController imageControllerImp;
+//    private Image image;
+//
+//    public LoadCommand(Scanner scan, ImageController imageControllerImp, Image image) {
+//      this.scan = scan;
+//      this.imageControllerImp = imageControllerImp;
+//      this.image = image;
+//    }
+//
+//    @Override
+//    public void execute() throws IOException {
+//      String imagePath = scan.next();
+//      String imageName = scan.next();
+//      imageControllerImp.load(imagePath, imageName);
+//      System.out.printf("loaded %s successfully\n", imageName);
+//    }
+//  }
+//
+//  public static class SaveCommand implements Command {
+//    private final Scanner scan;
+//    private final ImageController imageControllerImp;
+//    private Image image;
+//
+//    public SaveCommand(Scanner scan, ImageController imageControllerImp, Image image) {
+//      this.scan = scan;
+//      this.imageControllerImp = imageControllerImp;
+//      this.image = image;
+//    }
+//
+//    @Override
+//    public void execute() throws IOException {
+//      String imagePath = scan.next();
+//      String imageName = scan.next();
+//      imageControllerImp.save(imagePath, imageName);
+//      System.out.printf("saved %s successfully\n", imageName);
+//    }
+//  }
+//
+//  public static class flipImage implements Command {
+//    private final Scanner scan;
+//    private final ImageController imageControllerImp;
+//    private Image image;
+//
+//    String orientation;
+//
+//    public flipImage(Scanner scan, ImageController imageControllerImp, Image image,
+//                     char orientation) {
+//      this.scan = scan;
+//      this.imageControllerImp = imageControllerImp;
+//      this.image = image;
+//      this.orientation = orientation + "";
+//    }
+//
+//    @Override
+//    public void execute() throws IOException {
+//      String imageName = scan.next();
+//      String updatedImageName = scan.next();
+//      if (orientation.equals("vertical-flip")) {
+//        imageControllerImp.flipVertical(imageName, updatedImageName);
+//        this.out.append(String.format("flipped %s to %s vertically successfully\n", imageName,
+//                updatedImageName));
+//      }
+//      imageControllerImp.flipHorizontal(imageName, updatedImageName);
+//      this.out.append(String.format("flipped %s to %s horizontally successfully\n", imageName,
+//              updatedImageName));
+//    }
+//  }
+//
+//  private boolean menuScript(Scanner scan, ImageController imageControllerImp, Image image)
+//          throws IOException, NoSuchElementException {
+//    String t = scan.next();
+//    Command command = switch (t) {
+//      case "load" -> new LoadCommand(scan, imageControllerImp, image);
+//      case "save" -> new SaveCommand(scan, imageControllerImp, image);
+//      case "vertical-flip" -> new flipImage(scan, imageControllerImp, image, 'v');
+//      case "horizontal-flip" -> new flipImage(scan, imageControllerImp, image, 'h');
+//      case "brighten" -> new BrightenCommand(scan, imageControllerImp, image);
+//      case "darken" -> new DarkenCommand(scan, imageControllerImp, image);
+//      case "rgb-split" -> new RgbSplitCommand(scan, imageControllerImp, image);
+//      case "rgb-combine" -> new RgbCombineCommand(scan, imageControllerImp, image);
+//      case "compare" -> new CompareCommand(scan, imageControllerImp, image);
+//      case "dither" -> new DitherCommand(scan, imageControllerImp, image);
+//      case "greyscale" -> new GreyscaleCommand(scan, imageControllerImp, image); // 3 cases
+//      default -> throw new IllegalArgumentException("Invalid command: " + t);
+//    };
+//
+//    command.execute();
+//
+//    return true;
+//  }
 
 }
 
-/**
-public class LoadCommand implements Command {
-  private Scanner scan;
-  private ImageController imageControllerImp;
-  private Image image;
-
-  public LoadCommand(Scanner scan, ImageController imageControllerImp, Image image) {
-    this.scan = scan;
-    this.imageControllerImp = imageControllerImp;
-    this.image = image;
-  }
-
-  @Override
-  public void execute() throws IOException {
-    String imagePath = scan.next();
-    String imageName = scan.next();
-    imageControllerImp.load(imagePath, imageName);
-    System.out.printf("loaded %s successfully\n", imageName);
-  }
-}
-**/
-
-/**
- private boolean menuScript(Scanner scan, ImageController imageControllerImp, Image image)
-          throws IOException, NoSuchElementException {
-    String t = scan.next();
-    Command command;
-
-    switch (t) {
-      case "load":
-        command = new LoadCommand(scan, imageControllerImp, image);
-        break;
-      case "save":
-        command = new SaveCommand(scan, imageControllerImp, image);
-        break;
-      case "vertical-flip":
-        command = new VerticalFlipCommand(scan, imageControllerImp, image);
-        break;
-      case "horizontal-flip":
-        command = new HorizontalFlipCommand(scan, imageControllerImp, image);
-        break;
-      case "brighten":
-        command = new BrightenCommand(scan, imageControllerImp, image);
-        break;
-      case "darken":
-        command = new DarkenCommand(scan, imageControllerImp, image);
-        break;
-      case "rgb-split":
-        command = new RgbSplitCommand(scan, imageControllerImp, image);
-        break;
-      case "rgb-combine":
-        command = new RgbCombineCommand(scan, imageControllerImp, image);
-        break;
-      case "compare":
-        command = new CompareCommand(scan, imageControllerImp, image);
-        break;
-      case "dither":
-        command = new DitherCommand(scan, imageControllerImp, image);
-        break;
-      case "greyscale":
-        command = new GreyscaleCommand(scan, imageControllerImp, image);
-        break;
-      default:
-        throw new IllegalArgumentException("Invalid command: " + t);
-    }
-
-    command.execute();
-
-    return true;
-  }
-**/
