@@ -56,6 +56,5 @@ public class PixelImpl implements Pixel {
   public int[] getChannels() {
     return this.channels;
   }
-  
-  
+
 }

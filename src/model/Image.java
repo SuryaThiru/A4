@@ -45,15 +45,6 @@ public interface Image {
   void brighten(int increment);
 
   /**
-   * This method loops through all pixels in the image, and decreases their red, green, and blue.
-   * values by the given decrement parameter.
-   *
-   * @param decrement represents the decrement value.
-   */
-  default void darken(int decrement) {
-  }
-
-  /**
    * This method creates a duplicate of the image
    * values by the given decrement parameter.
    *
@@ -148,15 +139,21 @@ public interface Image {
   Pixel getPixel(int x, int y);
 
   /**
+   * This method is used to blur the current image.
+   */
+  void blur();
+
+  /**
+   * This method is used to sharpen the current image.
+   */
+  void sharpen();
+
+  /**
    * This method is used to get the maxColorValue of the image.
    *
    * @return returns the maxColorValue.
    */
   int getMaxColorValue();
-
-  void blur();
-
-  void sharpen();
 
   /**
    * This method is used to convert an Image to a sepia toned Image.

@@ -3,19 +3,23 @@ package controller.commands;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.Command;
 import controller.ImageController;
 import view.ImageView;
 
-public class Compare implements Command {
-  private final Scanner scan;
-  private final ImageController imageControllerImp;
-  private final ImageView view;
+/**
+ * This class is used for executing the Compare command from the controller.
+ */
+public class Compare extends AbstractCommands {
 
+  /**
+   * This constructor initialises the variables for this class.
+   *
+   * @param scan               represents the scanner object
+   * @param imageControllerImp represents the controller object
+   * @param view               represents the view object
+   */
   public Compare(Scanner scan, ImageController imageControllerImp, ImageView view) {
-    this.scan = scan;
-    this.imageControllerImp = imageControllerImp;
-    this.view = view;
+    super(scan, imageControllerImp, view);
   }
 
   @Override
@@ -24,11 +28,11 @@ public class Compare implements Command {
     String updatedImageName = scan.next();
     boolean f = imageControllerImp.compareImages(imageName, updatedImageName);
     if (!f) {
-      view.display(String.format("%s is not the same as %s\n", imageName,
+      view.display(String.format("%s is not the same as %s", imageName,
               updatedImageName));
-    } else {
-      view.display(String.format("%s is the same as %s\n", imageName, updatedImageName));
+      return;
     }
+    view.display(String.format("%s is the same as %s", imageName, updatedImageName));
 
   }
 }

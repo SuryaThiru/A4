@@ -3,21 +3,26 @@ package controller.commands;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.Command;
 import controller.ImageController;
 import view.ImageView;
 
-public class RgbFunctions implements Command {
-  private final Scanner scan;
-  private final ImageController imageControllerImp;
-  private final ImageView view;
+/**
+ * This class is used for executing the RGB commands from the controller.
+ */
+public class RgbFunctions extends AbstractCommands {
   String functionType;
 
+  /**
+   * This constructor initialises the variables for this class.
+   *
+   * @param scan               represents the scanner object
+   * @param imageControllerImp represents the controller object
+   * @param view               represents the view object
+   * @param functionType       represents the type of the function being performed
+   */
   public RgbFunctions(Scanner scan, ImageController imageControllerImp,
-               ImageView view, String functionType) {
-    this.scan = scan;
-    this.imageControllerImp = imageControllerImp;
-    this.view = view;
+                      ImageView view, String functionType) {
+    super(scan, imageControllerImp, view);
     this.functionType = functionType;
   }
 
@@ -31,12 +36,12 @@ public class RgbFunctions implements Command {
     if (functionType.equals("split")) {
       imageControllerImp.split(imageName, redImageName, greenImageName, blueImageName);
       view.display(String.format("split %s to red: %s green: %s blue: %s "
-              + "successfully\n", imageName, redImageName, greenImageName, blueImageName));
-    } else {
-      imageControllerImp.combine(imageName, redImageName, greenImageName, blueImageName);
-      view.display(String.format("combined red: %s green: %s blue: %s to %s"
-              + "successfully\n", redImageName, greenImageName, blueImageName, imageName));
+              + "successfully", imageName, redImageName, greenImageName, blueImageName));
+      return;
     }
+    imageControllerImp.combine(imageName, redImageName, greenImageName, blueImageName);
+    view.display(String.format("combined red: %s green: %s blue: %s to %s"
+            + "successfully", redImageName, greenImageName, blueImageName, imageName));
 
   }
 }

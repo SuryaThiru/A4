@@ -23,9 +23,9 @@ import static helper.ImageUtil.ppmFileValidation;
  */
 public class ImageControllerImp implements ImageController {
 
-  private final HashMap<String, Image> images;
+  final HashMap<String, Image> images;
 
-  private Image image;
+  Image image;
 
   /**
    * Used to initialize the instance variables.
@@ -141,7 +141,7 @@ public class ImageControllerImp implements ImageController {
     save(width, height, maxColorValue, filePath);
   }
 
-  private void save(int width, int height, int maxColorValue, String filePath)
+  void save(int width, int height, int maxColorValue, String filePath)
           throws IOException {
     BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
     writer.write("P3" + "\n");
@@ -161,7 +161,7 @@ public class ImageControllerImp implements ImageController {
     writer.close();
   }
 
-  private BufferedImage save(int width, int height) {
+  BufferedImage save(int width, int height) {
     BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
     for (int x = 0; x < height; x++) {
@@ -197,7 +197,7 @@ public class ImageControllerImp implements ImageController {
     }
 
     Image updatedImage = image.duplicate();
-    updatedImage.darken(increment);
+    updatedImage.brighten(-increment);
 
     images.put(updatedImageName, updatedImage);
   }
@@ -307,11 +307,9 @@ public class ImageControllerImp implements ImageController {
   }
 
 
-  private String extractContent(Scanner sc) {
+  String extractContent(Scanner sc) {
 
     sc.useDelimiter("\\A");
     return sc.hasNext() ? sc.next() : null;
   }
-
-
 }

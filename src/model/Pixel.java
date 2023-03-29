@@ -11,7 +11,7 @@ public interface Pixel {
    * @param index represents the index of the pixel.
    * @return returns an integer value.
    */
-  public int getChannel(int index);
+  int getChannel(int index);
 
   /**
    * This method is used to return the total number of channels in a pixel.
@@ -21,8 +21,10 @@ public interface Pixel {
   int numChannels();
 
   /**
-   * This method returns all the channel values.
-   * @return returns integer array of channel values.
+   * This method gets all the channel values.
+   *
+   * @return returns integer array of channel values
    */
   int[] getChannels();
+
 }

@@ -3,20 +3,23 @@ package controller.commands;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.Command;
 import controller.ImageController;
 import view.ImageView;
 
-public class LoadCommand implements Command {
-  private final Scanner scan;
-  private final ImageController imageControllerImp;
+/**
+ * This class is used for executing the load command from the controller.
+ */
+public class LoadCommand extends AbstractCommands {
 
-  private final ImageView view;
-
+  /**
+   * This constructor initialises the variables for this class.
+   *
+   * @param scan               represents the scanner object
+   * @param imageControllerImp represents the controller object
+   * @param view               represents the view object
+   */
   public LoadCommand(Scanner scan, ImageController imageControllerImp, ImageView view) {
-    this.scan = scan;
-    this.imageControllerImp = imageControllerImp;
-    this.view = view;
+    super(scan, imageControllerImp, view);
   }
 
   @Override
@@ -24,7 +27,7 @@ public class LoadCommand implements Command {
     String imagePath = scan.next();
     String imageName = scan.next();
     imageControllerImp.load(imagePath, imageName);
-    view.display(String.format("loaded %s successfully\n", imageName));
+    view.display(String.format("loaded %s successfully", imageName));
   }
 }
 

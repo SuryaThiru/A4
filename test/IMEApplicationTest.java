@@ -17,154 +17,17 @@ import view.TextView;
 import static org.junit.Assert.assertEquals;
 
 /**
- * This class is used to test the various operations performed by the Image Controller.
+ * This class is used to test the application as a whole.
  */
-public class ImageControllerTest {
-
-  private class ImageMock implements Image {
-
-    private final StringBuilder log;
-
-    private ImageMock(StringBuilder log) {
-      this.log = log;
-    }
-
-
-    @Override
-    public Image load(String content) {
-      log.append("load-string\n");
-      return null;
-    }
-
-    @Override
-    public Image load(BufferedImage image) {
-      log.append("load-buffered-image\n");
-      return null;
-    }
-
-    @Override
-    public void flipHorizontal() {
-      log.append("flip-horizontal\n");
-    }
-
-    @Override
-    public void flipVertical() {
-      log.append("flip-vertical\n");
-    }
-
-    @Override
-    public void brighten(int increment) {
-      log.append("brighten by " + increment + "\n");
-    }
-
-    @Override
-    public Image duplicate() {
-      log.append("duplicate image\n");
-      return null;
-    }
-
-    @Override
-    public Image[] splitChannels() throws UnsupportedOperationException {
-      log.append("split-channel\n");
-      return new Image[0];
-    }
-
-    @Override
-    public void combineChannels(Image[] channels) throws UnsupportedOperationException {
-      log.append("combine-channels\n");
-    }
-
-    @Override
-    public Image combineByValue() {
-      log.append("combine-by-value\n");
-      return null;
-    }
-
-    @Override
-    public Image combineByIntensity() {
-      log.append("combine-by-intensity\n");
-      return null;
-    }
-
-    @Override
-    public Image combineByLuma() throws UnsupportedOperationException {
-      log.append("combine-by-luma\n");
-      return null;
-    }
-
-    @Override
-    public boolean compareImages(Image updatedImage) throws UnsupportedOperationException {
-      log.append("compare-images\n");
-      return false;
-    }
-
-    @Override
-    public boolean validateCombineChannels(Image[] channels) throws IllegalArgumentException {
-      log.append("validate-combine-channels\n");
-      return true;
-    }
-
-    @Override
-    public boolean isGrayscale() {
-      log.append("is-grayscale\n");
-      return false;
-    }
-
-    @Override
-    public int getWidth() {
-      log.append("get-width\n");
-      return 0;
-    }
-
-    @Override
-    public int getHeight() {
-      log.append("get-height\n");
-      return 0;
-    }
-
-    @Override
-    public Pixel getPixel(int x, int y) {
-      log.append("get-pixel\n");
-      return null;
-    }
-
-    @Override
-    public void blur() {
-      log.append("blur\n");
-    }
-
-    @Override
-    public void sharpen() {
-      log.append("sharpen\n");
-    }
-
-    @Override
-    public int getMaxColorValue() {
-      log.append("get-max-color-value\n");
-      return 0;
-    }
-
-    @Override
-    public Image combineBySepia() throws UnsupportedOperationException {
-      log.append("combine-by-sepia\n");
-      return null;
-    }
-
-    @Override
-    public Image dither() throws UnsupportedOperationException {
-      log.append("dither\n");
-      return null;
-    }
-  }
+public class IMEApplicationTest {
 
   @Test
   public void testLoadScript() throws IOException {
 
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("run res/scripts/testScript2.txt\nq");
-    StringBuilder sb = new StringBuilder();
 
-    Image model = new ImageMock(sb);
+    Image model = new RGBImage(0, 0, 0);
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);

@@ -20,9 +20,9 @@ public class SepiaTone implements Command {
    * This method constructs the object SepiaTone and initializes
    * its variables with the passed arguments.
    *
-   * @param scan represents the Scanner object
+   * @param scan               represents the Scanner object
    * @param imageControllerImp represents the ImageController object
-   * @param view represents the ImageView object
+   * @param view               represents the ImageView object
    */
   public SepiaTone(Scanner scan, ImageController imageControllerImp, ImageView view) {
     this.scan = scan;
@@ -36,7 +36,7 @@ public class SepiaTone implements Command {
     String updatedImageName = scan.next();
     imageControllerImp.combineBySepia(imageName, updatedImageName);
     view.display(String.format("converting %s to a sepia-toned "
-                    + "Image - %s is successful\n",
+                    + "Image - %s is successful",
             imageName, updatedImageName));
   }
 }

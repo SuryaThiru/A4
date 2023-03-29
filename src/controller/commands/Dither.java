@@ -3,19 +3,23 @@ package controller.commands;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.Command;
 import controller.ImageController;
 import view.ImageView;
 
-public class Dither implements Command {
-  private final Scanner scan;
-  private final ImageController imageControllerImp;
-  private final ImageView view;
+/**
+ * This class is used for executing the Dither command from the controller.
+ */
+public class Dither extends AbstractCommands {
 
+  /**
+   * This constructor initialises the variables for this class.
+   *
+   * @param scan               represents the scanner object
+   * @param imageControllerImp represents the controller object
+   * @param view               represents the view object
+   */
   public Dither(Scanner scan, ImageController imageControllerImp, ImageView view) {
-    this.scan = scan;
-    this.imageControllerImp = imageControllerImp;
-    this.view = view;
+    super(scan, imageControllerImp, view);
   }
 
   @Override
@@ -24,7 +28,7 @@ public class Dither implements Command {
     String updatedImageName = scan.next();
 
     imageControllerImp.dither(imageName, updatedImageName);
-    view.display(String.format("dither conversion of %s to %s is successful\n",
+    view.display(String.format("dither conversion of %s to %s is successful",
             imageName, updatedImageName));
   }
 }

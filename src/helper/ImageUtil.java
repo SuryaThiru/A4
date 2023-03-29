@@ -1,7 +1,10 @@
 package helper;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 import model.Pixel;
@@ -62,9 +65,8 @@ public class ImageUtil {
     int lastDotIndex = fileName.lastIndexOf(".");
     if (lastDotIndex > 0) {
       return fileName.substring(lastDotIndex + 1);
-    } else {
-      return "";
     }
+    return "";
   }
 
   /**
@@ -75,7 +77,7 @@ public class ImageUtil {
    * @param height represents the height of the Image.
    * @return returns a new Pixel array object that is a duplicate of the passed array.
    */
-  public static Pixel[][] getPixels(Pixel[][] pixels, int width, int height)
+  public static Pixel[][] duplicatePixels(Pixel[][] pixels, int width, int height)
           throws IllegalArgumentException {
     if (pixels == null) {
       throw new IllegalArgumentException("pixels should not be null");
@@ -97,5 +99,25 @@ public class ImageUtil {
     }
 
     return p;
+  }
+
+  /**
+   * This method represents is used to read a text file.
+   *
+   * @param scan represents the scanner object of this instance.
+   * @return returns a new BufferedReader object containing file content.
+   * @throws IOException when there is a discrepancy in the file provided.
+   */
+  public static BufferedReader readTextFile(Scanner scan)
+          throws IOException {
+    String scriptFilePath = scan.next();
+    int lastDotIndex = scriptFilePath.lastIndexOf(".");
+
+    if (lastDotIndex > 0 && !scriptFilePath.substring(lastDotIndex + 1)
+            .equals("txt")) {
+      throw new IOException("invalid script being used. only txt files are allowed. "
+              + "Try again\n");
+    }
+    return new BufferedReader(new FileReader(scriptFilePath));
   }
 }
