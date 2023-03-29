@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -7,6 +8,7 @@ import java.io.StringReader;
 import controller.CommandController;
 import controller.ImageController;
 import controller.ImageControllerImp;
+import model.Pixel;
 import model.RGBImage;
 import model.Image;
 import view.ImageView;
