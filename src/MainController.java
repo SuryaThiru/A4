@@ -52,7 +52,7 @@ public class MainController {
           throws IOException {
     Objects.requireNonNull(image);
     Scanner scan = new Scanner(this.in);
-    while (menuScript(scan, imageControllerImp, view)) {
+    while (menuScript(scan, image, imageControllerImp, view)) {
       ;
     }
   }
@@ -231,14 +231,10 @@ public class MainController {
 
 //----------------------------------------------------------------------------------------------
 
-  private void configure() {
-
-  }
-
-  private boolean menuScript(Scanner scan, ImageController imageControllerImp, ImageView view)
+  private boolean menuScript(Scanner scan, Image image, ImageController imageControllerImp, ImageView view)
           throws IOException, NoSuchElementException {
     String t = scan.next();
-    Command command;
+    Command command = null;
     switch (t) {
       case "load":
         command = new LoadCommand(scan, imageControllerImp, view);
@@ -276,8 +272,29 @@ public class MainController {
       case "dither":
         command = new Dither(scan, imageControllerImp, view);
         break;
+      case "run":
+        String scriptFilePath = scan.next();
+        int lastDotIndex = scriptFilePath.lastIndexOf(".");
+        if (lastDotIndex > 0 && !scriptFilePath.substring(lastDotIndex + 1)
+                .equals("txt")) {
+          throw new IOException("invalid script being used. only txt files are allowed. "
+                  + "Try again\n");
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(scriptFilePath))) {
+          String line;
+          while ((line = reader.readLine()) != null) {
+            menuScript(new Scanner(line), image, imageControllerImp, view);
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        break;
+      case "q":
+        return false;
       default:
-        throw new IllegalArgumentException("Invalid command: " + t);
+        //        throw new IllegalArgumentException("Invalid command: " + t);
+        startProgram(imageControllerImp, image, view);
+
     }
 
     command.execute();
