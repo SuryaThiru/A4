@@ -1,0 +1,5 @@
+load res/images/flower.ppm fractal
+greyscale sepia-component fractal fractal-sepia
+save res/images/fractal-sepia.ppm fractal-sepia
+q
+
