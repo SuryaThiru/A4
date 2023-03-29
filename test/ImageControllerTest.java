@@ -1,38 +1,42 @@
-//import org.junit.Test;
-//
-//import java.awt.image.BufferedImage;
-//import java.io.IOException;
-//import java.io.Reader;
-//import java.io.StringReader;
-//import java.util.Scanner;
-//
-//import controller.ImageController;
-//import controller.ImageControllerImp;
-//import model.Pixel;
-//import model.RGBImage;
-//import model.Image;
-//
-//import static helper.ImageUtil.ppmFileValidation;
-//import static org.junit.Assert.assertEquals;
-//
-///**
-// * This class is used to test the various operations performed by the Image Controller.
-// */
-//public class ImageControllerTest {
-//
-//  @Test
-//  public void testLoadScript() throws IOException {
-//
-//    StringBuffer out = new StringBuffer();
-//    Reader in = new StringReader("run res/scripts/testScript2.txt\nq");
-//
-//    Image model = new RGBImage(0, 0, 0);
-//    MainController controller = new MainController(in, out);
-//    ImageController ic = new ImageControllerImp(model);
-//    controller.startProgram(ic, model);
-//    assertEquals("loaded fractal successfully\n", out.toString());
-//
-//  }
+import org.junit.Test;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.Scanner;
+
+import controller.ImageController;
+import controller.ImageControllerImp;
+import model.Pixel;
+import model.RGBImage;
+import model.Image;
+import view.ImageView;
+import view.TextView;
+
+import static helper.ImageUtil.ppmFileValidation;
+import static org.junit.Assert.assertEquals;
+
+/**
+ * This class is used to test the various operations performed by the Image Controller.
+ */
+public class ImageControllerTest {
+
+  @Test
+  public void testLoadScript() throws IOException {
+
+    StringBuffer out = new StringBuffer();
+    Reader in = new StringReader("run res/scripts/testScript2.txt\nq");
+
+    Image model = new RGBImage(0, 0, 0);
+    MainController controller = new MainController(in, out);
+    ImageController ic = new ImageControllerImp(model);
+
+    ImageView view = new TextView(System.out);
+    controller.startProgram(ic, model, view);
+    assertEquals("loaded fractal successfully\n", view.outputString().toString());
+
+  }
 //
 //  @Test(expected = IOException.class)
 //  public void testLoadScriptWrongFile() throws IOException {
@@ -205,26 +209,26 @@
 //            + "saved fractal-dithered successfully"
 //            + "\n", out.toString());
 //  }
+
+
+//  @Test
+//  public void testPNGLoading() throws IOException {
+//    Image model = new RGBImage(0, 0, 0);
 //
+////    Reader in = new StringReader("run res/scripts/testScriptSepia.txt\nq");
+//    Reader in = new StringReader("load res/images/manhattan.png manhattan\n"
+//            +"save res/images/manhattan-png.png manhattan\n"
+//            +"q");
+//    StringBuffer out = new StringBuffer();
 //
-////  @Test
-////  public void testPNGLoading() throws IOException {
-////    Image model = new RGBImage(0, 0, 0);
-////
-//////    Reader in = new StringReader("run res/scripts/testScriptSepia.txt\nq");
-////    Reader in = new StringReader("load res/images/manhattan.png manhattan\n"
-////            +"save res/images/manhattan-png.png manhattan\n"
-////            +"q");
-////    StringBuffer out = new StringBuffer();
-////
-////    MainController controller = new MainController(in, out);
-////    ImageController ic = new ImageControllerImp(model);
-////    controller.startProgram(ic, model);
-////
-////    assertEquals("loaded fractal successfully" + "\n"
-////            + "converting fractal to a sepia-toned Image - fractal-sepia is successful\n"
-////            + "saved fractal-sepia successfully"
-////            + "\n", out.toString());
-////  }
+//    MainController controller = new MainController(in, out);
+//    ImageController ic = new ImageControllerImp(model);
+//    controller.startProgram(ic, model);
 //
-//}
+//    assertEquals("loaded fractal successfully" + "\n"
+//            + "converting fractal to a sepia-toned Image - fractal-sepia is successful\n"
+//            + "saved fractal-sepia successfully"
+//            + "\n", out.toString());
+//  }
+
+}

@@ -1,5 +1,7 @@
 package view;
 
+import java.io.IOException;
+
 /**
  * This interface represents the view part of the MVC architecture of our application.
  */
@@ -10,5 +12,12 @@ public interface ImageView {
    *
    * @param s represents the string to be displayed
    */
-  void display(String s);
+  void display(String s) throws IOException;
+
+  /**
+   * This method returns the complete output string.
+   *
+   * @return returns an Appendable object
+   */
+  Appendable outputString();
 }
