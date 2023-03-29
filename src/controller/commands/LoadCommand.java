@@ -3,7 +3,6 @@ package controller.commands;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.Command;
 import controller.ImageController;
 import view.ImageView;
 

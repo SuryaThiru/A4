@@ -16,7 +16,7 @@ public interface ImageView {
   void display(String s) throws IOException;
 
   /**
-   * This method returns the complete output string.
+   * This method outputs the complete output string.
    *
    * @return returns an Appendable object
    */

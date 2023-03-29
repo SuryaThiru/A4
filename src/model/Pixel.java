@@ -21,9 +21,9 @@ public interface Pixel {
   int numChannels();
 
   /**
-   * This method returns all the channel values.
+   * This method gets all the channel values.
    *
-   * @return returns integer array of channel values.
+   * @return returns integer array of channel values
    */
   int[] getChannels();
 

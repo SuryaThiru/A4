@@ -148,9 +148,9 @@ public class ImageControllerTest {
     Image model = new RGBImage(0, 0, 0);
 
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
-            +"greyscale sepia-component fractal fractal-sepia\n"
-            +"save res/images/fractal-sepia.ppm fractal-sepia\n"
-            +"q");
+            + "greyscale sepia-component fractal fractal-sepia\n"
+            + "save res/images/fractal-sepia.ppm fractal-sepia\n"
+            + "q");
     StringBuffer out = new StringBuffer();
 
     CommandController controller = new CommandController(in, out);
@@ -169,9 +169,9 @@ public class ImageControllerTest {
     Image model = new RGBImage(0, 0, 0);
 
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
-            +"greyscale sepia-component fractal fractal-sepia\n"
-            +"save res/images/fractal-sepia.ppm fractal-sepia\n"
-            +"q");
+            + "greyscale sepia-component fractal fractal-sepia\n"
+            + "save res/images/fractal-sepia.ppm fractal-sepia\n"
+            + "q");
     StringBuffer out = new StringBuffer();
 
     CommandController controller = new CommandController(in, out);
@@ -190,9 +190,9 @@ public class ImageControllerTest {
     Image model = new RGBImage(0, 0, 0);
 
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
-            +"dither fractal fractal-dithered\n"
-            +"save res/images/fractal-dithered.ppm fractal-dithered\n"
-            +"q");
+            + "dither fractal fractal-dithered\n"
+            + "save res/images/fractal-dithered.ppm fractal-dithered\n"
+            + "q");
     StringBuffer out = new StringBuffer();
 
     CommandController controller = new CommandController(in, out);
