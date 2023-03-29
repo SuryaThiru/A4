@@ -3,22 +3,26 @@ package controller.commands;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.Command;
 import controller.ImageController;
 import view.ImageView;
 
-public class FlipImage implements Command {
-  private final Scanner scan;
-  private final ImageController imageControllerImp;
-  private final ImageView view;
-
+/**
+ * This class is used for executing the Flip command from the controller.
+ */
+public class FlipImage extends AbstractCommands {
   String orientation;
 
+  /**
+   * This constructor initialises the variables for this class.
+   *
+   * @param scan               represents the scanner object
+   * @param imageControllerImp represents the controller object
+   * @param view               represents the view object
+   * @param orientation        represents the orientation either horizontal or vertical
+   */
   public FlipImage(Scanner scan, ImageController imageControllerImp, ImageView view,
                    String orientation) {
-    this.scan = scan;
-    this.imageControllerImp = imageControllerImp;
-    this.view = view;
+    super(scan, imageControllerImp, view);
     this.orientation = orientation;
   }
 
@@ -37,5 +41,4 @@ public class FlipImage implements Command {
             updatedImageName));
   }
 
-  }
 }

@@ -110,7 +110,6 @@ public abstract class AbstractImage implements Image {
     return maxColorValue;
   }
 
-
   @Override
   public boolean compareImages(Image updatedImage)
           throws IllegalArgumentException {
@@ -174,7 +173,7 @@ public abstract class AbstractImage implements Image {
     return new GrayscaleImage(width, height, maxColorValue, p);
   }
 
-  int calculateIntensity(int[] channels) {
+  protected int calculateIntensity(int[] channels) {
     int sum = 0;
     int channelLength = channels.length;
     for (int channel : channels) {
@@ -207,59 +206,11 @@ public abstract class AbstractImage implements Image {
     return new GrayscaleImage(width, height, maxColorValue, p);
   }
 
-  protected int calculateLuma(int[] channels) {
-    return (int) Math.round(0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]);
-  }
-
-  void filter(int channel, double[][] kernel) {
-    int[][] newValues = new int[height][width];
-    int kernelSize = kernel.length;
-
-
-    // Loop over each pixel
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        int sum = 0;
-
-        // Loop over each kernel element
-        for (int ky = 0; ky < kernelSize; ky++) {
-          int pixelY = y + ky - kernelSize / 2;
-          if (pixelY < 0 || pixelY >= height) {
-            continue;
-          }
-
-          for (int kx = 0; kx < kernelSize; kx++) {
-            int pixelX = x + kx - kernelSize / 2;
-            if (pixelX < 0 || pixelX >= width) {
-              continue;
-            }
-
-            sum += pixels[pixelY][pixelX].getChannel(channel) * kernel[ky][kx];
-          }
-        }
-
-        newValues[y][x] = sum;
-      }
-    }
-
-    // Set the new values
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        int[] channels = new int[pixels[y][x].numChannels()];
-        for (int c = 0; c < channels.length; c++) {
-          channels[c] = pixels[y][x].getChannel(c);
-        }
-        channels[channel] = newValues[y][x];
-        pixels[y][x] = new PixelImpl(channels);
-      }
-    }
-
-  }
 
   @Override
   public void blur() {
     double[][] kernel = {{0.06, 0.13, 0.06}, {0.13, 0.25, 0.13}, {0.06, 0.13, 0.06}};
-    if(pixels.length == 0 || pixels[0].length == 0) {
+    if (pixels.length == 0 || pixels[0].length == 0) {
       throw new IllegalArgumentException("image has no pixels to blur");
     }
 
@@ -288,7 +239,7 @@ public abstract class AbstractImage implements Image {
         }
       }
     }
-    if(pixels.length == 0 || pixels[0].length == 0) {
+    if (pixels.length == 0 || pixels[0].length == 0) {
       throw new IllegalArgumentException("image has no pixels to blur");
     }
 
@@ -366,16 +317,16 @@ public abstract class AbstractImage implements Image {
         newPixels[y][x] = new PixelImpl(newColor, newColor, newColor);
 
         if (x < width - 1) {
-          greyPixels[y][x+1] += (int) (7.0/16 * error);
+          greyPixels[y][x + 1] += (int) (7.0 / 16 * error);
         }
         if (y < height - 1 && x > 0) {
-          greyPixels[y+1][x-1] += (int) (3.0/16 * error);
+          greyPixels[y + 1][x - 1] += (int) (3.0 / 16 * error);
         }
         if (y < height - 1) {
-          greyPixels[y+1][x] += (int) (5.0/16 * error);
+          greyPixels[y + 1][x] += (int) (5.0 / 16 * error);
         }
         if (y < height - 1 && x < width - 1) {
-          greyPixels[y+1][x+1] += (int) (1.0/16 * error);
+          greyPixels[y + 1][x + 1] += (int) (1.0 / 16 * error);
         }
       }
     }
@@ -383,4 +334,65 @@ public abstract class AbstractImage implements Image {
     return new GrayscaleImage(width, height, maxColorValue, newPixels);
 
   }
+
+  /**
+   * This method calculates the rgb components using luma constants.
+   *
+   * @param channels represents the different channels in a pixel
+   * @return returns an integer value
+   */
+  int calculateLuma(int[] channels) {
+    return (int) Math.round(0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]);
+  }
+
+  /**
+   * This method is used to clamp the values provided by the brighten function.
+   *
+   * @param value represents the increment / decrement value
+   * @return
+   */
+  int clamp(int value) {
+    return Math.min(Math.max(value, 0), maxColorValue);
+  }
+
+  private void filter(int channel, double[][] kernel) {
+    int[][] newValues = new int[height][width];
+    int kernelSize = kernel.length;
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int sum = 0;
+
+        for (int ky = 0; ky < kernelSize; ky++) {
+          int pixelY = y + ky - kernelSize / 2;
+          if (pixelY < 0 || pixelY >= height) {
+            continue;
+          }
+
+          for (int kx = 0; kx < kernelSize; kx++) {
+            int pixelX = x + kx - kernelSize / 2;
+            if (pixelX < 0 || pixelX >= width) {
+              continue;
+            }
+
+            sum += pixels[pixelY][pixelX].getChannel(channel) * kernel[ky][kx];
+          }
+        }
+
+        newValues[y][x] = sum;
+      }
+    }
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int[] channels = new int[pixels[y][x].numChannels()];
+        for (int c = 0; c < channels.length; c++) {
+          channels[c] = pixels[y][x].getChannel(c);
+        }
+        channels[channel] = newValues[y][x];
+        pixels[y][x] = new PixelImpl(channels);
+      }
+    }
+  }
+
 }

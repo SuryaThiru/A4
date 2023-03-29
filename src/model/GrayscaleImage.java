@@ -1,12 +1,20 @@
 package model;
 
-import static helper.ImageUtil.getPixels;
+import static helper.ImageUtil.duplicatePixels;
 
 /**
  * This class represents a Greyscale image.
  */
 public class GrayscaleImage extends AbstractImage {
 
+  /**
+   * This constructor initialises the variables of the AbstractImage and this class.
+   *
+   * @param width    represents the width of the Image.
+   * @param height   represents the height of the Image.
+   * @param maxValue represents the maxvalue of the Image.
+   * @param pixels   represents the pixels in an Image.
+   */
   public GrayscaleImage(int width, int height, int maxValue, Pixel[][] pixels) {
     super(width, height, maxValue);
     this.pixels = pixels;
@@ -14,38 +22,16 @@ public class GrayscaleImage extends AbstractImage {
 
   @Override
   public void brighten(int increment) {
-    // Brighten grayscale image by given increment
+    int factor = 1;
     if (increment < 0) {
-      darken(Math.abs(increment));
-      return;
+      factor = -1;
+      increment = -increment;
     }
-    int maxValue = maxColorValue;
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         Pixel pixel = pixels[i][j];
-        // In Greyscale, all channels have equal values.
-        int intensity = pixel.getChannel(0) + increment;
-        if (intensity > maxValue) {
-          intensity = maxValue;
-        }
-        pixels[i][j] = new PixelImpl(intensity, intensity, intensity);
-      }
-    }
-  }
-
-  @Override
-  public void darken(int decrement) {
-    // Darken grayscale image by given decrement
-    int minValue = 0;
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        Pixel pixel = pixels[i][j];
-        // In Greyscale, all channels have equal values.
-        int intensity = pixel.getChannel(0) - decrement;
-        if (intensity < minValue) {
-          intensity = minValue;
-        }
-        pixels[i][j] = new PixelImpl(intensity, intensity, intensity);
+        int newRed = clamp(pixel.getChannel(0) + factor * increment);
+        pixels[i][j] = new PixelImpl(newRed, newRed, newRed);
       }
     }
   }
@@ -53,7 +39,7 @@ public class GrayscaleImage extends AbstractImage {
   @Override
   public Image duplicate() {
     return new GrayscaleImage(width, height, maxColorValue,
-            getPixels(pixels, width, height));
+            duplicatePixels(pixels, width, height));
   }
 
   @Override

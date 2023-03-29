@@ -2,7 +2,8 @@ package model;
 
 import java.util.Scanner;
 
-import static helper.ImageUtil.getPixels;
+import static helper.ImageUtil.duplicatePixels;
+
 
 /**
  * This class represents an RGB Image and contains the operations performed on it.
@@ -13,11 +14,11 @@ public class RGBImage extends AbstractImage {
   GrayscaleImage blueChannel;
 
   /**
-   * Instantiates the class objects.
+   * This constructor initialises the variables of the AbstractImage and this class.
    *
-   * @param width    represents the width of the image.
-   * @param height   represents the height of the image.
-   * @param maxValue represents the maxvalue of the image.
+   * @param width    represents the width of the Image.
+   * @param height   represents the height of the Image.
+   * @param maxValue represents the maxvalue of the Image.
    */
   public RGBImage(int width, int height, int maxValue) {
     super(width, height, maxValue);
@@ -66,63 +67,19 @@ public class RGBImage extends AbstractImage {
     return this;
   }
 
-  private void split() {
-    Pixel[][] pixels = this.pixels;
-    int height = this.height;
-    int width = this.width;
-
-    Pixel[][] redPixels = new PixelImpl[height][width];
-    Pixel[][] greenPixels = new PixelImpl[height][width];
-    Pixel[][] bluePixels = new PixelImpl[height][width];
-
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        Pixel pixel = pixels[i][j];
-        redPixels[i][j] = new PixelImpl(pixel.getChannel(0),
-                pixel.getChannel(0), pixel.getChannel(0));
-        greenPixels[i][j] = new PixelImpl(pixel.getChannel(1),
-                pixel.getChannel(1), pixel.getChannel(1));
-        bluePixels[i][j] = new PixelImpl(pixel.getChannel(2),
-                pixel.getChannel(2), pixel.getChannel(2));
-      }
-    }
-
-    redChannel = new GrayscaleImage(width, height, maxColorValue, redPixels);
-    greenChannel = new GrayscaleImage(width, height, maxColorValue, greenPixels);
-    blueChannel = new GrayscaleImage(width, height, maxColorValue, bluePixels);
-  }
-
   @Override
   public void brighten(int increment) {
-    // Brighten color image by given increment
+    int factor = 1;
     if (increment < 0) {
-      darken(Math.abs(increment));
-      return;
+      factor = -1;
+      increment = -increment;
     }
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         Pixel pixel = pixels[i][j];
-        int newRed = Math.min(pixel.getChannel(0) + increment, maxColorValue);
-        int newGreen = Math.min(pixel.getChannel(1) + increment, maxColorValue);
-        int newBlue = Math.min(pixel.getChannel(2) + increment, maxColorValue);
-        pixels[i][j] = new PixelImpl(newRed, newGreen, newBlue);
-      }
-    }
-  }
-
-  @Override
-  public void darken(int decrement) {
-    if (decrement < 0) {
-      brighten(Math.abs(decrement));
-      return;
-    }
-    // Darken color image by given decrement
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        Pixel pixel = pixels[i][j];
-        int newRed = Math.max(pixel.getChannel(0) - decrement, 0);
-        int newGreen = Math.max(pixel.getChannel(1) - decrement, 0);
-        int newBlue = Math.max(pixel.getChannel(2) - decrement, 0);
+        int newRed = clamp(pixel.getChannel(0) + factor * increment);
+        int newGreen = clamp(pixel.getChannel(1) + factor * increment);
+        int newBlue = clamp(pixel.getChannel(2) + factor * increment);
         pixels[i][j] = new PixelImpl(newRed, newGreen, newBlue);
       }
     }
@@ -131,7 +88,7 @@ public class RGBImage extends AbstractImage {
   @Override
   public Image duplicate() {
     RGBImage t = new RGBImage(width, height, maxColorValue,
-            getPixels(pixels, width, height));
+            duplicatePixels(pixels, width, height));
     t.split();
 
     return t;
@@ -196,6 +153,32 @@ public class RGBImage extends AbstractImage {
     }
 
     return true;
+  }
+
+  void split() {
+    Pixel[][] pixels = this.pixels;
+    int height = this.height;
+    int width = this.width;
+
+    Pixel[][] redPixels = new PixelImpl[height][width];
+    Pixel[][] greenPixels = new PixelImpl[height][width];
+    Pixel[][] bluePixels = new PixelImpl[height][width];
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        Pixel pixel = pixels[i][j];
+        redPixels[i][j] = new PixelImpl(pixel.getChannel(0),
+                pixel.getChannel(0), pixel.getChannel(0));
+        greenPixels[i][j] = new PixelImpl(pixel.getChannel(1),
+                pixel.getChannel(1), pixel.getChannel(1));
+        bluePixels[i][j] = new PixelImpl(pixel.getChannel(2),
+                pixel.getChannel(2), pixel.getChannel(2));
+      }
+    }
+
+    redChannel = new GrayscaleImage(width, height, maxColorValue, redPixels);
+    greenChannel = new GrayscaleImage(width, height, maxColorValue, greenPixels);
+    blueChannel = new GrayscaleImage(width, height, maxColorValue, bluePixels);
   }
 
 }

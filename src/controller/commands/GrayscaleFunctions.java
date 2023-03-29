@@ -3,19 +3,23 @@ package controller.commands;
 import java.io.IOException;
 import java.util.Scanner;
 
-import controller.Command;
 import controller.ImageController;
 import view.ImageView;
 
-public class GrayscaleFunctions implements Command {
-  private final Scanner scan;
-  private final ImageController imageControllerImp;
-  private final ImageView view;
+/**
+ * This class is used for executing the Grayscale commands from the controller.
+ */
+public class GrayscaleFunctions extends AbstractCommands {
 
+  /**
+   * This constructor initialises the variables for this class.
+   *
+   * @param scan               represents the scanner object
+   * @param imageControllerImp represents the controller object
+   * @param view               represents the view object
+   */
   public GrayscaleFunctions(Scanner scan, ImageController imageControllerImp, ImageView view) {
-    this.scan = scan;
-    this.imageControllerImp = imageControllerImp;
-    this.view = view;
+    super(scan, imageControllerImp, view);
   }
 
   @Override

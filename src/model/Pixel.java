@@ -22,7 +22,9 @@ public interface Pixel {
 
   /**
    * This method returns all the channel values.
+   *
    * @return returns integer array of channel values.
    */
   int[] getChannels();
+
 }

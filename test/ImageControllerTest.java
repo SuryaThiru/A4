@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
+import controller.CommandController;
 import controller.ImageController;
 import controller.ImageControllerImp;
 import model.RGBImage;
@@ -25,7 +26,7 @@ public class ImageControllerTest {
     Reader in = new StringReader("run res/scripts/testScript2.txt\nq");
 
     Image model = new RGBImage(0, 0, 0);
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);
@@ -39,7 +40,7 @@ public class ImageControllerTest {
     Reader in = new StringReader("run res/scripts/flower.ppm\nrun images/flower.ppm\nq");
 
     Image model = new RGBImage(0, 0, 0);
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);
@@ -53,7 +54,7 @@ public class ImageControllerTest {
     Reader in = new StringReader("load res/images/flower.ppm flower \nq");
     Image model = new RGBImage(0, 0, 0);
 
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);
@@ -69,7 +70,7 @@ public class ImageControllerTest {
     Reader in = new StringReader("load res/images/test-image.ppm koala");
     StringBuffer out = new StringBuffer();
 
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);
@@ -83,7 +84,7 @@ public class ImageControllerTest {
     Reader in = new StringReader("save res/images/flower.ppm fractal");
     StringBuffer out = new StringBuffer();
 
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);
@@ -98,7 +99,7 @@ public class ImageControllerTest {
             "\nsave res/images/flower-save.ppm fractal\nq");
     StringBuffer out = new StringBuffer();
 
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);
@@ -114,7 +115,7 @@ public class ImageControllerTest {
     Reader in = new StringReader("run res/scripts/testScript1.txt\nq");
     StringBuffer out = new StringBuffer();
 
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);
@@ -133,7 +134,7 @@ public class ImageControllerTest {
             "\n load res/images/flower-brightened.ppm flower-brightened \nq");
     StringBuffer out = new StringBuffer();
 
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);
@@ -152,7 +153,7 @@ public class ImageControllerTest {
             +"q");
     StringBuffer out = new StringBuffer();
 
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);
@@ -173,7 +174,7 @@ public class ImageControllerTest {
             +"q");
     StringBuffer out = new StringBuffer();
 
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);
@@ -194,7 +195,7 @@ public class ImageControllerTest {
             +"q");
     StringBuffer out = new StringBuffer();
 
-    MainController controller = new MainController(in, out);
+    CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
     controller.startProgram(ic, model, iv);

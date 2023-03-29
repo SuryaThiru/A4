@@ -162,7 +162,7 @@ public class ImageControllerImp implements ImageController {
     }
 
     Image updatedImage = image.duplicate();
-    updatedImage.darken(increment);
+    updatedImage.brighten(-increment);
 
     images.put(updatedImageName, updatedImage);
   }

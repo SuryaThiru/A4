@@ -7,17 +7,23 @@ import controller.Command;
 import controller.ImageController;
 import view.ImageView;
 
-public class RgbFunctions implements Command {
-  private final Scanner scan;
-  private final ImageController imageControllerImp;
-  private final ImageView view;
+/**
+ * This class is used for executing the RGB commands from the controller.
+ */
+public class RgbFunctions extends AbstractCommands {
   String functionType;
 
+  /**
+   * This constructor initialises the variables for this class.
+   *
+   * @param scan               represents the scanner object
+   * @param imageControllerImp represents the controller object
+   * @param view               represents the view object
+   * @param functionType       represents the type of the function being performed
+   */
   public RgbFunctions(Scanner scan, ImageController imageControllerImp,
-               ImageView view, String functionType) {
-    this.scan = scan;
-    this.imageControllerImp = imageControllerImp;
-    this.view = view;
+                      ImageView view, String functionType) {
+    super(scan, imageControllerImp, view);
     this.functionType = functionType;
   }
 
