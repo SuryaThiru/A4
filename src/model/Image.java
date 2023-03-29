@@ -177,5 +177,4 @@ public interface Image {
    * @throws UnsupportedOperationException is thrown when trying to combine greyscale images.
    */
   Image dither() throws UnsupportedOperationException;
-
 }
