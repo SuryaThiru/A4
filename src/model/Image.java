@@ -50,7 +50,8 @@ public interface Image {
    *
    * @param decrement represents the decrement value.
    */
-  void darken(int decrement);
+  default void darken(int decrement) {
+  }
 
   /**
    * This method creates a duplicate of the image
@@ -147,21 +148,15 @@ public interface Image {
   Pixel getPixel(int x, int y);
 
   /**
-   * This method is used to blur the current image.
-   */
-  void blur();
-
-  /**
-   * This method is used to sharpen the current image.
-   */
-  void sharpen();
-
-  /**
    * This method is used to get the maxColorValue of the image.
    *
    * @return returns the maxColorValue.
    */
   int getMaxColorValue();
+
+  void blur();
+
+  void sharpen();
 
   /**
    * This method is used to convert an Image to a sepia toned Image.
@@ -173,7 +168,8 @@ public interface Image {
 
   /**
    * This method is used to convert an RGB Image to a Dithered Image.
-   * @return  returns the Image Object.
+   *
+   * @return returns the Image Object.
    * @throws UnsupportedOperationException is thrown when trying to combine greyscale images.
    */
   Image dither() throws UnsupportedOperationException;

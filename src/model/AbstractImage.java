@@ -8,12 +8,13 @@ import java.util.Arrays;
  */
 public abstract class AbstractImage implements Image {
 
-  protected int width;
-  protected int height;
-  protected int maxColorValue;
-  protected Pixel[][] pixels;
+  int width;
+  int height;
+  int maxColorValue;
+  Pixel[][] pixels;
 
   protected AbstractImage(int width, int height, int maxColorValue) {
+    super();
     this.width = width;
     this.height = height;
     this.maxColorValue = maxColorValue;
@@ -38,107 +39,13 @@ public abstract class AbstractImage implements Image {
         int red = (rgb >> 16) & 0xFF;
         int green = (rgb >> 8) & 0xFF;
         int blue = rgb & 0xFF;
-        pixels[y][x] = new Pixel(red, green, blue);
+        pixels[y][x] = new PixelImpl(red, green, blue);
       }
     }
 
     this.pixels = pixels;
 
     return this;
-  }
-
-
-  private void filter(int channel, double[][] kernel) {
-    int[][] newValues = new int[height][width];
-    int kernelSize = kernel.length;
-    int halfKernelSize = kernelSize / 2;
-
-    // Loop over each pixel
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        int sum = 0;
-
-        // Loop over each kernel element
-        for (int ky = 0; ky < kernelSize; ky++) {
-          int pixelY = y + ky - halfKernelSize;
-          if (pixelY < 0 || pixelY >= height) {
-            continue;
-          }
-
-          for (int kx = 0; kx < kernelSize; kx++) {
-            int pixelX = x + kx - halfKernelSize;
-            if (pixelX < 0 || pixelX >= width) {
-              continue;
-            }
-
-            sum += pixels[pixelY][pixelX].getChannels(channel) * kernel[ky][kx];
-          }
-        }
-
-        newValues[y][x] = sum;
-      }
-    }
-
-    // Set the new values
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        int[] channels = new int[pixels[y][x].numChannels()];
-        for (int c = 0; c < channels.length; c++) {
-          channels[c] = pixels[y][x].getChannels(c);
-        }
-        channels[channel] = newValues[y][x];
-        pixels[y][x] = new Pixel(channels);
-      }
-    }
-
-  }
-
-  @Override
-  public void blur() {
-    // Call filter with the kernel constant.
-    //    double[][] kernel = new double[3][3];
-    double[][] kernel = {{0.06, 0.13, 0.06}, {0.13, 0.25, 0.13}, {0.06, 0.13, 0.06}};
-
-    //    kernel[0][0] = 0.06;
-    //    kernel[0][1] = 0.13;
-    //    kernel[0][2] = 0.06;
-    //    kernel[1][0] = 0.13;
-    //    kernel[1][1] = 0.25;
-    //    kernel[1][2] = 0.13;
-    //    kernel[2][0] = 0.06;
-    //    kernel[2][1] = 0.13;
-    //    kernel[2][2] = 0.06;
-
-    filter(0, kernel);
-    filter(1, kernel);
-    filter(2, kernel);
-
-  }
-
-  @Override
-  public void sharpen() {
-    // Call filter with the kernel constant.
-    double centerWeight = 1.0;
-    double edgeWeight = 0.25;
-    double cornerWeight = -0.13;
-
-    double[][] kernel = new double[5][5];
-
-    for (int i = 0; i < kernel.length; i++) {
-      for (int j = 0; j < kernel[0].length; j++) {
-        if (i == 0 || i == kernel.length - 1 || j == 0 || j == kernel[0].length - 1) {
-          kernel[i][j] = cornerWeight;
-        } else if (i == 2 && j == 2) {
-          kernel[i][j] = centerWeight;
-        } else {
-          kernel[i][j] = edgeWeight;
-        }
-      }
-    }
-
-    filter(0, kernel);
-    filter(1, kernel);
-    filter(2, kernel);
   }
 
   @Override
@@ -215,11 +122,12 @@ public abstract class AbstractImage implements Image {
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        if ((updatedImage.getPixel(y, x).channels.length
-                != this.getPixel(y, x).channels.length)) {
+        if ((updatedImage.getPixel(y, x).numChannels()
+                != this.getPixel(y, x).numChannels())) {
           return false;
         }
-        if (!(Arrays.equals(this.getPixel(y, x).channels, updatedImage.getPixel(y, x).channels))) {
+        if (!(Arrays.equals(this.getPixel(y, x).getChannels(),
+                updatedImage.getPixel(y, x).getChannels()))) {
           return false;
         }
       }
@@ -230,19 +138,18 @@ public abstract class AbstractImage implements Image {
 
   @Override
   public Image combineByValue() {
-    int numberOfChannels = pixels[0][0].channels.length;
-    Pixel[][] p = new Pixel[width][height];
+    int numberOfChannels = pixels[0][0].numChannels();
+    Pixel[][] p = new PixelImpl[width][height];
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        Pixel pixel = new Pixel();
-        pixel.channels = new int[numberOfChannels];
+        int[] channels = new int[numberOfChannels];
         int value = 0;
         for (int k = 0; k < numberOfChannels; k++) {
-          value = Math.max(value, pixels[x][y].getChannels(k));
-          pixel.channels[k] = value;
+          value = Math.max(value, pixels[x][y].getChannel(k));
+          channels[k] = value;
         }
-        p[y][x] = pixel;
+        p[y][x] = new PixelImpl(channels);
       }
     }
 
@@ -251,17 +158,16 @@ public abstract class AbstractImage implements Image {
 
   @Override
   public Image combineByIntensity() {
-    int numberOfChannels = pixels[0][0].channels.length;
+    int numberOfChannels = pixels[0][0].numChannels();
     Pixel[][] p = new Pixel[width][height];
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        Pixel pixel = new Pixel();
-        pixel.channels = new int[numberOfChannels];
+        int[] channels = new int[numberOfChannels];
         for (int k = 0; k < numberOfChannels; k++) {
-          pixel.channels[k] = calculateIntensity(pixels[x][y].channels);
+          channels[k] = calculateIntensity(pixels[x][y].getChannels());
         }
-        p[y][x] = pixel;
+        p[y][x] = new PixelImpl(channels);
       }
     }
 
@@ -280,31 +186,120 @@ public abstract class AbstractImage implements Image {
 
   @Override
   public Image combineByLuma() throws UnsupportedOperationException {
-    int numberOfChannels = pixels[0][0].channels.length;
+    int numberOfChannels = pixels[0][0].numChannels();
 
     if (numberOfChannels != 3) {
       throw new IllegalArgumentException("image should contain rgb component");
     }
-//    Pixel[][] p = new Pixel[width][height];
+
     Pixel[][] p = new Pixel[height][width];
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        Pixel pixel = new Pixel();
-        pixel.channels = new int[numberOfChannels];
+        int[] channels = new int[numberOfChannels];
         for (int k = 0; k < numberOfChannels; k++) {
-          pixel.channels[k] = calculateLuma(pixels[y][x].channels);
+          channels[k] = calculateLuma(pixels[y][x].getChannels());
         }
-        p[y][x] = pixel;
+        p[y][x] = new PixelImpl(channels);
       }
     }
 
     return new GrayscaleImage(width, height, maxColorValue, p);
   }
 
+  protected int calculateLuma(int[] channels) {
+    return (int) Math.round(0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]);
+  }
+
+  private void filter(int channel, double[][] kernel) {
+    int[][] newValues = new int[height][width];
+    int kernelSize = kernel.length;
+
+
+    // Loop over each pixel
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int sum = 0;
+
+        // Loop over each kernel element
+        for (int ky = 0; ky < kernelSize; ky++) {
+          int pixelY = y + ky - kernelSize / 2;
+          if (pixelY < 0 || pixelY >= height) {
+            continue;
+          }
+
+          for (int kx = 0; kx < kernelSize; kx++) {
+            int pixelX = x + kx - kernelSize / 2;
+            if (pixelX < 0 || pixelX >= width) {
+              continue;
+            }
+
+            sum += pixels[pixelY][pixelX].getChannel(channel) * kernel[ky][kx];
+          }
+        }
+
+        newValues[y][x] = sum;
+      }
+    }
+
+    // Set the new values
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int[] channels = new int[pixels[y][x].numChannels()];
+        for (int c = 0; c < channels.length; c++) {
+          channels[c] = pixels[y][x].getChannel(c);
+        }
+        channels[channel] = newValues[y][x];
+        pixels[y][x] = new PixelImpl(channels);
+      }
+    }
+
+  }
+
+  @Override
+  public void blur() {
+    double[][] kernel = {{0.06, 0.13, 0.06}, {0.13, 0.25, 0.13}, {0.06, 0.13, 0.06}};
+    if(pixels.length == 0 || pixels[0].length == 0) {
+      throw new IllegalArgumentException("image has no pixels to blur");
+    }
+
+    for (int i = 0; i < pixels[0][0].numChannels(); i++) {
+      filter(i, kernel);
+    }
+  }
+
+  @Override
+  public void sharpen() {
+    // Call filter with the kernel constant.
+    double centerWeight = 1.0;
+    double edgeWeight = 0.25;
+    double cornerWeight = -0.13;
+
+    double[][] kernel = new double[5][5];
+
+    for (int i = 0; i < kernel.length; i++) {
+      for (int j = 0; j < kernel[0].length; j++) {
+        if (i == 0 || i == kernel.length - 1 || j == 0 || j == kernel[0].length - 1) {
+          kernel[i][j] = cornerWeight;
+        } else if (i == 2 && j == 2) {
+          kernel[i][j] = centerWeight;
+        } else {
+          kernel[i][j] = edgeWeight;
+        }
+      }
+    }
+    if(pixels.length == 0 || pixels[0].length == 0) {
+      throw new IllegalArgumentException("image has no pixels to blur");
+    }
+
+    for (int i = 0; i < pixels[0][0].numChannels(); i++) {
+      filter(i, kernel);
+    }
+  }
+
   @Override
   public Image combineBySepia() throws UnsupportedOperationException {
-    int numberOfChannels = pixels[0][0].channels.length;
+    int numberOfChannels = pixels[0][0].numChannels();
 
     if (numberOfChannels != 3) {
       throw new IllegalArgumentException("image should contain rgb component");
@@ -314,14 +309,14 @@ public abstract class AbstractImage implements Image {
     int width = greyscale.getWidth();
     int height = greyscale.getHeight();
 
-    Pixel[][] p = new Pixel[height][width];
+    Pixel[][] p = new PixelImpl[height][width];
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
 
-        int r = greyscale.getPixel(y, x).getChannels(0);
-        int g = greyscale.getPixel(y, x).getChannels(1);
-        int b = greyscale.getPixel(y, x).getChannels(2);
+        int r = greyscale.getPixel(y, x).getChannel(0);
+        int g = greyscale.getPixel(y, x).getChannel(1);
+        int b = greyscale.getPixel(y, x).getChannel(2);
 
         int newR = (int) Math.round(0.393 * r + 0.769 * g + 0.189 * b);
         int newG = (int) Math.round(0.349 * r + 0.686 * g + 0.168 * b);
@@ -331,7 +326,7 @@ public abstract class AbstractImage implements Image {
         newG = Math.max(0, Math.min(255, newG));
         newB = Math.max(0, Math.min(255, newB));
 
-        p[y][x] = new Pixel(newR, newG, newB);
+        p[y][x] = new PixelImpl(newR, newG, newB);
 
       }
     }
@@ -340,15 +335,9 @@ public abstract class AbstractImage implements Image {
 
   }
 
-
-  protected int calculateLuma(int[] channels) {
-    return (int) Math.round(0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]);
-  }
-
-
   @Override
   public Image dither() {
-    int numberOfChannels = pixels[0][0].channels.length;
+    int numberOfChannels = pixels[0][0].numChannels();
 
     if (numberOfChannels != 3) {
       throw new IllegalArgumentException("image should contain rgb component");
@@ -359,12 +348,12 @@ public abstract class AbstractImage implements Image {
     int height = greyscale.getHeight();
 
     int[][] greyPixels = new int[height][width];
-    Pixel[][] newPixels = new Pixel[height][width];
+    Pixel[][] newPixels = new PixelImpl[height][width];
 
     // Convert to greyscale
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        greyPixels[y][x] = calculateLuma(pixels[y][x].channels);
+        greyPixels[y][x] = calculateLuma(pixels[y][x].getChannels());
       }
     }
 
@@ -374,7 +363,7 @@ public abstract class AbstractImage implements Image {
         int oldColor = greyPixels[y][x];
         int newColor = oldColor > 127 ? 255 : 0;
         int error = oldColor - newColor;
-        newPixels[y][x] = new Pixel(newColor, newColor, newColor);
+        newPixels[y][x] = new PixelImpl(newColor, newColor, newColor);
 
         if (x < width - 1) {
           greyPixels[y][x+1] += (int) (7.0/16 * error);
@@ -394,6 +383,4 @@ public abstract class AbstractImage implements Image {
     return new GrayscaleImage(width, height, maxColorValue, newPixels);
 
   }
-
-
 }

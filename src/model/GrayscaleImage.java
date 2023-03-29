@@ -24,11 +24,11 @@ public class GrayscaleImage extends AbstractImage {
       for (int j = 0; j < width; j++) {
         Pixel pixel = pixels[i][j];
         // In Greyscale, all channels have equal values.
-        int intensity = pixel.getChannels(0) + increment;
+        int intensity = pixel.getChannel(0) + increment;
         if (intensity > maxValue) {
           intensity = maxValue;
         }
-        pixels[i][j] = new Pixel(intensity, intensity, intensity);
+        pixels[i][j] = new PixelImpl(intensity, intensity, intensity);
       }
     }
   }
@@ -41,11 +41,11 @@ public class GrayscaleImage extends AbstractImage {
       for (int j = 0; j < width; j++) {
         Pixel pixel = pixels[i][j];
         // In Greyscale, all channels have equal values.
-        int intensity = pixel.getChannels(0) - decrement;
+        int intensity = pixel.getChannel(0) - decrement;
         if (intensity < minValue) {
           intensity = minValue;
         }
-        pixels[i][j] = new Pixel(intensity, intensity, intensity);
+        pixels[i][j] = new PixelImpl(intensity, intensity, intensity);
       }
     }
   }

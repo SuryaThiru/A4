@@ -1,10 +1,7 @@
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-
-import javax.imageio.ImageIO;
 
 import model.GrayscaleImage;
 import model.Image;
@@ -64,7 +61,6 @@ public class RGBImageTest {
     String content = extractContent(sc);
     model.load(content);
     model.brighten(25);
-    // model.save("res/images/flower-brightened.ppm");
     assertTrue(checkImages(model, "res/images/flower-brightened.ppm"));
   }
 
@@ -80,18 +76,18 @@ public class RGBImageTest {
     assertTrue(checkImages(model, "res/images/flower-darkened.ppm"));
   }
 
-  //  @Test
-  //  public void testMaxBrighten() throws IOException {
-  //    String imagePath = "res/images/flower.ppm";
-  //
-  //    Image model = new RGBImage(0, 0, 0);
-  //    Scanner sc = ppmFileValidation(imagePath);
-  //    String content = extractContent(sc);
-  //    model.load(content);
-  //    model.brighten(250);
-  //    //model.save("res/images/flower-darkened.ppm");
-  //    assertTrue(checkImages(model, "res/images/flower-darkened.ppm"));
-  //  }
+  @Test
+  public void testMaxBrighten() throws IOException {
+    String imagePath = "res/images/flower.ppm";
+
+    Image model = new RGBImage(0, 0, 0);
+    Scanner sc = ppmFileValidation(imagePath);
+    String content = extractContent(sc);
+    model.load(content);
+    model.brighten(250);
+    //model.save("res/images/flower-darkened.ppm");
+    assertTrue(checkImages(model, "res/images/flower-brightened.ppm"));
+  }
 
   @Test
   public void testDarken() {
@@ -102,7 +98,6 @@ public class RGBImageTest {
     String content = extractContent(sc);
     model.load(content);
     model.darken(25);
-    //model.save("res/images/flower-darkened.ppm");
     assertTrue(checkImages(model, "res/images/flower-darkened.ppm"));
 
   }
@@ -120,18 +115,18 @@ public class RGBImageTest {
 
   }
 
-  //  @Test
-  //  public void testMaxDarken() {
-  //    String imagePath = "res/images/flower.ppm";
-  //
-  //    Image model = new RGBImage(0, 0, 0);
-  //    Scanner sc = ppmFileValidation(imagePath);
-  //    String content = extractContent(sc);
-  //    model.load(content);
-  //    model.darken(250);
-  //    //model.save("images/flower-max-darken.ppm");
-  //    assertEquals(true, checkImages(model, "res/images/flower-max-darken.ppm"));
-  //  }
+  @Test
+  public void testMaxDarken() {
+    String imagePath = "res/images/flower.ppm";
+
+    Image model = new RGBImage(0, 0, 0);
+    Scanner sc = ppmFileValidation(imagePath);
+    String content = extractContent(sc);
+    model.load(content);
+    model.darken(250);
+    //model.save("images/flower-max-darken.ppm");
+    assertEquals(true, checkImages(model, "res/images/flower-max-darken.ppm"));
+  }
 
   @Test
   public void testSplit() {
@@ -253,7 +248,7 @@ public class RGBImageTest {
   public void testBlur() {
     String imagePath = "res/images/flower.ppm";
 
-    Image model = new RGBImage(0, 0, 0);
+    RGBImage model = new RGBImage(0, 0, 0);
     Scanner sc = ppmFileValidation(imagePath);
     String content = extractContent(sc);
     model.load(content);

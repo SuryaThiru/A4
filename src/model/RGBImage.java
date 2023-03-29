@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.image.BufferedImage;
 import java.util.Scanner;
 
 import static helper.ImageUtil.getPixels;
@@ -9,9 +8,9 @@ import static helper.ImageUtil.getPixels;
  * This class represents an RGB Image and contains the operations performed on it.
  */
 public class RGBImage extends AbstractImage {
-  private GrayscaleImage redChannel;
-  private GrayscaleImage greenChannel;
-  private GrayscaleImage blueChannel;
+  GrayscaleImage redChannel;
+  GrayscaleImage greenChannel;
+  GrayscaleImage blueChannel;
 
   /**
    * Instantiates the class objects.
@@ -44,7 +43,7 @@ public class RGBImage extends AbstractImage {
     height = sc.nextInt();
     maxColorValue = sc.nextInt();
 
-    pixels = new Pixel[height][width];
+    pixels = new PixelImpl[height][width];
 
     boolean isGrayscale = true;
 
@@ -56,14 +55,13 @@ public class RGBImage extends AbstractImage {
         if (!(r == g && r == b)) {
           isGrayscale = false;
         }
-        pixels[i][j] = new Pixel(r, g, b);
+        pixels[i][j] = new PixelImpl(r, g, b);
       }
     }
 
     if (isGrayscale) {
       return new GrayscaleImage(width, height, maxColorValue, pixels);
     }
-
     split();
     return this;
   }
@@ -73,19 +71,19 @@ public class RGBImage extends AbstractImage {
     int height = this.height;
     int width = this.width;
 
-    Pixel[][] redPixels = new Pixel[height][width];
-    Pixel[][] greenPixels = new Pixel[height][width];
-    Pixel[][] bluePixels = new Pixel[height][width];
+    Pixel[][] redPixels = new PixelImpl[height][width];
+    Pixel[][] greenPixels = new PixelImpl[height][width];
+    Pixel[][] bluePixels = new PixelImpl[height][width];
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         Pixel pixel = pixels[i][j];
-        redPixels[i][j] = new Pixel(pixel.getChannels(0),
-                pixel.getChannels(0), pixel.getChannels(0));
-        greenPixels[i][j] = new Pixel(pixel.getChannels(1),
-                pixel.getChannels(1), pixel.getChannels(1));
-        bluePixels[i][j] = new Pixel(pixel.getChannels(2),
-                pixel.getChannels(2), pixel.getChannels(2));
+        redPixels[i][j] = new PixelImpl(pixel.getChannel(0),
+                pixel.getChannel(0), pixel.getChannel(0));
+        greenPixels[i][j] = new PixelImpl(pixel.getChannel(1),
+                pixel.getChannel(1), pixel.getChannel(1));
+        bluePixels[i][j] = new PixelImpl(pixel.getChannel(2),
+                pixel.getChannel(2), pixel.getChannel(2));
       }
     }
 
@@ -104,10 +102,10 @@ public class RGBImage extends AbstractImage {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         Pixel pixel = pixels[i][j];
-        int newRed = Math.min(pixel.getChannels(0) + increment, maxColorValue);
-        int newGreen = Math.min(pixel.getChannels(1) + increment, maxColorValue);
-        int newBlue = Math.min(pixel.getChannels(2) + increment, maxColorValue);
-        pixels[i][j] = new Pixel(newRed, newGreen, newBlue);
+        int newRed = Math.min(pixel.getChannel(0) + increment, maxColorValue);
+        int newGreen = Math.min(pixel.getChannel(1) + increment, maxColorValue);
+        int newBlue = Math.min(pixel.getChannel(2) + increment, maxColorValue);
+        pixels[i][j] = new PixelImpl(newRed, newGreen, newBlue);
       }
     }
   }
@@ -122,10 +120,10 @@ public class RGBImage extends AbstractImage {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         Pixel pixel = pixels[i][j];
-        int newRed = Math.max(pixel.getChannels(0) - decrement, 0);
-        int newGreen = Math.max(pixel.getChannels(1) - decrement, 0);
-        int newBlue = Math.max(pixel.getChannels(2) - decrement, 0);
-        pixels[i][j] = new Pixel(newRed, newGreen, newBlue);
+        int newRed = Math.max(pixel.getChannel(0) - decrement, 0);
+        int newGreen = Math.max(pixel.getChannel(1) - decrement, 0);
+        int newBlue = Math.max(pixel.getChannel(2) - decrement, 0);
+        pixels[i][j] = new PixelImpl(newRed, newGreen, newBlue);
       }
     }
   }
@@ -151,29 +149,29 @@ public class RGBImage extends AbstractImage {
   }
 
   @Override
-  public void combineChannels(Image[] channels) throws IllegalArgumentException {
+  public void combineChannels(Image[] images) throws IllegalArgumentException {
 
-    int width = channels[0].getWidth();
-    int height = channels[0].getHeight();
+    int width = images[0].getWidth();
+    int height = images[0].getHeight();
 
     this.width = width;
     this.height = height;
     this.maxColorValue = 255;
-    pixels = new Pixel[height][width];
+    pixels = new PixelImpl[height][width];
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        Pixel pixel = new Pixel();
-        pixel.channels = new int[channels.length];
-        pixel.channels[0] = channels[0].getPixel(y, x).getChannels(0);
-        pixel.channels[1] = channels[1].getPixel(y, x).getChannels(0);
-        pixel.channels[2] = channels[2].getPixel(y, x).getChannels(0);
+        int[] channels = new int[images.length];
+        channels[0] = images[0].getPixel(y, x).getChannel(0);
+        channels[1] = images[1].getPixel(y, x).getChannel(0);
+        channels[2] = images[2].getPixel(y, x).getChannel(0);
 
-        pixels[y][x] = pixel;
+        pixels[y][x] = new PixelImpl(channels);
       }
     }
 
     split();
+
   }
 
   @Override

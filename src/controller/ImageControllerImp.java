@@ -152,8 +152,8 @@ public class ImageControllerImp implements ImageController {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         Pixel pixel = image.getPixel(i, j);
-        writer.write(pixel.getChannels(0) + " " + pixel.getChannels(1)
-                + " " + pixel.getChannels(2) + " ");
+        writer.write(pixel.getChannel(0) + " " + pixel.getChannel(1)
+                + " " + pixel.getChannel(2) + " ");
       }
       writer.newLine();
     }
@@ -167,8 +167,8 @@ public class ImageControllerImp implements ImageController {
     for (int x = 0; x < height; x++) {
       for (int y = 0; y < width; y++) {
         Pixel pixel = image.getPixel(x, y);
-        int rgb = (pixel.getChannels(0) << 16) | (pixel.getChannels(1) << 8)
-                | pixel.getChannels(2);
+        int rgb = (pixel.getChannel(0) << 16) | (pixel.getChannel(1) << 8)
+                | pixel.getChannel(2);
         bufferedImage.setRGB(y, x, rgb);
       }
     }
