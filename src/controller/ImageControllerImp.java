@@ -23,9 +23,9 @@ import static helper.ImageUtil.ppmFileValidation;
  */
 public class ImageControllerImp implements ImageController {
 
-  private final HashMap<String, Image> images;
+  final HashMap<String, Image> images;
 
-  private Image image;
+  Image image;
 
   /**
    * Used to initialize the instance variables.
@@ -139,41 +139,6 @@ public class ImageControllerImp implements ImageController {
     }
 
     save(width, height, maxColorValue, filePath);
-  }
-
-  private void save(int width, int height, int maxColorValue, String filePath)
-          throws IOException {
-    BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
-    writer.write("P3" + "\n");
-    writer.write(width + " " + height + "\n");
-    writer.write(maxColorValue + "\n");
-
-    // Write the image data
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        Pixel pixel = image.getPixel(i, j);
-        writer.write(pixel.getChannel(0) + " " + pixel.getChannel(1)
-                + " " + pixel.getChannel(2) + " ");
-      }
-      writer.newLine();
-    }
-
-    writer.close();
-  }
-
-  private BufferedImage save(int width, int height) {
-    BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-    for (int x = 0; x < height; x++) {
-      for (int y = 0; y < width; y++) {
-        Pixel pixel = image.getPixel(x, y);
-        int rgb = (pixel.getChannel(0) << 16) | (pixel.getChannel(1) << 8)
-                | pixel.getChannel(2);
-        bufferedImage.setRGB(y, x, rgb);
-      }
-    }
-
-    return bufferedImage;
   }
 
   @Override
@@ -307,10 +272,45 @@ public class ImageControllerImp implements ImageController {
   }
 
 
-  private String extractContent(Scanner sc) {
+  String extractContent(Scanner sc) {
 
     sc.useDelimiter("\\A");
     return sc.hasNext() ? sc.next() : null;
+  }
+
+  void save(int width, int height, int maxColorValue, String filePath)
+          throws IOException {
+    BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+    writer.write("P3" + "\n");
+    writer.write(width + " " + height + "\n");
+    writer.write(maxColorValue + "\n");
+
+    // Write the image data
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        Pixel pixel = image.getPixel(i, j);
+        writer.write(pixel.getChannel(0) + " " + pixel.getChannel(1)
+                + " " + pixel.getChannel(2) + " ");
+      }
+      writer.newLine();
+    }
+
+    writer.close();
+  }
+
+  BufferedImage save(int width, int height) {
+    BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+    for (int x = 0; x < height; x++) {
+      for (int y = 0; y < width; y++) {
+        Pixel pixel = image.getPixel(x, y);
+        int rgb = (pixel.getChannel(0) << 16) | (pixel.getChannel(1) << 8)
+                | pixel.getChannel(2);
+        bufferedImage.setRGB(y, x, rgb);
+      }
+    }
+
+    return bufferedImage;
   }
 
 

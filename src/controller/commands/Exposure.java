@@ -30,12 +30,11 @@ public class Exposure implements Command {
     if (exposureType.equals("brighten")) {
       imageControllerImp.brighten(value, imageName, updatedImageName);
       view.display(String.format("increased the brightness of %s by %d to %s "
-              + "successfully\n", imageName, value, updatedImageName));
-    } else {
-      imageControllerImp.darken(value, imageName, updatedImageName);
-      view.display(String.format("decreased the brightness of %s by %d to %s "
-              + "successfully\n", imageName, value, updatedImageName));
+              + "successfully", imageName, value, updatedImageName));
+      return;
     }
-
+    imageControllerImp.darken(value, imageName, updatedImageName);
+    view.display(String.format("decreased the brightness of %s by %d to %s "
+            + "successfully", imageName, value, updatedImageName));
   }
 }

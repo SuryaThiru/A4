@@ -26,15 +26,16 @@ public class FlipImage implements Command {
   public void execute() throws IOException {
     String imageName = scan.next();
     String updatedImageName = scan.next();
-    if (orientation.equals("vertical-flip")) {
+    if (orientation.equals("v")) {
       imageControllerImp.flipVertical(imageName, updatedImageName);
-      view.display(String.format("flipped %s to %s vertically successfully\n", imageName,
+      view.display(String.format("flipped %s to %s vertically successfully", imageName,
               updatedImageName));
-    } else {
-      imageControllerImp.flipHorizontal(imageName, updatedImageName);
-      view.display(String.format("flipped %s to %s horizontally successfully\n", imageName,
-              updatedImageName));
+      return;
     }
+    imageControllerImp.flipHorizontal(imageName, updatedImageName);
+    view.display(String.format("flipped %s to %s horizontally successfully", imageName,
+            updatedImageName));
+  }
 
   }
 }

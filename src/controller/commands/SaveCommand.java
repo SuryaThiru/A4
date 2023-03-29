@@ -23,6 +23,6 @@ public class SaveCommand implements Command {
     String imagePath = scan.next();
     String imageName = scan.next();
     imageControllerImp.save(imagePath, imageName);
-    view.display(String.format("saved %s successfully\n", imageName));
+    view.display(String.format("saved %s successfully", imageName));
   }
 }

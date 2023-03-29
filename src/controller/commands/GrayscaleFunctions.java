@@ -27,35 +27,36 @@ public class GrayscaleFunctions implements Command {
     switch (conversionType) {
       case "value-component":
         imageControllerImp.combineByValue(imageName, updatedImageName);
-        view.display(String.format("greyscale split of %s by %s to %s is successful\n",
+        view.display(String.format("greyscale split of %s by %s to %s is successful",
                 imageName, conversionType, updatedImageName));
         break;
       case "luma-component":
         imageControllerImp.combineByLuma(imageName, updatedImageName);
-        view.display(String.format("greyscale split of %s by %s to %s is successful\n",
+        view.display(String.format("greyscale split of %s by %s to %s is successful",
                 imageName, conversionType, updatedImageName));
         break;
       case "intensity-component":
         imageControllerImp.combineByIntensity(imageName, updatedImageName);
-        view.display(String.format("greyscale split of %s by %s to %s is successful\n",
+        view.display(String.format("greyscale split of %s by %s to %s is successful",
                 imageName, conversionType, updatedImageName));
         break;
       case "red-component":
         imageControllerImp.combineByComponent(0, imageName, updatedImageName);
-        view.display(String.format("greyscale split of %s by %s to %s is successful\n",
+        view.display(String.format("greyscale split of %s by %s to %s is successful",
                 imageName, conversionType, updatedImageName));
         break;
       case "green-component":
         imageControllerImp.combineByComponent(1, imageName, updatedImageName);
-        view.display(String.format("greyscale split of %s by %s to %s is successful\n",
+        view.display(String.format("greyscale split of %s by %s to %s is successful",
                 imageName, conversionType, updatedImageName));
         break;
       case "blue-component":
         imageControllerImp.combineByComponent(2, imageName, updatedImageName);
-        view.display(String.format("greyscale split of %s by %s to %s is successful\n",
+        view.display(String.format("greyscale split of %s by %s to %s is successful",
                 imageName, conversionType, updatedImageName));
         break;
       default:
+        view.display("invalid command. Please try again.");
         break;
     }
   }

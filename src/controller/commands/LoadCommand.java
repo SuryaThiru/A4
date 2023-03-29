@@ -24,7 +24,7 @@ public class LoadCommand implements Command {
     String imagePath = scan.next();
     String imageName = scan.next();
     imageControllerImp.load(imagePath, imageName);
-    view.display(String.format("loaded %s successfully\n", imageName));
+    view.display(String.format("loaded %s successfully", imageName));
   }
 }
 

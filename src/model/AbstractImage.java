@@ -174,7 +174,7 @@ public abstract class AbstractImage implements Image {
     return new GrayscaleImage(width, height, maxColorValue, p);
   }
 
-  protected int calculateIntensity(int[] channels) {
+  int calculateIntensity(int[] channels) {
     int sum = 0;
     int channelLength = channels.length;
     for (int channel : channels) {
@@ -211,7 +211,7 @@ public abstract class AbstractImage implements Image {
     return (int) Math.round(0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2]);
   }
 
-  private void filter(int channel, double[][] kernel) {
+  void filter(int channel, double[][] kernel) {
     int[][] newValues = new int[height][width];
     int kernelSize = kernel.length;
 

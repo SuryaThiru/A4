@@ -24,7 +24,7 @@ public class Dither implements Command {
     String updatedImageName = scan.next();
 
     imageControllerImp.dither(imageName, updatedImageName);
-    view.display(String.format("dither conversion of %s to %s is successful\n",
+    view.display(String.format("dither conversion of %s to %s is successful",
             imageName, updatedImageName));
   }
 }

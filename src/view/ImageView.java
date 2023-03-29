@@ -11,6 +11,7 @@ public interface ImageView {
    * This method is used to display text on console.
    *
    * @param s represents the string to be displayed
+   * @throws IOException throws an exception at the time of append.
    */
   void display(String s) throws IOException;
 

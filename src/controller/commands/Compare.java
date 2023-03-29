@@ -24,11 +24,11 @@ public class Compare implements Command {
     String updatedImageName = scan.next();
     boolean f = imageControllerImp.compareImages(imageName, updatedImageName);
     if (!f) {
-      view.display(String.format("%s is not the same as %s\n", imageName,
+      view.display(String.format("%s is not the same as %s", imageName,
               updatedImageName));
-    } else {
-      view.display(String.format("%s is the same as %s\n", imageName, updatedImageName));
+      return;
     }
+    view.display(String.format("%s is the same as %s", imageName, updatedImageName));
 
   }
 }

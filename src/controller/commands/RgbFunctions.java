@@ -31,12 +31,12 @@ public class RgbFunctions implements Command {
     if (functionType.equals("split")) {
       imageControllerImp.split(imageName, redImageName, greenImageName, blueImageName);
       view.display(String.format("split %s to red: %s green: %s blue: %s "
-              + "successfully\n", imageName, redImageName, greenImageName, blueImageName));
-    } else {
-      imageControllerImp.combine(imageName, redImageName, greenImageName, blueImageName);
-      view.display(String.format("combined red: %s green: %s blue: %s to %s"
-              + "successfully\n", redImageName, greenImageName, blueImageName, imageName));
+              + "successfully", imageName, redImageName, greenImageName, blueImageName));
+      return;
     }
+    imageControllerImp.combine(imageName, redImageName, greenImageName, blueImageName);
+    view.display(String.format("combined red: %s green: %s blue: %s to %s"
+            + "successfully", redImageName, greenImageName, blueImageName, imageName));
 
   }
 }
