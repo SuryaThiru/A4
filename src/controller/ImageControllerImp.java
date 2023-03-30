@@ -317,4 +317,24 @@ public class ImageControllerImp implements ImageController {
     sc.useDelimiter("\\A");
     return sc.hasNext() ? sc.next() : null;
   }
+
+  @Override
+  public void filter(String imageName, String updatedImageName, String s) throws IOException {
+    Image image = images.get(imageName);
+    if (image == null) {
+      throw new IOException("image not found");
+    }
+    this.image = image;
+
+    Image updatedImage = image.duplicate();
+    if (s.equals("blur")) {
+      updatedImage.blur();
+
+      images.put(updatedImageName, updatedImage);
+      return;
+    }
+
+    updatedImage.sharpen();
+    images.put(updatedImageName, updatedImage);
+  }
 }

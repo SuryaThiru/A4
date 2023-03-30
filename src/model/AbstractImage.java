@@ -210,6 +210,8 @@ public abstract class AbstractImage implements Image {
   @Override
   public void blur() {
     double[][] kernel = {{0.06, 0.13, 0.06}, {0.13, 0.25, 0.13}, {0.06, 0.13, 0.06}};
+    Pixel[][] p = new Pixel[height][width];
+
     if (pixels.length == 0 || pixels[0].length == 0) {
       throw new IllegalArgumentException("image has no pixels to blur");
     }

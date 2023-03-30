@@ -302,8 +302,14 @@ public class ImageControllerTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
-
+    controller.startProgram(ic, iv);
+    assertEquals("load-string\nduplicate image\n"
+            + "brighten by 10\n"
+            + "duplicate image\n"
+            + "flip-vertical\n"
+            + "get-width\n"
+            + "get-height\n"
+            + "get-max-color-value\n", sb.toString());
     assertEquals("loaded fractal successfully" + "\n"
             + "increased the brightness of fractal by 10 to fractal-brighter successfully" + "\n"
             + "flipped fractal-brighter to fractal-brighter-vertical vertically successfully"
@@ -323,8 +329,8 @@ public class ImageControllerTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
-
+    controller.startProgram(ic, iv);
+    assertEquals("load-string\nload-string\n", sb.toString());
     assertEquals("loaded fractal successfully" + "\n"
             + "loaded flower-brightened successfully" + "\n"
             + "application ended\n", iv.outputString().toString());
@@ -336,7 +342,7 @@ public class ImageControllerTest {
 
     Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
-            + "greyscale sepia-component fractal fractal-sepia\n"
+            + "sepia-tone fractal fractal-sepia\n"
             + "save res/images/fractal-sepia.ppm fractal-sepia\n"
             + "q");
     StringBuffer out = new StringBuffer();
@@ -344,8 +350,12 @@ public class ImageControllerTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
-
+    controller.startProgram(ic, iv);
+    assertEquals("load-string\nduplicate image\n"
+            + "combine-by-sepia\n"
+            + "get-width\n"
+            + "get-height\n"
+            + "get-max-color-value\n", sb.toString());
     assertEquals("loaded fractal successfully" + "\n"
             + "converting fractal to a sepia-toned Image - fractal-sepia is successful\n"
             + "saved fractal-sepia successfully"
@@ -358,7 +368,7 @@ public class ImageControllerTest {
 
     Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
-            + "greyscale sepia-component fractal fractal-sepia\n"
+            + "sepia-tone fractal fractal-sepia\n"
             + "save res/images/fractal-sepia.ppm fractal-sepia\n"
             + "q");
     StringBuffer out = new StringBuffer();
