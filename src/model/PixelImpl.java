@@ -24,7 +24,7 @@ public class PixelImpl implements Pixel {
     for (int i = 0; i < channels.length; i++) {
       // To handle lossy conversion - delta 40
       if ((s.channels[i] != 0
-              && Math.abs(channels[i] - s.channels[i])/s.channels[i] * 100 > 40)) {
+              && Math.abs(channels[i] - s.channels[i]) / s.channels[i] * 100 > 40)) {
         return false;
       }
     }

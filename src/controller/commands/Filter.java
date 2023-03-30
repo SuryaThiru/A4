@@ -33,12 +33,12 @@ public class Filter extends AbstractCommands {
 
     if (filterType.equals("blur")) {
       imageControllerImp.filter(imageName, updatedImageName, "blur");
-      view.display(String.format("blurred %s to %s"
+      view.display(String.format("blurred %s to %s "
               + "successfully", imageName, updatedImageName));
       return;
     }
     imageControllerImp.filter(imageName, updatedImageName, "sharpen");
     view.display(String.format("sharpened %s to %s"
-            + "successfully", imageName, updatedImageName));
+            + " successfully", imageName, updatedImageName));
   }
 }

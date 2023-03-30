@@ -275,7 +275,7 @@ public class ImageControllerTest {
 
     Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal"
-            + "\nsave res/images/flower-save.ppm fractal\nq");
+            + "\nsave res/images/flower-save-mock.ppm fractal\nq");
     StringBuffer out = new StringBuffer();
 
     CommandController controller = new CommandController(in, out);
@@ -343,7 +343,7 @@ public class ImageControllerTest {
     Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
             + "sepia-tone fractal fractal-sepia\n"
-            + "save res/images/fractal-sepia.ppm fractal-sepia\n"
+            + "save res/images/fractal-sepia-mock.ppm fractal-sepia\n"
             + "q");
     StringBuffer out = new StringBuffer();
 
@@ -395,7 +395,7 @@ public class ImageControllerTest {
     Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
             + "dither fractal fractal-dithered\n"
-            + "save res/images/fractal-dithered.ppm fractal-dithered\n"
+            + "save res/images/fractal-dithered-mock.ppm fractal-dithered\n"
             + "q");
     StringBuffer out = new StringBuffer();
 
@@ -415,20 +415,146 @@ public class ImageControllerTest {
             + "application ended\n", iv.outputString().toString());
   }
 
-  //  @Test
-  //  public void testCommandLineArgument() {
-  //    StringBuilder sb = new StringBuilder();
-  //
-  //    Image model = new ImageMock(sb);
-  //    Reader in = new StringReader("load res/images/flower.ppm fractal\n"
-  //            + "dither fractal fractal-dithered\n"
-  //            + "save res/images/fractal-dithered.ppm fractal-dithered\n"
-  //            + "q");
-  //    StringBuffer out = new StringBuffer();
-  //
-  //    CommandController controller = new CommandController(in, out);
-  //    ImageController ic = new ImageControllerImp(model);
-  //    ImageView iv = new TextView(System.out);
-  //    controller.startProgram(ic, iv);
-  //  }
+  @Test
+  public void testBlur() {
+    StringBuilder sb = new StringBuilder();
+
+    Image model = new ImageMock(sb);
+    Reader in = new StringReader("load res/images/flower.ppm fractal\n"
+            + "blur fractal fractal-blur\n"
+            + "save res/images/flower-blur-mock.ppm fractal-blur\n"
+            + "q");
+    StringBuffer out = new StringBuffer();
+
+    CommandController controller = new CommandController(in, out);
+    ImageController ic = new ImageControllerImp(model);
+    ImageView iv = new TextView(System.out);
+    controller.startProgram(ic, iv);
+    assertEquals("load-string\nduplicate image\n"
+            + "blur\n"
+            + "get-width\n"
+            + "get-height\n"
+            + "get-max-color-value\n", sb.toString());
+    assertEquals("loaded fractal successfully" + "\n"
+            + "blurred fractal to fractal-blur successfully\n"
+            + "saved fractal-blur successfully"
+            + "\n"
+            + "application ended\n", iv.outputString().toString());
+  }
+
+  @Test
+  public void testSharpen() {
+    StringBuilder sb = new StringBuilder();
+
+    Image model = new ImageMock(sb);
+    Reader in = new StringReader("load res/images/flower.ppm fractal\n"
+            + "sharpen fractal fractal-sharpen\n"
+            + "save res/images/flower-sharpen.ppm fractal-sharpen\n"
+            + "q");
+    StringBuffer out = new StringBuffer();
+
+    CommandController controller = new CommandController(in, out);
+    ImageController ic = new ImageControllerImp(model);
+    ImageView iv = new TextView(System.out);
+    controller.startProgram(ic, iv);
+    assertEquals("load-string\nduplicate image\n"
+            + "sharpen\n"
+            + "get-width\n"
+            + "get-height\n"
+            + "get-max-color-value\n", sb.toString());
+    assertEquals("loaded fractal successfully" + "\n"
+            + "sharpened fractal to fractal-sharpen successfully\n"
+            + "saved fractal-sharpen successfully"
+            + "\n"
+            + "application ended\n", iv.outputString().toString());
+  }
+
+  @Test
+  public void testStackSharpen() {
+    StringBuilder sb = new StringBuilder();
+
+    Image model = new ImageMock(sb);
+    Reader in = new StringReader("load res/images/flower.ppm fractal\n"
+            + "sharpen fractal fractal-sharpen\n"
+            + "sharpen fractal-sharpen fractal-sharpen-sh\n"
+            + "save res/images/flower-sharpen-sh-mock.ppm fractal-sharpen-sh\n"
+            + "q");
+    StringBuffer out = new StringBuffer();
+
+    CommandController controller = new CommandController(in, out);
+    ImageController ic = new ImageControllerImp(model);
+    ImageView iv = new TextView(System.out);
+    controller.startProgram(ic, iv);
+    assertEquals("load-string\nduplicate image\n"
+            + "sharpen\n"
+            + "duplicate image\n"
+            + "sharpen\n"
+            + "get-width\n"
+            + "get-height\n"
+            + "get-max-color-value\n", sb.toString());
+    assertEquals("loaded fractal successfully" + "\n"
+            + "sharpened fractal to fractal-sharpen successfully\n"
+            + "sharpened fractal-sharpen to fractal-sharpen-sh successfully\n"
+            + "saved fractal-sharpen-sh successfully"
+            + "\n"
+            + "application ended\n", iv.outputString().toString());
+  }
+
+  @Test
+  public void testStackBlur() {
+    StringBuilder sb = new StringBuilder();
+
+    Image model = new ImageMock(sb);
+    Reader in = new StringReader("load res/images/flower.ppm fractal\n"
+            + "blur fractal fractal-blur\n"
+            + "blur fractal-blur fractal-blur-blur\n"
+            + "save res/images/flower-blur2-mock.ppm fractal-blur-blur\n"
+            + "q");
+    StringBuffer out = new StringBuffer();
+
+    CommandController controller = new CommandController(in, out);
+    ImageController ic = new ImageControllerImp(model);
+    ImageView iv = new TextView(System.out);
+    controller.startProgram(ic, iv);
+    assertEquals("load-string\nduplicate image\n"
+            + "blur\n"
+            + "duplicate image\n"
+            + "blur\n"
+            + "get-width\n"
+            + "get-height\n"
+            + "get-max-color-value\n", sb.toString());
+    assertEquals("loaded fractal successfully" + "\n"
+            + "blurred fractal to fractal-blur successfully\n"
+            + "blurred fractal-blur to fractal-blur-blur successfully\n"
+            + "saved fractal-blur-blur successfully"
+            + "\n"
+            + "application ended\n", iv.outputString().toString());
+  }
+
+  @Test
+  public void testLoadJpegAndSavePPM() {
+    StringBuilder sb = new StringBuilder();
+
+    Image model = new ImageMock(sb);
+    Reader in = new StringReader("load res/images/flower.jpeg fractal\n"
+            + "dither fractal fractal-dither\n"
+            + "save res/images/flower-dither-mock.ppm fractal-dither\n"
+            + "q");
+    StringBuffer out = new StringBuffer();
+
+    CommandController controller = new CommandController(in, out);
+    ImageController ic = new ImageControllerImp(model);
+    ImageView iv = new TextView(System.out);
+    controller.startProgram(ic, iv);
+    assertEquals("load-buffered-image\n"
+            + "duplicate image\n"
+            + "dither\n"
+            + "get-width\n"
+            + "get-height\n"
+            + "get-max-color-value\n", sb.toString());
+    assertEquals("loaded fractal successfully" + "\n"
+            + "dither conversion of fractal to fractal-dither is successful\n"
+            + "saved fractal-dither successfully\n"
+            + "application ended\n", iv.outputString().toString());
+  }
 }

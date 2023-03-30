@@ -92,44 +92,44 @@ public class RGBImageTest {
     assertTrue(checkImages(model, "res/images/flower-darkened.ppm"));
   }
 
-    @Test
-    public void testMaxBrighten() {
-      String imagePath = "res/images/flower.ppm";
+  @Test
+  public void testMaxBrighten() {
+    String imagePath = "res/images/flower.ppm";
 
-      Image model = new RGBImage(0, 0, 0);
-      Scanner sc = ppmFileValidation(imagePath);
-      String content = extractContent(sc);
-      model.load(content);
-      model.brighten(255);
-      assertTrue(checkImages(model, "res/images/flower-max-brighten.ppm"));
-    }
+    Image model = new RGBImage(0, 0, 0);
+    Scanner sc = ppmFileValidation(imagePath);
+    String content = extractContent(sc);
+    model.load(content);
+    model.brighten(255);
+    assertTrue(checkImages(model, "res/images/flower-max-brighten.ppm"));
+  }
 
-    @Test
-    public void testDarken() {
-      String imagePath = "res/images/flower.ppm";
+  @Test
+  public void testDarken() {
+    String imagePath = "res/images/flower.ppm";
 
-      Image model = new RGBImage(0, 0, 0);
-      Scanner sc = ppmFileValidation(imagePath);
-      String content = extractContent(sc);
-      model.load(content);
-      model.brighten(-25);
-      assertTrue(checkImages(model, "res/images/flower-darkened.ppm"));
+    Image model = new RGBImage(0, 0, 0);
+    Scanner sc = ppmFileValidation(imagePath);
+    String content = extractContent(sc);
+    model.load(content);
+    model.brighten(-25);
+    assertTrue(checkImages(model, "res/images/flower-darkened.ppm"));
 
-    }
+  }
 
 
-    @Test
-    public void testMaxDarken() {
-      String imagePath = "res/images/flower.ppm";
+  @Test
+  public void testMaxDarken() {
+    String imagePath = "res/images/flower.ppm";
 
-      Image model = new RGBImage(0, 0, 0);
-      Scanner sc = ppmFileValidation(imagePath);
-      String content = extractContent(sc);
-      model.load(content);
-      model.brighten(-255);
-      //model.save("images/flower-max-darken.ppm");
-      assertEquals(true, checkImages(model, "res/images/flower-max-darken.ppm"));
-    }
+    Image model = new RGBImage(0, 0, 0);
+    Scanner sc = ppmFileValidation(imagePath);
+    String content = extractContent(sc);
+    model.load(content);
+    model.brighten(-255);
+    //model.save("images/flower-max-darken.ppm");
+    assertEquals(true, checkImages(model, "res/images/flower-max-darken.ppm"));
+  }
 
   @Test
   public void testSplit() {
@@ -212,42 +212,42 @@ public class RGBImageTest {
   }
 
 
-    @Test
-    public void testJpegLoading() throws IOException {
-      String imagePath = "res/images/flower.jpeg";
-      Image model = new RGBImage(0, 0, 0);
-      model.load(ImageIO.read(new File(imagePath)));
-      model.brighten(70);
-      model.flipHorizontal();
-      model.flipHorizontal();
-      model.brighten(-70);
-      assertTrue(checkImages(model, "res/images/flower.ppm"));
-    }
+  @Test
+  public void testJpegLoading() throws IOException {
+    String imagePath = "res/images/flower.jpeg";
+    Image model = new RGBImage(0, 0, 0);
+    model.load(ImageIO.read(new File(imagePath)));
+    model.brighten(70);
+    model.flipHorizontal();
+    model.flipHorizontal();
+    model.brighten(-70);
+    assertTrue(checkImages(model, "res/images/flower.ppm"));
+  }
 
-    @Test
-    public void testPngLoading() throws IOException {
-      String imagePath = "res/images/flower.png";
-      Image model = new RGBImage(0, 0, 0);
-      model.load(ImageIO.read(new File(imagePath)));
-      model.brighten(70);
-      model.flipHorizontal();
-      model.flipHorizontal();
-      model.brighten(-70);
-      assertTrue(checkImages(model, "res/images/flower.ppm"));
-    }
+  @Test
+  public void testPngLoading() throws IOException {
+    String imagePath = "res/images/flower.png";
+    Image model = new RGBImage(0, 0, 0);
+    model.load(ImageIO.read(new File(imagePath)));
+    model.brighten(70);
+    model.flipHorizontal();
+    model.flipHorizontal();
+    model.brighten(-70);
+    assertTrue(checkImages(model, "res/images/flower.ppm"));
+  }
 
 
-    @Test
-    public void testBmpLoading() throws IOException {
-      String imagePath = "res/images/flower.bmp";
-      Image model = new RGBImage(0, 0, 0);
-      model.load(ImageIO.read(new File(imagePath)));
-      model.brighten(70);
-      model.flipHorizontal();
-      model.flipHorizontal();
-      model.brighten(-70);
-      assertTrue(checkImages(model, "res/images/flower.ppm"));
-    }
+  @Test
+  public void testBmpLoading() throws IOException {
+    String imagePath = "res/images/flower.bmp";
+    Image model = new RGBImage(0, 0, 0);
+    model.load(ImageIO.read(new File(imagePath)));
+    model.brighten(70);
+    model.flipHorizontal();
+    model.flipHorizontal();
+    model.brighten(-70);
+    assertTrue(checkImages(model, "res/images/flower.ppm"));
+  }
 
   @Test
   public void testBlur() {

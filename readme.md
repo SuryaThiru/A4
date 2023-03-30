@@ -125,13 +125,61 @@ run res/scripts/testScript1.txt
    q
 ```
 
-# Citation
+## New Features added :
 
-```
-   We have created the image using our ipad and have not depended on any other sources for the project.
-```
+### - load a png Image
 
-## Changes
+`load res/images/flower.png flower-png`
+
+### - load a jpeg Image
+
+`load res/images/flower.jpeg flower-jpeg`
+
+### - load a bmp Image
+
+`load res/images/flower.bmp flower-bmp`
+
+### - sepia-tone an Image
+
+`sepia-tone fractal fractal-sepia`
+
+### - blur an Image
+
+`blur fractal-sepia fractal-blur-sepia`
+
+### - stack blur on the same Image
+
+`blur fractal-blur-sepia fractal-blur2-sepia`
+
+### - sharpen an Image
+
+`sharpen fractal fractal-sharpened`
+
+### - stack sharpen on the same Image
+
+`sharpen fractal-sharpened fractal-sharpened2`
+
+### - produce a dithered version of an Image
+
+`dither fractal fractal-dithered`
+
+### - loading image in one format, performing operations on it and saving it in another format
+
+`load res/images/fractal.bmp fractal`
+
+`sharpen fractal fractal-sharpened`
+
+`blur fractal fractal-blurred`
+
+`sepia-tone fractal-blurred fractal-blurred-sepia`
+
+`save res/images/fractal-blurred-sepia.png fractal-blur
+
+### To run a script which contains all the available functions -
+
+`run res/scripts/mainTestScript.txt`
+
+## Changes :
 
 1. Removed `darken` method from model and used only `brighten` and a helper method (`clamp`) to
    perform both the operations.
@@ -140,3 +188,10 @@ run res/scripts/testScript1.txt
 4. Implemented the Command Design Patterns for the controller and created different classes for each
    of the commands in `controller.commands` package.
 5. Created a `view` for the application called `ImageView`.
+6. Removed save functionality from the AbstractModel.java.
+
+# Citation :
+
+```
+   We have created the image using our ipad and have not depended on any other sources for the project.
+```

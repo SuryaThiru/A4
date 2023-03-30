@@ -139,6 +139,7 @@ public class ImageControllerImp implements ImageController {
       BufferedImage bufferedImage = save(width, height);
       File output = new File(filePath);
       ImageIO.write(bufferedImage, fileExtension, output);
+      return;
     }
 
     save(width, height, maxColorValue, filePath);
@@ -172,7 +173,7 @@ public class ImageControllerImp implements ImageController {
         Pixel pixel = image.getPixel(x, y);
         int rgb = (pixel.getChannel(0) << 16) | (pixel.getChannel(1) << 8)
                 | pixel.getChannel(2);
-        bufferedImage.setRGB(y, x, rgb);
+        bufferedImage.setRGB(x, y, rgb);
       }
     }
 

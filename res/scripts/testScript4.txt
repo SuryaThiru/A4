@@ -1,2 +1,0 @@
-save res/images/flowe.ppm flower
-load res/images/flower.ppm flower

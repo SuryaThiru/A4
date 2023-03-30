@@ -40,7 +40,7 @@ public class RgbFunctions extends AbstractCommands {
       return;
     }
     imageControllerImp.combine(imageName, redImageName, greenImageName, blueImageName);
-    view.display(String.format("combined red: %s green: %s blue: %s to %s"
+    view.display(String.format("combined red: %s green: %s blue: %s to %s "
             + "successfully", redImageName, greenImageName, blueImageName, imageName));
 
   }

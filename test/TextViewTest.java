@@ -5,7 +5,7 @@ import java.io.IOException;
 import view.ImageView;
 import view.TextView;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This class is used to test the view part of the mvc architecture of the application.
