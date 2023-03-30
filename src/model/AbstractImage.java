@@ -145,7 +145,7 @@ public abstract class AbstractImage implements Image {
         int[] channels = new int[numberOfChannels];
         int value = 0;
         for (int k = 0; k < numberOfChannels; k++) {
-          value = Math.max(value, pixels[x][y].getChannel(k));
+          value = Math.max(value, pixels[y][x].getChannel(k));
           channels[k] = value;
         }
         p[y][x] = new PixelImpl(channels);
@@ -164,7 +164,7 @@ public abstract class AbstractImage implements Image {
       for (int x = 0; x < width; x++) {
         int[] channels = new int[numberOfChannels];
         for (int k = 0; k < numberOfChannels; k++) {
-          channels[k] = calculateIntensity(pixels[x][y].getChannels());
+          channels[k] = calculateIntensity(pixels[y][x].getChannels());
         }
         p[y][x] = new PixelImpl(channels);
       }
@@ -210,6 +210,8 @@ public abstract class AbstractImage implements Image {
   @Override
   public void blur() {
     double[][] kernel = {{0.06, 0.13, 0.06}, {0.13, 0.25, 0.13}, {0.06, 0.13, 0.06}};
+    Pixel[][] p = new Pixel[height][width];
+
     if (pixels.length == 0 || pixels[0].length == 0) {
       throw new IllegalArgumentException("image has no pixels to blur");
     }

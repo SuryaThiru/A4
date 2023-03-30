@@ -154,4 +154,5 @@ public interface ImageController {
    */
   void dither(String imageName, String updatedImageName) throws IOException;
 
+  void filter(String imageName, String updatedImageName, String s) throws IOException;
 }

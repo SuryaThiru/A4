@@ -134,7 +134,7 @@ run res/scripts/testScript1.txt
 ## Changes
 
 1. Removed `darken` method from model and used only `brighten` and a helper method (`clamp`) to
-   perform
-   both the operations.
+   perform both the operations.
 2. Extracted the concrete `Pixel` class to an interface and `PixelImpl` to implement its methods.
 3. Extracted the `main method` to a different class called `IMEApplication`.
+4. Implemented the Command Design Patterns for the controller and created different classes for each of the commands in `controller.commands` package.

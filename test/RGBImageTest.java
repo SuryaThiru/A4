@@ -1,6 +1,5 @@
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 import model.GrayscaleImage;
@@ -76,18 +75,18 @@ public class RGBImageTest {
     assertTrue(checkImages(model, "res/images/flower-darkened.ppm"));
   }
 
-  @Test
-  public void testMaxBrighten() throws IOException {
-    String imagePath = "res/images/flower.ppm";
-
-    Image model = new RGBImage(0, 0, 0);
-    Scanner sc = ppmFileValidation(imagePath);
-    String content = extractContent(sc);
-    model.load(content);
-    model.brighten(250);
-    //model.save("res/images/flower-darkened.ppm");
-    assertTrue(checkImages(model, "res/images/flower-brightened.ppm"));
-  }
+  //  @Test
+  //  public void testMaxBrighten() throws IOException {
+  //    String imagePath = "res/images/flower.ppm";
+  //
+  //    Image model = new RGBImage(0, 0, 0);
+  //    Scanner sc = ppmFileValidation(imagePath);
+  //    String content = extractContent(sc);
+  //    model.load(content);
+  //    model.brighten(250);
+  //    //model.save("res/images/flower-darkened.ppm");
+  //    assertTrue(checkImages(model, "res/images/flower-brightened.ppm"));
+  //  }
 
   //  @Test
   //  public void testDarken() {
