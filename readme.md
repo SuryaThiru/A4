@@ -137,4 +137,6 @@ run res/scripts/testScript1.txt
    perform both the operations.
 2. Extracted the concrete `Pixel` class to an interface and `PixelImpl` to implement its methods.
 3. Extracted the `main method` to a different class called `IMEApplication`.
-4. Implemented the Command Design Patterns for the controller and created different classes for each of the commands in `controller.commands` package.
+4. Implemented the Command Design Patterns for the controller and created different classes for each
+   of the commands in `controller.commands` package.
+5. Created a `view` for the application called `ImageView`.
