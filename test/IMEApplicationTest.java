@@ -1,14 +1,11 @@
 import org.junit.Test;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
 import controller.CommandController;
 import controller.ImageController;
 import controller.ImageControllerImp;
-import model.Pixel;
 import model.RGBImage;
 import model.Image;
 import view.ImageView;
@@ -22,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 public class IMEApplicationTest {
 
   @Test
-  public void testLoadScript() throws IOException {
+  public void testLoadScript() {
 
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("run res/scripts/testScript2.txt\nq");
@@ -45,7 +42,12 @@ public class IMEApplicationTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
+    controller.startProgram(ic, iv);
+    assertEquals("invalid script being used. "
+            + "only txt files are allowed. Try again\n"
+            + "\n"
+            + "invalid script being used. only txt files are allowed. Try again\n"
+            + "\napplication ended\n", iv.outputString().toString());
   }
 
 
@@ -59,7 +61,7 @@ public class IMEApplicationTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
+    controller.startProgram(ic, iv);
 
     assertEquals("loaded flower successfully\n", out.toString());
 
@@ -75,7 +77,7 @@ public class IMEApplicationTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
+    controller.startProgram(ic, iv);
 
   }
 
@@ -89,8 +91,9 @@ public class IMEApplicationTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
-    assertEquals("image not loaded", out.toString());
+    controller.startProgram(ic, iv);
+    assertEquals("image not found\n"
+            + "loaded fractal successfully\n", iv.outputString().toString());
   }
 
   @Test
@@ -104,7 +107,7 @@ public class IMEApplicationTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
+    controller.startProgram(ic, iv);
 
     assertEquals("loaded fractal successfully" + "\n"
             + "saved fractal successfully\n", out.toString());
@@ -120,26 +123,29 @@ public class IMEApplicationTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
+    controller.startProgram(ic, iv);
 
     assertEquals("loaded fractal successfully" + "\n"
-            + "increased the brightness of fractal by 10 to fractal-brighter successfully" + "\n"
-            + "flipped fractal-brighter to fractal-brighter-vertical vertically successfully"
-            + "\nsaved fractal-brighter-vertical successfully\n", out.toString());
+                    + "increased the brightness of fractal by 10 to fractal-brighter successfully"
+                    + "\n"
+                    + "flipped fractal-brighter to fractal-brighter-vertical vertically "
+                    + "successfully"
+                    + "\nsaved fractal-brighter-vertical successfully\napplication ended\n",
+            iv.outputString().toString());
   }
 
   @Test
   public void testDoubleLoad() throws IOException {
     Image model = new RGBImage(0, 0, 0);
 
-    Reader in = new StringReader("load res/images/flower.ppm fractal" +
-            "\n load res/images/flower-brightened.ppm flower-brightened \nq");
+    Reader in = new StringReader("load res/images/flower.ppm fractal"
+            + "\n load res/images/flower-brightened.ppm flower-brightened \nq");
     StringBuffer out = new StringBuffer();
 
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
+    controller.startProgram(ic, iv);
 
     assertEquals("loaded fractal successfully" + "\n"
             + "loaded flower-brightened successfully" + "\n", out.toString());
@@ -158,7 +164,7 @@ public class IMEApplicationTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
+    controller.startProgram(ic, iv);
 
     assertEquals("loaded fractal successfully" + "\n"
             + "converting fractal to a sepia-toned Image - fractal-sepia is successful\n"
@@ -179,7 +185,7 @@ public class IMEApplicationTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
+    controller.startProgram(ic, iv);
 
     assertEquals("loaded fractal successfully" + "\n"
             + "converting fractal to a sepia-toned Image - fractal-sepia is successful\n"
@@ -200,7 +206,7 @@ public class IMEApplicationTest {
     CommandController controller = new CommandController(in, out);
     ImageController ic = new ImageControllerImp(model);
     ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
+    controller.startProgram(ic, iv);
 
     assertEquals("loaded fractal successfully" + "\n"
             + "dither conversion of fractal to fractal-dithered is successful\n"
@@ -208,21 +214,28 @@ public class IMEApplicationTest {
             + "\n", out.toString());
   }
 
-  @Test
-  public void testCommandLineArgument() {
 
-    Image model = new RGBImage(0, 0, 0);
+  //  @Test
+  //  public void testCommandLineArgument() {
+  //
+  //    Image model = new RGBImage(0, 0, 0);
+  //
+  //    Reader in = new StringReader("load res/images/flower.ppm fractal\n"
+  //            + "dither fractal fractal-dithered\n"
+  //            + "save res/images/fractal-dithered.ppm fractal-dithered\n"
+  //            + "q");
+  //
+  //    String[] arguments = new String[1];
+  //    arguments[0] = "res/scripts/testScript1.txt";
+  //    // IMEApplication temp = new IMEApplication(arguments);
+  //
+  //    StringBuffer out = new StringBuffer();
+  //
+  //    CommandController controller = new CommandController(in, out);
+  //    ImageController ic = new ImageControllerImp(model);
+  //    ImageView iv = new TextView(System.out);
+  //    controller.startProgram(ic, iv);
+  //
+  //  }
 
-    Reader in = new StringReader("load res/images/flower.ppm fractal\n"
-            + "dither fractal fractal-dithered\n"
-            + "save res/images/fractal-dithered.ppm fractal-dithered\n"
-            + "q");
-    StringBuffer out = new StringBuffer();
-
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, model, iv);
-
-  }
 }

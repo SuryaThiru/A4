@@ -71,10 +71,11 @@ public class ImageControllerImp implements ImageController {
   @Override
   public void split(String imageName, String redImageName, String greenImageName,
                     String blueImageName) throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image[] imageSplits = image.splitChannels();
     images.put(redImageName, imageSplits[0]);
@@ -105,10 +106,11 @@ public class ImageControllerImp implements ImageController {
 
   @Override
   public boolean compareImages(String imageName, String updatedName) throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image updatedImage = images.get(updatedName);
     if (updatedImage == null) {
@@ -120,10 +122,11 @@ public class ImageControllerImp implements ImageController {
 
   @Override
   public void save(String filePath, String fileName) throws IOException {
-    image = images.get(fileName);
+    Image image = images.get(fileName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     int width = image.getWidth();
     int height = image.getHeight();
@@ -179,10 +182,11 @@ public class ImageControllerImp implements ImageController {
   @Override
   public void brighten(int increment, String imageName, String updatedImageName)
           throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image updatedImage = image.duplicate();
     updatedImage.brighten(increment);
@@ -191,10 +195,11 @@ public class ImageControllerImp implements ImageController {
 
   @Override
   public void darken(int increment, String imageName, String updatedImageName) throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image updatedImage = image.duplicate();
     updatedImage.brighten(-increment);
@@ -204,10 +209,11 @@ public class ImageControllerImp implements ImageController {
 
   @Override
   public void flipVertical(String imageName, String updatedImageName) throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image updatedImage = image.duplicate();
     updatedImage.flipVertical();
@@ -217,10 +223,11 @@ public class ImageControllerImp implements ImageController {
 
   @Override
   public void flipHorizontal(String imageName, String updatedImageName) throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image updatedImage = image.duplicate();
     updatedImage.flipHorizontal();
@@ -230,48 +237,48 @@ public class ImageControllerImp implements ImageController {
 
   @Override
   public void combineByValue(String imageName, String updatedImageName) throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
-    Image updatedImage = image.combineByValue();
-    images.put(updatedImageName, updatedImage);
+    Image updatedImage = image.duplicate();
+    images.put(updatedImageName, updatedImage.combineByValue());
   }
 
   @Override
   public void combineByLuma(String imageName, String updatedImageName) throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image updatedImage = image.duplicate();
-    updatedImage.combineByLuma();
-
-    images.put(updatedImageName, updatedImage);
+    images.put(updatedImageName, updatedImage.combineByLuma());
   }
 
   @Override
   public void combineByIntensity(String imageName, String updatedImageName) throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image updatedImage = image.duplicate();
-    updatedImage.combineByIntensity();
-
-    images.put(updatedImageName, updatedImage);
+    images.put(updatedImageName, updatedImage.combineByIntensity());
   }
 
   @Override
   public void combineByComponent(int color, String imageName, String updatedImageName)
           throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image updatedImage = image.duplicate();
     Image[] splitImages = updatedImage.splitChannels();
@@ -281,29 +288,27 @@ public class ImageControllerImp implements ImageController {
 
   @Override
   public void combineBySepia(String imageName, String updatedImageName) throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image updatedImage = image.duplicate();
-    Image sepia = updatedImage.combineBySepia();
-
-    images.put(updatedImageName, sepia);
+    images.put(updatedImageName, updatedImage.combineBySepia());
 
   }
 
   @Override
   public void dither(String imageName, String updatedImageName) throws IOException {
-    image = images.get(imageName);
+    Image image = images.get(imageName);
     if (image == null) {
       throw new IOException("image not found");
     }
+    this.image = image;
 
     Image updatedImage = image.duplicate();
-    Image ditheredImage = updatedImage.dither();
-
-    images.put(updatedImageName, ditheredImage);
+    images.put(updatedImageName, updatedImage.dither());
   }
 
 
