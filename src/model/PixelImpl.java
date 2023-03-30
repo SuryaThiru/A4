@@ -22,7 +22,9 @@ public class PixelImpl implements Pixel {
     // type casting obj to Employee
     PixelImpl s = (PixelImpl) obj;
     for (int i = 0; i < channels.length; i++) {
-      if (channels[i] != s.channels[i]) {
+      // To handle lossy conversion - delta 40
+      if ((s.channels[i] != 0
+              && Math.abs(channels[i] - s.channels[i])/s.channels[i] * 100 > 40)) {
         return false;
       }
     }
