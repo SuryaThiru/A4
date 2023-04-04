@@ -173,7 +173,7 @@ public class ImageControllerImp implements ImageController {
         Pixel pixel = image.getPixel(x, y);
         int rgb = (pixel.getChannel(0) << 16) | (pixel.getChannel(1) << 8)
                 | pixel.getChannel(2);
-        bufferedImage.setRGB(x, y, rgb);
+        bufferedImage.setRGB(y, x, rgb);
       }
     }
 
