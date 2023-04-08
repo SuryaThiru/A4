@@ -24,6 +24,14 @@ import static org.junit.Assert.assertEquals;
 public class ImageControllerTest {
 
   Image image;
+
+  StringBuilder sb;
+
+  Image model;
+
+  ImageController ic;
+
+  ImageView iv;
   Pixel[][] pixels;
 
   @Before
@@ -42,6 +50,11 @@ public class ImageControllerTest {
     }
 
     image = new RGBImage(2, 2, 255, pixels);
+
+    sb = new StringBuilder();
+    model = new ImageMock(sb);
+    ic = new ImageControllerImp(model);
+    iv = new TextView(System.out);
   }
 
   private class ImageMock implements Image {
@@ -182,16 +195,10 @@ public class ImageControllerTest {
 
   @Test
   public void testLoadScript() {
-
-    StringBuffer out = new StringBuffer();
     Reader in = new StringReader("run res/scripts/testScript2.txt\nq");
-    StringBuilder sb = new StringBuilder();
 
-    Image model = new ImageMock(sb);
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\n", sb.toString());
     assertEquals("loaded fractal successfully\n"
             + "application ended\n", iv.outputString().toString());
@@ -200,15 +207,10 @@ public class ImageControllerTest {
 
   @Test
   public void testLoadScriptWrongFile() {
-    StringBuffer out = new StringBuffer();
     Reader in = new StringReader("run res/scripts/flower.ppm\nrun images/flower.ppm\nq");
-    StringBuilder sb = new StringBuilder();
 
-    Image model = new ImageMock(sb);
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("", sb.toString());
     assertEquals("invalid script being used. only txt files are allowed. Try again\n\n"
                     + "invalid script being used. only txt files are allowed. Try again\n\n"
@@ -219,16 +221,10 @@ public class ImageControllerTest {
 
   @Test
   public void testLoadTerminal() {
-
-    StringBuffer out = new StringBuffer();
     Reader in = new StringReader("load res/images/flower.ppm flower \nq");
-    StringBuilder sb = new StringBuilder();
 
-    Image model = new ImageMock(sb);
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\n", sb.toString());
     assertEquals("loaded flower successfully\n"
             + "application ended\n", iv.outputString().toString());
@@ -237,16 +233,10 @@ public class ImageControllerTest {
 
   @Test
   public void testLoadTerminalWrongFile() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/test-image.ppm koala\nq");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("", sb.toString());
     assertEquals("Invalid file / file name\n"
             + "application ended\n", iv.outputString().toString());
@@ -254,16 +244,10 @@ public class ImageControllerTest {
 
   @Test
   public void testSaveBeforeLoad() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("save res/images/flower.ppm fractal\nq");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("", sb.toString());
     assertEquals("image not found\n"
             + "application ended\n", iv.outputString().toString());
@@ -271,17 +255,11 @@ public class ImageControllerTest {
 
   @Test
   public void testSaveTerminal() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal"
             + "\nsave res/images/flower-save-mock.ppm fractal\nq");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\n"
             + "get-width\n"
             + "get-height\n"
@@ -293,16 +271,10 @@ public class ImageControllerTest {
 
   @Test
   public void testSaveScript() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("run res/scripts/testScript1.txt\nq");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\nduplicate image\n"
             + "brighten by 10\n"
             + "duplicate image\n"
@@ -319,17 +291,11 @@ public class ImageControllerTest {
 
   @Test
   public void testDoubleLoad() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal"
             + "\n load res/images/flower-brightened.ppm flower-brightened \nq");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\nload-string\n", sb.toString());
     assertEquals("loaded fractal successfully" + "\n"
             + "loaded flower-brightened successfully" + "\n"
@@ -338,19 +304,13 @@ public class ImageControllerTest {
 
   @Test
   public void testCombineBySepiaPPM() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
             + "sepia-tone fractal fractal-sepia\n"
             + "save res/images/fractal-sepia-mock.ppm fractal-sepia\n"
             + "q");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\nduplicate image\n"
             + "combine-by-sepia\n"
             + "get-width\n"
@@ -364,19 +324,13 @@ public class ImageControllerTest {
 
   @Test
   public void testCombineBySepiaPNG() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
             + "sepia-tone fractal fractal-sepia\n"
             + "save res/images/fractal-sepia.ppm fractal-sepia\n"
             + "q");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\nduplicate image\n"
             + "combine-by-sepia\n"
             + "get-width\n"
@@ -390,19 +344,13 @@ public class ImageControllerTest {
 
   @Test
   public void testDither() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
             + "dither fractal fractal-dithered\n"
             + "save res/images/fractal-dithered-mock.ppm fractal-dithered\n"
             + "q");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\nduplicate image\n"
             + "dither\n"
             + "get-width\n"
@@ -417,19 +365,13 @@ public class ImageControllerTest {
 
   @Test
   public void testBlur() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
             + "blur fractal fractal-blur\n"
             + "save res/images/flower-blur-mock.ppm fractal-blur\n"
             + "q");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\nduplicate image\n"
             + "blur\n"
             + "get-width\n"
@@ -444,19 +386,13 @@ public class ImageControllerTest {
 
   @Test
   public void testSharpen() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
             + "sharpen fractal fractal-sharpen\n"
             + "save res/images/flower-sharpen.ppm fractal-sharpen\n"
             + "q");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\nduplicate image\n"
             + "sharpen\n"
             + "get-width\n"
@@ -471,20 +407,14 @@ public class ImageControllerTest {
 
   @Test
   public void testStackSharpen() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
             + "sharpen fractal fractal-sharpen\n"
             + "sharpen fractal-sharpen fractal-sharpen-sh\n"
             + "save res/images/flower-sharpen-sh-mock.ppm fractal-sharpen-sh\n"
             + "q");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\nduplicate image\n"
             + "sharpen\n"
             + "duplicate image\n"
@@ -502,20 +432,14 @@ public class ImageControllerTest {
 
   @Test
   public void testStackBlur() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.ppm fractal\n"
             + "blur fractal fractal-blur\n"
             + "blur fractal-blur fractal-blur-blur\n"
             + "save res/images/flower-blur2-mock.ppm fractal-blur-blur\n"
             + "q");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-string\nduplicate image\n"
             + "blur\n"
             + "duplicate image\n"
@@ -533,19 +457,13 @@ public class ImageControllerTest {
 
   @Test
   public void testLoadJpegAndSavePPM() {
-    StringBuilder sb = new StringBuilder();
-
-    Image model = new ImageMock(sb);
     Reader in = new StringReader("load res/images/flower.jpeg fractal\n"
             + "dither fractal fractal-dither\n"
             + "save res/images/flower-dither-mock.ppm fractal-dither\n"
             + "q");
-    StringBuffer out = new StringBuffer();
 
-    CommandController controller = new CommandController(in, out);
-    ImageController ic = new ImageControllerImp(model);
-    ImageView iv = new TextView(System.out);
-    controller.startProgram(ic, iv);
+    CommandController controller = new CommandController(in, ic, iv);
+    controller.startProgram();
     assertEquals("load-buffered-image\n"
             + "duplicate image\n"
             + "dither\n"

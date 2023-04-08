@@ -29,7 +29,7 @@ public class IMEApplication {
       try {
         String fileName = args[1];
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        new CommandController(reader, System.out).startProgram(imageController, view);
+        new CommandController(reader, imageController, view).startProgram();
         reader.close();
         System.exit(0);
       } catch (IOException e) {
@@ -37,8 +37,8 @@ public class IMEApplication {
         System.exit(1);
       }
     } else {
-      new CommandController(new InputStreamReader(System.in), System.out)
-              .startProgram(imageController, view);
+      new CommandController(new InputStreamReader(System.in), imageController, view)
+              .startProgram();
     }
   }
 }

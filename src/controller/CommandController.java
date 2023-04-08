@@ -22,28 +22,30 @@ import view.ImageView;
  */
 public class CommandController {
   final Readable in;
-  final Appendable out;
+
+  final ImageController imageControllerImp;
+  final ImageView view;
 
   /**
    * The constructor is used to initialize the class variables.
    *
-   * @param in  represents the input stream.
-   * @param out represents the output stream.
+   * @param in                 represents the input stream.
+   * @param imageControllerImp represents the ImageController
+   * @param view represents the ImageView
    */
-  public CommandController(Readable in, Appendable out) {
+  public CommandController(Readable in, ImageController imageControllerImp, ImageView view) {
     this.in = in;
-    this.out = out;
+    this.imageControllerImp = imageControllerImp;
+    this.view = view;
   }
 
   /**
    * This method is used as the main method which determines all the steps to be performed.
-   *
-   * @param imageControllerImp represents the image controller.
    */
-  public void startProgram(ImageController imageControllerImp, ImageView view) {
+  public void startProgram() {
     Scanner scan = new Scanner(this.in);
     try {
-      while (menuScript(scan, imageControllerImp, view)) {
+      while (menuScript(scan)) {
 
       }
     } catch (IOException e) {
@@ -51,8 +53,7 @@ public class CommandController {
     }
   }
 
-  boolean menuScript(Scanner scan, ImageController imageControllerImp,
-                     ImageView view) throws IOException, NoClassDefFoundError {
+  boolean menuScript(Scanner scan) throws IOException, NoClassDefFoundError {
     String t = scan.next();
     Command command = null;
     switch (t) {
@@ -103,13 +104,13 @@ public class CommandController {
           BufferedReader reader = ImageUtil.readTextFile(scan);
           String line;
           while ((line = reader.readLine()) != null
-                  && menuScript(new Scanner(line), imageControllerImp, view)) {
+                  && menuScript(new Scanner(line))) {
 
           }
           return false;
         } catch (IOException e) {
           view.display(e.getMessage());
-          while (menuScript(scan, imageControllerImp, view)) {
+          while (menuScript(scan)) {
 
           }
           return false;
@@ -119,7 +120,7 @@ public class CommandController {
         return false;
       default:
         view.display("Invalid command. Please try again.");
-        while (menuScript(scan, imageControllerImp, view)) {
+        while (menuScript(scan)) {
 
         }
         return false;
@@ -132,7 +133,7 @@ public class CommandController {
       }
     } catch (IOException e) {
       view.display(e.getMessage());
-      menuScript(scan, imageControllerImp, view);
+      menuScript(scan);
       return false;
     }
 
