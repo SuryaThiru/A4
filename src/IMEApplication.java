@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import controller.CommandController;
+import controller.GUIController;
 import controller.ImageController;
 import controller.ImageControllerImp;
 import model.Image;
 import model.RGBImage;
+import view.GUIView;
+import view.GUIViewImp;
 import view.ImageView;
 import view.TextView;
 
@@ -22,11 +25,10 @@ public class IMEApplication {
    */
   public static void main(String[] args) {
     Image imageModel = new RGBImage(0, 0, 0);
-    ImageView view = new TextView(System.out);
     ImageController imageController = new ImageControllerImp(imageModel);
-
     if (args.length > 1 && args[0].equals("-file")) {
       try {
+        ImageView view = new TextView(System.out);
         String fileName = args[1];
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
         new CommandController(reader, imageController, view).startProgram();
@@ -36,9 +38,13 @@ public class IMEApplication {
         System.err.println("Failed to read script file: " + e.getMessage());
         System.exit(1);
       }
-    } else {
+    } else if (args.length > 1 && args[0].equals("-text")) {
+      ImageView view = new TextView(System.out);
       new CommandController(new InputStreamReader(System.in), imageController, view)
               .startProgram();
+    } else {
+      GUIView view = new GUIViewImp("Image Manipulator");
+      new GUIController(imageController, view);
     }
   }
 }

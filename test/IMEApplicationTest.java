@@ -4,13 +4,10 @@ import org.junit.Test;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.NoSuchElementException;
-import java.util.Random;
 
 import controller.CommandController;
 import controller.ImageController;
 import controller.ImageControllerImp;
-import model.Pixel;
-import model.PixelImpl;
 import model.RGBImage;
 import model.Image;
 import view.ImageView;

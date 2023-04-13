@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -155,4 +156,22 @@ public interface ImageController {
   void dither(String imageName, String updatedImageName) throws IOException;
 
   void filter(String imageName, String updatedImageName, String s) throws IOException;
+
+  /**
+   * Perform histogram calculation based on current image data. This should take into account
+   * any image operations that have been applied.
+   *
+   * @param imageName represents the current Image name
+   * @return histogram array
+   * @throws IOException throws an exception if the operation is not supported.
+   */
+  int[][] calculateHistogram(String imageName) throws IOException;
+
+  /**
+   * Update the current image data and notify the view to update the histogram display.
+   *
+   * @param imageName represents the current Image name
+   * @return updated image object
+   */
+  BufferedImage updatedImage(String imageName);
 }

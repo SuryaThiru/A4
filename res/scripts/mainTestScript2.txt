@@ -1,0 +1,26 @@
+load res/images/flower.ppm fractal
+brighten 20 fractal fractal-brighter
+darken 40 fractal-brighter fractal-darker
+vertical-flip fractal-darker fractal-darker-vertical
+horizontal-flip fractal-darker-vertical fractal-darker-horizontal
+greyscale value-component fractal-darker-horizontal fractal-darker-horizontal-greyscale
+save res/images/fractal-darker-horizontal-greyscale.png fractal-darker-horizontal-greyscale
+greyscale luma-component fractal fractal-luma-grayscale
+greyscale intensity-component fractal fractal-intensity-grayscale
+greyscale red-component fractal fractal-red-grayscale
+greyscale green-component fractal fractal-green-grayscale
+greyscale blue-component fractal fractal-blue-grayscale
+rgb-split fractal fractal-red fractal-green fractal-blue
+rgb-combine fractal-combined fractal-red fractal-green fractal-blue
+save res/images/fractal-combined.bmp fractal-combined
+load res/images/flower.jpeg fractal-jpeg
+load res/images/flower.png fractal-png
+load res/images/flower.bmp fractal-bmp
+sepia-tone fractal fractal-sepia
+dither fractal fractal-dithered
+blur fractal fractal-blurred
+blur fractal-blurred fractal-more-blurred
+sharpen fractal fractal-sharpened
+sharpen fractal-sharpened fractal-more-sharpened
+save res/images/fractal-more-sharpened.jpg fractal-more-sharpened
+q

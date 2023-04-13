@@ -177,7 +177,36 @@ run res/scripts/testScript1.txt
 
 ### To run a script which contains all the available functions -
 
-`run res/scripts/mainTestScript.txt`
+or
+
+`java -jar A6.jar -text`
+
+or
+
+For GUI — `java -jar A6.jar`
+
+
+## —> Using GUI
+
+1. **Exposure** - Used to brighten or darken the image.
+   Give +ve values for brightening and -ve values for darkening the image.
+2. **Filter** - Used to _Blur_ or _Sharpen_ an image.
+3. **GreyscaleFunctions** — This button is used to turn the image into a greyscale image using one of the below methods.
+    1. value-component — Convert a rgb image to greyscale using the value component.
+    2. luma-component — Convert a rgb image to greyscale using the luma component.
+    3. intensity-component — Convert a rgb image to greyscale using the intensity component.
+    4. red-component — Convert a rgb image to greyscale using the red component.
+    5. green-component — Convert a rgb image to greyscale using the green component.
+    6. blue-component — Convert a rgb image to greyscale using the blue component.
+4. **Dither** - This button dithers the existing image.
+5. **Flip** - The button lets us flip an image _horizontally_ or _vertically_.
+6. **Sepia** - This button add a sepia-tone to the image.
+7. **SplitRGB** - This button lets us split the rgb into a single channel greyscale image of red, greed or blue component.
+8. **Undo** - This button is used to revert the latest change to an image.
+9. **Redo** -  This button is used to repeat the operation which was previously undone.
+10. **Open a file** - This button lets us load an image to the application.
+11. **Save a file** - This button is used to save the latest image.
+
 
 ## Changes :
 
@@ -189,6 +218,12 @@ run res/scripts/testScript1.txt
    of the commands in `controller.commands` package.
 5. Created a `view` for the application called `ImageView`.
 6. Removed save functionality from the AbstractModel.java.
+7. Created a new controller implementation called `GUIController` ( implements `Features` ) to handle all requests from the GUI application.
+8. Created a new view `GUIView` to display a GUI to interact with the application.
+9. Added 2 new methods for ImageControllerImp `calculateHistogram` & `updatedImage`.
+10. Added a method `getFileName` in the `ImageUtil` as a utility method.
+11. Added a method `calculateHistogram` in `AbstractImage`.
+12. `IMEApplication` is changed to handle running the application using script (command line arguments), terminal commands & GUI.
 
 # Citation :
 

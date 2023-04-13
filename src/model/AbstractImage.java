@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -24,28 +24,6 @@ public abstract class AbstractImage implements Image {
   @Override
   public Image load(String content) {
     throw new IllegalArgumentException("loading is currently supported in rgb model");
-  }
-
-  @Override
-  public Image load(BufferedImage image) {
-    this.width = image.getWidth();
-    this.height = image.getHeight();
-    this.maxColorValue = 255;
-    Pixel[][] pixels = new Pixel[height][width];
-
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        int rgb = image.getRGB(x, y);
-        int red = (rgb >> 16) & 0xFF;
-        int green = (rgb >> 8) & 0xFF;
-        int blue = rgb & 0xFF;
-        pixels[y][x] = new PixelImpl(red, green, blue);
-      }
-    }
-
-    this.pixels = pixels;
-
-    return this;
   }
 
   @Override
@@ -335,6 +313,36 @@ public abstract class AbstractImage implements Image {
 
     return new GrayscaleImage(width, height, maxColorValue, newPixels);
 
+  }
+
+  @Override
+  public int[][] calculateHistogram() throws IOException {
+    if (width == 0 || height == 0) {
+      throw new IOException("Corrupted Image or image not supported");
+    }
+    int numberOfChannels = pixels[0][0].numChannels();
+
+    int[][] histogram = new int[numberOfChannels + 1][256]; // 256 levels for R, G, B channels
+    for (int i = 0; i < numberOfChannels + 1; i++) {
+      Arrays.fill(histogram[i], 0); // Initialize histograms with 0 counts
+    }
+
+    // Iterate through all pixels and count color levels for each channel
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        Pixel pixel = getPixel(y, x);
+        for (int k = 0; k < numberOfChannels + 1; k++) {
+          if (k == numberOfChannels) {
+            int intensity = calculateIntensity(pixel.getChannels());
+            histogram[k][clamp(intensity)]++;
+            continue;
+          }
+          histogram[k][clamp(pixel.getChannel(k))]++;
+        }
+      }
+    }
+
+    return histogram;
   }
 
   /**

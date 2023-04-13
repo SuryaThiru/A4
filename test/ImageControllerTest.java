@@ -191,6 +191,11 @@ public class ImageControllerTest {
       log.append("dither\n");
       return this;
     }
+
+    @Override
+    public int[][] calculateHistogram() {
+      return new int[0][];
+    }
   }
 
   @Test

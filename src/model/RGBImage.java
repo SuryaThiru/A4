@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.image.BufferedImage;
 import java.util.Scanner;
 
 import static helper.ImageUtil.duplicatePixels;
@@ -63,6 +64,28 @@ public class RGBImage extends AbstractImage {
     if (isGrayscale) {
       return new GrayscaleImage(width, height, maxColorValue, pixels);
     }
+    split();
+    return this;
+  }
+
+  @Override
+  public Image load(BufferedImage image) {
+    this.width = image.getWidth();
+    this.height = image.getHeight();
+    this.maxColorValue = 255;
+    Pixel[][] pixels = new Pixel[height][width];
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int rgb = image.getRGB(x, y);
+        int red = (rgb >> 16) & 0xFF;
+        int green = (rgb >> 8) & 0xFF;
+        int blue = rgb & 0xFF;
+        pixels[y][x] = new PixelImpl(red, green, blue);
+      }
+    }
+
+    this.pixels = pixels;
     split();
     return this;
   }

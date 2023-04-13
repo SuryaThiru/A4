@@ -70,6 +70,25 @@ public class ImageUtil {
   }
 
   /**
+   * This method is used to get file name without extension.
+   *
+   * @param fileName represents the filename to be parsed.
+   * @return returns the file name without extension.
+   */
+  public static String getFileName(String fileName) {
+    int lastSlashIndex = fileName.lastIndexOf("/");
+    if (lastSlashIndex > 0) {
+
+      String sub = fileName.substring(lastSlashIndex);
+      int lastDotIndex = sub.lastIndexOf(".");
+      if (lastDotIndex > 0) {
+        return sub.substring(1, lastDotIndex);
+      }
+    }
+    return "";
+  }
+
+  /**
    * This method represents is used to duplicate a pixel array.
    *
    * @param pixels represents the pixels of an Image.

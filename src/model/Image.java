@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * This interface acts as a Model in the Image Manipulation Application and holds all the
@@ -170,4 +171,12 @@ public interface Image {
    * @throws UnsupportedOperationException is thrown when trying to combine greyscale images.
    */
   Image dither() throws UnsupportedOperationException;
+
+  /**
+   * Calculates the histogram for the image.
+   *
+   * @return a 2D array of integers representing the histogram
+   * @throws IOException is thrown when histogram operation is no possible.
+   */
+  int[][] calculateHistogram() throws IOException;
 }

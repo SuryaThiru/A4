@@ -338,4 +338,28 @@ public class ImageControllerImp implements ImageController {
     updatedImage.sharpen();
     images.put(updatedImageName, updatedImage);
   }
+
+  @Override
+  public int[][] calculateHistogram(String imageName) throws IOException {
+    Image image = images.get(imageName);
+    return image.calculateHistogram();
+  }
+
+  @Override
+  public BufferedImage updatedImage(String imageName) {
+    Image image = images.get(imageName);
+    BufferedImage bufferedImage = new BufferedImage(image.getWidth(),
+            image.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+    for (int x = 0; x < image.getHeight(); x++) {
+      for (int y = 0; y < image.getWidth(); y++) {
+        Pixel pixel = image.getPixel(x, y);
+        int rgb = (pixel.getChannel(0) << 16) | (pixel.getChannel(1) << 8)
+                | pixel.getChannel(2);
+        bufferedImage.setRGB(y, x, rgb);
+      }
+    }
+
+    return bufferedImage;
+  }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.image.BufferedImage;
+
 import static helper.ImageUtil.duplicatePixels;
 
 /**
@@ -55,6 +57,11 @@ public class GrayscaleImage extends AbstractImage {
   @Override
   public void combineChannels(Image[] channels) {
     throw new UnsupportedOperationException("Splitting of greyscale images are not allowed");
+  }
+
+  @Override
+  public Image load(BufferedImage image) {
+    throw new UnsupportedOperationException("unsupported operation on a 1 bit image");
   }
 }
 
