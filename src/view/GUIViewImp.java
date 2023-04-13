@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -29,12 +28,12 @@ public class GUIViewImp extends JFrame implements GUIView {
 
   final JPanel histPanel;
   final JPanel imagePanel;
-  final JButton brightenButton;
+  final JButton exposureButton;
   final JButton loadButton;
   final JButton saveButton;
   final JButton filterButton;
   final JButton greyscaleButton;
-  final JButton colorButton;
+  final JButton sepiaButton;
   final JButton ditherButton;
   final JButton flipButton;
   final JButton splitButton;
@@ -54,23 +53,22 @@ public class GUIViewImp extends JFrame implements GUIView {
     setLocationRelativeTo(null);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    JPanel mainPanel = new JPanel();
-    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+    JPanel mainPanel = new JPanel(new BorderLayout());
 
     JScrollPane mainScrollPane = new JScrollPane(mainPanel);
     add(mainScrollPane);
 
-    this.imagePanel = new JPanel(new BorderLayout());
+    this.imagePanel = new JPanel();
 
     this.imagePanel.setBorder(BorderFactory.createTitledBorder("Active Image"));
     this.imagePanel.setVisible(true);
     JScrollPane imageScrollPane = new JScrollPane(imagePanel);
-    imageScrollPane.setPreferredSize(new Dimension(200, 200));
+    imageScrollPane.setPreferredSize(new Dimension(400, 400));
     mainPanel.add(imageScrollPane, BorderLayout.CENTER);
 
     this.histPanel = new JPanel();
-    setBackground(Color.WHITE);
-    //this.histPanel.setPreferredSize(new Dimension(400, 200));
+    setBackground(Color.BLACK);
+    this.histPanel.setPreferredSize(new Dimension(400, 400));
     //setLocation(400, 400);
 
     this.histPanel.setBorder(BorderFactory.createTitledBorder("Active Histogram"));
@@ -78,61 +76,66 @@ public class GUIViewImp extends JFrame implements GUIView {
     this.histPanel.setVisible(true);
     JScrollPane histogramScrollPane = new JScrollPane(histPanel);
     histogramScrollPane.setPreferredSize(new Dimension(200, 200));
-    mainPanel.add(histogramScrollPane, BorderLayout.EAST);
+    mainPanel.add(histogramScrollPane, BorderLayout.LINE_END);
 
-    JPanel operationPanel = new JPanel();
-    this.brightenButton = new JButton("Exposure");
-    this.brightenButton.setActionCommand("Brighten Image");
-    operationPanel.add(this.brightenButton);
+    JPanel toolPanel = new JPanel();
+    toolPanel.setBorder(BorderFactory.createTitledBorder("Tools"));
+    toolPanel.setVisible(true);
+    this.exposureButton = new JButton("Exposure");
+    this.exposureButton.setActionCommand("Exposure");
+    toolPanel.add(this.exposureButton);
 
     this.filterButton = new JButton("Filter");
     this.filterButton.setActionCommand("filter");
-    operationPanel.add(this.filterButton);
+    toolPanel.add(this.filterButton);
+
+    this.sepiaButton = new JButton("Sepia");
+    this.sepiaButton.setActionCommand("Sepia");
+    toolPanel.add(this.sepiaButton);
 
     this.greyscaleButton = new JButton("GrayscaleFunctions");
     this.greyscaleButton.setActionCommand("Enter the function required.");
-    operationPanel.add(this.greyscaleButton);
-
-
-    this.ditherButton = new JButton("Dither");
-    this.ditherButton.setActionCommand("Dither");
-    operationPanel.add(this.ditherButton);
+    toolPanel.add(this.greyscaleButton);
 
     this.flipButton = new JButton("Flip");
     this.flipButton.setActionCommand("Flip Image");
-    operationPanel.add(this.flipButton);
+    toolPanel.add(this.flipButton);
 
-    this.colorButton = new JButton("Sepia");
-    this.colorButton.setActionCommand("Sepia");
-    operationPanel.add(this.colorButton);
+    this.ditherButton = new JButton("Dither");
+    this.ditherButton.setActionCommand("Dither");
+    toolPanel.add(this.ditherButton);
 
 
-    this.splitButton = new JButton("Split RGB");
+    this.splitButton = new JButton("Split to RGB Components");
     this.splitButton.setActionCommand("Split RGB");
-    operationPanel.add(this.splitButton);
+    toolPanel.add(this.splitButton);
 
-    this.combineButton = new JButton("Combine RGB");
+    this.combineButton = new JButton("Combine RGB Components");
     this.combineButton.setActionCommand("Combine");
-    operationPanel.add(this.combineButton);
+    toolPanel.add(this.combineButton);
 
-    this.undoButton = new JButton("Undo");
+    mainPanel.add(toolPanel, BorderLayout.PAGE_END);
+
+    JPanel filePanel = new JPanel();
+    filePanel.setBorder(BorderFactory.createTitledBorder("File"));
+    filePanel.setVisible(true);
+    this.undoButton = new JButton("← Undo");
     this.undoButton.setActionCommand("Undo");
-    operationPanel.add(this.undoButton);
+    filePanel.add(this.undoButton);
 
-    this.redoButton = new JButton("Redo");
+    this.redoButton = new JButton("→ Redo");
     this.redoButton.setActionCommand("Redo");
-    operationPanel.add(this.redoButton);
+    filePanel.add(this.redoButton);
 
-    this.loadButton = new JButton("Open a file");
-    this.loadButton.setActionCommand("Open file");
-    operationPanel.add(this.loadButton);
+    this.loadButton = new JButton("Open Image");
+    this.loadButton.setActionCommand("Open Image");
+    filePanel.add(this.loadButton);
 
-    this.saveButton = new JButton("Save a file");
-    this.saveButton.setActionCommand("Save file");
-    operationPanel.add(this.saveButton);
+    this.saveButton = new JButton("Save Image");
+    this.saveButton.setActionCommand("Save Image");
+    filePanel.add(this.saveButton);
 
-
-    mainPanel.add(operationPanel);
+    mainPanel.add(filePanel, BorderLayout.PAGE_START);
     pack();
     setVisible(true);
 
@@ -140,17 +143,23 @@ public class GUIViewImp extends JFrame implements GUIView {
 
   @Override
   public void addFeatures(Features features) {
-    this.loadButton.addActionListener(evt -> {
-      features.load();
-    });
-    this.saveButton.addActionListener(evt -> {
-      features.save();
-    });
-    this.brightenButton.addActionListener(evt -> {
+    this.exposureButton.addActionListener(evt -> {
       features.brighten();
+    });
+    this.filterButton.addActionListener(evt -> {
+      features.filter();
+    });
+    this.sepiaButton.addActionListener(evt -> {
+      features.sepia();
     });
     this.greyscaleButton.addActionListener(evt -> {
       features.grayscale();
+    });
+    this.flipButton.addActionListener(evt -> {
+      features.flip();
+    });
+    this.ditherButton.addActionListener(evt -> {
+      features.dither();
     });
     this.splitButton.addActionListener(evt -> {
       features.split();
@@ -158,23 +167,17 @@ public class GUIViewImp extends JFrame implements GUIView {
     this.combineButton.addActionListener(evt -> {
       features.combine();
     });
+    this.loadButton.addActionListener(evt -> {
+      features.load();
+    });
+    this.saveButton.addActionListener(evt -> {
+      features.save();
+    });
     this.undoButton.addActionListener(evt -> {
       features.undo();
     });
     this.redoButton.addActionListener(evt -> {
       features.redo();
-    });
-    this.ditherButton.addActionListener(evt -> {
-      features.dither();
-    });
-    this.filterButton.addActionListener(evt -> {
-      features.filter();
-    });
-    this.colorButton.addActionListener(evt -> {
-      features.sepia();
-    });
-    this.flipButton.addActionListener(evt -> {
-      features.flip();
     });
 
   }
