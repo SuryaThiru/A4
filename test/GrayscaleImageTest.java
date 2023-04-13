@@ -27,5 +27,4 @@ public class GrayscaleImageTest {
     return sc.hasNext() ? sc.next() : null;
   }
 
-
 }

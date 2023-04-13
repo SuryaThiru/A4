@@ -4,7 +4,8 @@
 
 - `Image.java` — Represents a model in our MVC architecture.
 - `ImageController.java` — Represents a controller in our MVC architecture.
-- `ImageView.java` — Represents a view in our MVC architecture.
+- `ImageView.java` — Represents a view for the text output in our MVC architecture.
+- `GUIView.java` — Represents a view for the GUi in our MVC architecture.
 - `AbstractImage.java` implements the model and is extended by `RGBImage`
   and `GrayscaleImage`. `RGBImage` represents an RGB (colored) image and `GrayscaleImage` represents
   a grayscale image (black & white) of our Image implementation. Image is split into these classes
@@ -176,6 +177,9 @@ run res/scripts/testScript1.txt
 `save res/images/fractal-blurred-sepia.png fractal-blur
 
 ### To run a script which contains all the available functions -
+if you are inside the res folder, use
+
+`java -jar A6.jar -file scripts/mainTestScript.txt`
 
 or
 
