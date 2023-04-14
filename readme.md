@@ -229,6 +229,7 @@ For GUI — `java -jar A6.jar`
 10. Added a method `getFileName` in the `ImageUtil` as a utility method.
 11. Added a method `calculateHistogram` in `AbstractImage`.
 12. `IMEApplication` is changed to handle running the application using script (command line arguments), terminal commands & GUI.
+13. Added a class for constants for readability and to remove magic numbers/strings in view `Identifiers`
 
 # Citation :
 

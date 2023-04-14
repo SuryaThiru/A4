@@ -227,13 +227,10 @@ public class GUIController implements Features {
   @Override
   public void combine() {
     try {
-      if (images[0] == null) {
-        throw new IOException("image operations are not possible without an image");
-      }
       String[] imageNames = new String[3];
       String[] imagePaths = view.rgbCombine();
-      if (imagePaths == null || imagePaths[0] == null) {
-        throw new IOException("Combine of RGB aborted");
+      if (imagePaths == null) {
+        return;
       }
       for (int i = 0; i < imagePaths.length; i++) {
         imageNames[i] = load(imagePaths[i]);

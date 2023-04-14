@@ -21,6 +21,36 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Features;
 
+import static view.Identifiers.ALLOWED_EXTENSIONS;
+import static view.Identifiers.ALLOWED_FILTERS;
+import static view.Identifiers.ALLOWED_FLIPS;
+import static view.Identifiers.ALLOWED_GRAYSCALE;
+import static view.Identifiers.ALLOWED_SPLITS;
+import static view.Identifiers.COMBINE_BUTTON_TITLE;
+import static view.Identifiers.COMPONENTS;
+import static view.Identifiers.DITHER_BUTTON_TITLE;
+import static view.Identifiers.EXPOSURE_BUTTON_TITLE;
+import static view.Identifiers.FILE_PANEL_TITLE;
+import static view.Identifiers.FILTER_BUTTON_TITLE;
+import static view.Identifiers.FLIP_BUTTON_TITLE;
+import static view.Identifiers.GRAYSCALE_BUTTON_TITLE;
+import static view.Identifiers.HISTOGRAM_TITLE;
+import static view.Identifiers.IMAGE_TITLE;
+import static view.Identifiers.OPEN_BUTTON_TITLE;
+import static view.Identifiers.PANEL_DIMENSION_H;
+import static view.Identifiers.PANEL_DIMENSION_W;
+import static view.Identifiers.REDO_BUTTON_TITLE;
+import static view.Identifiers.SAVE_BUTTON_TITLE;
+import static view.Identifiers.SCROLLPANE_DIMENSION_H;
+import static view.Identifiers.SCROLLPANE_DIMENSION_W;
+import static view.Identifiers.SEPIA_BUTTON_TITLE;
+import static view.Identifiers.SPLIT_BUTTON_TITLE;
+import static view.Identifiers.TOOL_PANEL_TITLE;
+import static view.Identifiers.UNDO_BUTTON_TITLE;
+import static view.Identifiers.VERTICAL_SCALE;
+import static view.Identifiers.WINDOW_DIMENSION_H;
+import static view.Identifiers.WINDOW_DIMENSION_W;
+
 /**
  * This view is used to show the GUI of the Application.
  */
@@ -49,7 +79,7 @@ public class GUIViewImp extends JFrame implements GUIView {
   public GUIViewImp(String caption) {
     super(caption);
 
-    setSize(1200, 800);
+    setSize(WINDOW_DIMENSION_W, WINDOW_DIMENSION_H);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -60,79 +90,81 @@ public class GUIViewImp extends JFrame implements GUIView {
 
     this.imagePanel = new JPanel();
 
-    this.imagePanel.setBorder(BorderFactory.createTitledBorder("Active Image"));
+    this.imagePanel.setBorder(BorderFactory.createTitledBorder(IMAGE_TITLE));
     this.imagePanel.setVisible(true);
     JScrollPane imageScrollPane = new JScrollPane(imagePanel);
-    imageScrollPane.setPreferredSize(new Dimension(400, 400));
+    imageScrollPane.setPreferredSize(new Dimension(SCROLLPANE_DIMENSION_W,
+            SCROLLPANE_DIMENSION_H));
     mainPanel.add(imageScrollPane, BorderLayout.CENTER);
 
     this.histPanel = new JPanel();
     setBackground(Color.BLACK);
-    this.histPanel.setPreferredSize(new Dimension(400, 400));
-    //setLocation(400, 400);
+    this.histPanel.setPreferredSize(new Dimension(PANEL_DIMENSION_W,
+            PANEL_DIMENSION_H));
 
-    this.histPanel.setBorder(BorderFactory.createTitledBorder("Active Histogram"));
+    this.histPanel.setBorder(BorderFactory.createTitledBorder(HISTOGRAM_TITLE));
     this.histPanel.setLayout(new BorderLayout());
     this.histPanel.setVisible(true);
     JScrollPane histogramScrollPane = new JScrollPane(histPanel);
-    histogramScrollPane.setPreferredSize(new Dimension(200, 200));
+    histogramScrollPane.setPreferredSize(new Dimension(SCROLLPANE_DIMENSION_W,
+            SCROLLPANE_DIMENSION_H));
     mainPanel.add(histogramScrollPane, BorderLayout.LINE_END);
 
     JPanel toolPanel = new JPanel();
-    toolPanel.setBorder(BorderFactory.createTitledBorder("Tools"));
+    toolPanel.setBorder(BorderFactory.createTitledBorder(TOOL_PANEL_TITLE));
     toolPanel.setVisible(true);
-    this.exposureButton = new JButton("Exposure");
-    this.exposureButton.setActionCommand("Exposure");
+    this.exposureButton = new JButton(EXPOSURE_BUTTON_TITLE);
+    this.exposureButton.setActionCommand(EXPOSURE_BUTTON_TITLE);
     toolPanel.add(this.exposureButton);
 
-    this.filterButton = new JButton("Filter");
-    this.filterButton.setActionCommand("filter");
+    this.filterButton = new JButton(FILTER_BUTTON_TITLE);
+    this.filterButton.setActionCommand(FILTER_BUTTON_TITLE);
     toolPanel.add(this.filterButton);
 
-    this.sepiaButton = new JButton("Sepia");
-    this.sepiaButton.setActionCommand("Sepia");
+    this.sepiaButton = new JButton(SEPIA_BUTTON_TITLE);
+    this.sepiaButton.setActionCommand(SEPIA_BUTTON_TITLE);
     toolPanel.add(this.sepiaButton);
 
-    this.greyscaleButton = new JButton("GrayscaleFunctions");
-    this.greyscaleButton.setActionCommand("Enter the function required.");
+    this.greyscaleButton = new JButton(GRAYSCALE_BUTTON_TITLE);
+    this.greyscaleButton.setActionCommand(GRAYSCALE_BUTTON_TITLE);
     toolPanel.add(this.greyscaleButton);
 
-    this.flipButton = new JButton("Flip");
-    this.flipButton.setActionCommand("Flip Image");
+    this.flipButton = new JButton(FLIP_BUTTON_TITLE);
+    this.flipButton.setActionCommand(FLIP_BUTTON_TITLE);
     toolPanel.add(this.flipButton);
 
-    this.ditherButton = new JButton("Dither");
-    this.ditherButton.setActionCommand("Dither");
+    this.ditherButton = new JButton(DITHER_BUTTON_TITLE);
+    this.ditherButton.setActionCommand(DITHER_BUTTON_TITLE);
     toolPanel.add(this.ditherButton);
 
 
-    this.splitButton = new JButton("Split to RGB Components");
-    this.splitButton.setActionCommand("Split RGB");
+    this.splitButton = new JButton(SPLIT_BUTTON_TITLE);
+    this.splitButton.setActionCommand(SPLIT_BUTTON_TITLE);
     toolPanel.add(this.splitButton);
 
-    this.combineButton = new JButton("Combine RGB Components");
-    this.combineButton.setActionCommand("Combine");
+    this.combineButton = new JButton(COMBINE_BUTTON_TITLE);
+    this.combineButton.setActionCommand(COMBINE_BUTTON_TITLE);
     toolPanel.add(this.combineButton);
 
     mainPanel.add(toolPanel, BorderLayout.PAGE_END);
 
     JPanel filePanel = new JPanel();
-    filePanel.setBorder(BorderFactory.createTitledBorder("File"));
+    filePanel.setBorder(BorderFactory.createTitledBorder(FILE_PANEL_TITLE));
     filePanel.setVisible(true);
-    this.undoButton = new JButton("← Undo");
-    this.undoButton.setActionCommand("Undo");
+    this.undoButton = new JButton(UNDO_BUTTON_TITLE);
+    this.undoButton.setActionCommand(UNDO_BUTTON_TITLE);
     filePanel.add(this.undoButton);
 
-    this.redoButton = new JButton("→ Redo");
-    this.redoButton.setActionCommand("Redo");
+    this.redoButton = new JButton(REDO_BUTTON_TITLE);
+    this.redoButton.setActionCommand(REDO_BUTTON_TITLE);
     filePanel.add(this.redoButton);
 
-    this.loadButton = new JButton("Open Image");
-    this.loadButton.setActionCommand("Open Image");
+    this.loadButton = new JButton(OPEN_BUTTON_TITLE);
+    this.loadButton.setActionCommand(OPEN_BUTTON_TITLE);
     filePanel.add(this.loadButton);
 
-    this.saveButton = new JButton("Save Image");
-    this.saveButton.setActionCommand("Save Image");
+    this.saveButton = new JButton(SAVE_BUTTON_TITLE);
+    this.saveButton.setActionCommand(SAVE_BUTTON_TITLE);
     filePanel.add(this.saveButton);
 
     mainPanel.add(filePanel, BorderLayout.PAGE_START);
@@ -194,7 +226,7 @@ public class GUIViewImp extends JFrame implements GUIView {
     fileChooser.setDialogTitle(dialogTitle);
     if (calledByLoad) {
       FileNameExtensionFilter filter = new FileNameExtensionFilter(
-              "PNG,JPEG,BMP & PPM Images", "jpeg", "png", "ppm", "bmp", "jpg");
+              "PNG,JPEG,BMP & PPM Images", ALLOWED_EXTENSIONS);
       fileChooser.setFileFilter(filter);
       value = fileChooser.showOpenDialog(GUIViewImp.this);
     } else {
@@ -213,7 +245,7 @@ public class GUIViewImp extends JFrame implements GUIView {
 
   @Override
   public String save() {
-    return this.loadHelper(false, "Save");
+    return this.loadHelper(false, SAVE_BUTTON_TITLE);
   }
 
   @Override
@@ -230,10 +262,10 @@ public class GUIViewImp extends JFrame implements GUIView {
 
   @Override
   public String filter() {
-    String[] options = {"Blur", "Sharpen"};
     String filterValue = (String) JOptionPane.showInputDialog(
             GUIViewImp.this, "Select Filter type",
-            "Filter type", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            "Filter type", JOptionPane.QUESTION_MESSAGE, null,
+            ALLOWED_FILTERS, ALLOWED_FILTERS[0]);
 
     if(filterValue == null) {
       return null;
@@ -245,42 +277,42 @@ public class GUIViewImp extends JFrame implements GUIView {
 
   @Override
   public String flip() {
-
-    String[] options = {"Horizontal-Flip", "Vertical-Flip"};
     String flipValue = (String) JOptionPane.showInputDialog(
             GUIViewImp.this, "Select flip type",
-            "Flip type", JOptionPane.QUESTION_MESSAGE, null, options,
-            options[0]);
+            "Flip type", JOptionPane.QUESTION_MESSAGE, null, ALLOWED_FLIPS,
+            ALLOWED_FLIPS[0]);
     return flipValue;
   }
 
   @Override
   public String split() {
-    String[] options = {"red", "green", "blue"};
     String split = (String) JOptionPane.showInputDialog(
             GUIViewImp.this, "Select the component you require",
-            "RGB Split", JOptionPane.QUESTION_MESSAGE, null, options,
-            options[0]);
+            "RGB Split", JOptionPane.QUESTION_MESSAGE, null, ALLOWED_SPLITS,
+            ALLOWED_SPLITS[0]);
     return split;
   }
 
   @Override
   public String greyscaleFunction() {
-
-    String[] options = {"Luma", "Value", "Intensity", "Red", "Green", "Blue"};
     String greyscaleValue = (String) JOptionPane.showInputDialog(
             GUIViewImp.this, "Select Greyscale type",
-            "Greyscale type", JOptionPane.QUESTION_MESSAGE, null, options,
-            options[2]);
+            "Greyscale type", JOptionPane.QUESTION_MESSAGE, null, ALLOWED_GRAYSCALE,
+            ALLOWED_GRAYSCALE[2]);
     return greyscaleValue;
   }
 
   @Override
   public String[] rgbCombine() {
-    String[] imagePaths = new String[3];
-    imagePaths[0] = this.loadHelper(true, "Load GreyScale Red Image");
-    imagePaths[1] = this.loadHelper(true, "Load GreyScale Green Image");
-    imagePaths[2] = this.loadHelper(true, "Load GreyScale Blue Image");
+    String[] imagePaths = new String[COMPONENTS.length];
+    for (int i = 0; i < imagePaths.length; i++) {
+      imagePaths[i] = this.loadHelper(true, "Load GreyScale "
+              + COMPONENTS[i] + " Image");
+
+      if (imagePaths[i] == null) {
+        return null;
+      }
+    }
     return imagePaths;
   }
 
@@ -331,9 +363,9 @@ public class GUIViewImp extends JFrame implements GUIView {
           for (int j = 1; j < histogram[i].length - 1; j++) {
 
             x1 = (int) (((double) width / (histogram[i].length - 1)) * (j - 1));
-            y1 = height - (int) (histogram[i][j - 1] * scaleFactor) - 30;
+            y1 = height - (int) (histogram[i][j - 1] * scaleFactor) - VERTICAL_SCALE;
             x2 = (int) (((double) width / (histogram[i].length - 1)) * j);
-            y2 = height - (int) (histogram[i][j] * scaleFactor) - 30;
+            y2 = height - (int) (histogram[i][j] * scaleFactor) - VERTICAL_SCALE;
 
             g2d.drawLine(x1, y1, x2, y2);
           }
