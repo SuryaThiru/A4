@@ -31,7 +31,7 @@ public class CommandController {
    *
    * @param in                 represents the input stream.
    * @param imageControllerImp represents the ImageController
-   * @param view represents the ImageView
+   * @param view               represents the ImageView
    */
   public CommandController(Readable in, ImageController imageControllerImp, ImageView view) {
     this.in = in;

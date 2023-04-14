@@ -55,10 +55,10 @@ public class GUIController implements Features {
   @Override
   public void load() {
     try {
-    load(view.load());
-  } catch (IOException ex) {
-    view.displayError(ex.getMessage());
-  }
+      load(view.load());
+    } catch (IOException ex) {
+      view.displayError(ex.getMessage());
+    }
   }
 
   String load(String imagePath) {
@@ -97,7 +97,7 @@ public class GUIController implements Features {
       }
       String updatedImageName = images[index - 1] + 'b';
       int brighten = view.brighten();
-      if(brighten == 0) {
+      if (brighten == 0) {
         return;
       }
       imageControllerImp.brighten(brighten, images[index - 1], updatedImageName);
@@ -136,7 +136,7 @@ public class GUIController implements Features {
         throw new IOException("image operations are not possible without an image");
       }
       String conversionType = view.greyscaleFunction();
-      if(conversionType == null) {
+      if (conversionType == null) {
         return;
       }
       String updatedImageName = images[index - 1] + conversionType;
@@ -178,7 +178,7 @@ public class GUIController implements Features {
       }
       String updatedImageName;
       String flip = view.flip();
-      if(flip == null) {
+      if (flip == null) {
         return;
       }
       if (flip.equals("Horizontal-Flip")) {
@@ -256,7 +256,7 @@ public class GUIController implements Features {
         throw new IOException("image operations are not possible without an image");
       }
       String split = view.split();
-      if(split == null) {
+      if (split == null) {
         return;
       }
       imageControllerImp.split(images[index - 1], images[index - 1] + "-red",

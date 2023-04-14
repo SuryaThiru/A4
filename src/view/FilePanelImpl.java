@@ -28,7 +28,7 @@ public class FilePanelImpl extends AbstractOperations implements FilePanel {
   /**
    * This constructor initialises the FilePanelImpl object and set up the initial panel for files.
    *
-   * @param jPanel represents the panel for files
+   * @param jPanel          represents the panel for files
    * @param parentComponent represents the parent component or the main panel
    */
   public FilePanelImpl(JPanel jPanel, Component parentComponent) {

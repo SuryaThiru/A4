@@ -1,7 +1,7 @@
 package view;
 
 public class Identifiers {
-  static final String[] COMPONENTS = {"RED","GREEN", "BLUE"};
+  static final String[] COMPONENTS = {"RED", "GREEN", "BLUE"};
   static final String[] ALLOWED_EXTENSIONS = {"jpeg", "png", "ppm", "bmp", "jpg"};
   static final int VERTICAL_SCALE = 26;
   static final int SCROLLPANE_DIMENSION_H = 200;

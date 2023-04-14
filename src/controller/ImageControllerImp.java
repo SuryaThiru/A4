@@ -342,7 +342,7 @@ public class ImageControllerImp implements ImageController {
   @Override
   public int[][] calculateHistogram(String imageName) throws IOException {
     Image image = images.get(imageName);
-    if(image == null) {
+    if (image == null) {
       throw new IOException("No image past this");
     }
     return image.calculateHistogram();
