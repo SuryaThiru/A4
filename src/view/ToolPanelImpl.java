@@ -142,29 +142,26 @@ public class ToolPanelImpl extends AbstractOperations implements ToolPanel {
 
   @Override
   public String flip() {
-    String flipValue = (String) JOptionPane.showInputDialog(
+    return (String) JOptionPane.showInputDialog(
             parentComponent, "Select flip type",
             "Flip type", JOptionPane.QUESTION_MESSAGE, null, ALLOWED_FLIPS,
             ALLOWED_FLIPS[0]);
-    return flipValue;
   }
 
   @Override
   public String split() {
-    String split = (String) JOptionPane.showInputDialog(
+    return (String) JOptionPane.showInputDialog(
             parentComponent, "Select the component you require",
             "RGB Split", JOptionPane.QUESTION_MESSAGE, null, ALLOWED_SPLITS,
             ALLOWED_SPLITS[0]);
-    return split;
   }
 
   @Override
   public String greyscaleFunction() {
-    String greyscaleValue = (String) JOptionPane.showInputDialog(
+    return (String) JOptionPane.showInputDialog(
             parentComponent, "Select Greyscale type",
             "Greyscale type", JOptionPane.QUESTION_MESSAGE, null, ALLOWED_GRAYSCALE,
             ALLOWED_GRAYSCALE[2]);
-    return greyscaleValue;
   }
 
   @Override
