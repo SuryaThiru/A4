@@ -2,8 +2,6 @@ package view;
 
 import java.io.IOException;
 
-import javax.swing.JPanel;
-
 /**
  * This interface represents all operations related to FilePanel.
  */
@@ -22,11 +20,4 @@ public interface FilePanel extends Operations {
    * @return returns a String
    */
   String save() throws IOException;
-
-  /**
-   * This method is used to retrieve the entire panel.
-   *
-   * @return returns a JPanel object representing the filePanel.
-   */
-  JPanel getPanel();
 }

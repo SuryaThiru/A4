@@ -23,7 +23,6 @@ public class FilePanelImpl extends AbstractOperations implements FilePanel {
   final JButton saveButton;
   final JButton undoButton;
   final JButton redoButton;
-  final JPanel jPanel;
 
   /**
    * This constructor initialises the FilePanelImpl object and set up the initial panel for files.
@@ -32,9 +31,8 @@ public class FilePanelImpl extends AbstractOperations implements FilePanel {
    * @param parentComponent represents the parent component or the main panel
    */
   public FilePanelImpl(JPanel jPanel, Component parentComponent) {
-    super(parentComponent);
+    super(parentComponent, jPanel);
 
-    this.jPanel = jPanel;
     jPanel.setBorder(BorderFactory.createTitledBorder(FILE_PANEL_TITLE));
     jPanel.setVisible(true);
     this.undoButton = new JButton(UNDO_BUTTON_TITLE);
@@ -82,10 +80,4 @@ public class FilePanelImpl extends AbstractOperations implements FilePanel {
       features.redo();
     });
   }
-
-  @Override
-  public JPanel getPanel() {
-    return jPanel;
-  }
-
 }

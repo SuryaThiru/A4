@@ -2,8 +2,6 @@ package view;
 
 import java.io.IOException;
 
-import javax.swing.JPanel;
-
 /**
  * This interface represents all operations related to Tools.
  */
@@ -50,11 +48,4 @@ public interface ToolPanel extends Operations {
    * @return returns a string.
    */
   String[] rgbCombine() throws IOException;
-
-  /**
-   * This method is used to retrieve the entire panel.
-   *
-   * @return returns a JPanel object representing the ToolPanel.
-   */
-  JPanel getPanel();
 }

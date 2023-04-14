@@ -37,7 +37,6 @@ public class ToolPanelImpl extends AbstractOperations implements ToolPanel {
   final JButton flipButton;
   final JButton splitButton;
   final JButton combineButton;
-  final JPanel jPanel;
 
   /**
    * This constructor initialises the ToolPanelImpl object and set up the initial panel for tools.
@@ -46,9 +45,8 @@ public class ToolPanelImpl extends AbstractOperations implements ToolPanel {
    * @param parentComponent represents the parent component or the main panel
    */
   public ToolPanelImpl(JPanel jPanel, Component parentComponent) {
-    super(parentComponent);
+    super(parentComponent, jPanel);
 
-    this.jPanel = jPanel;
     jPanel.setBorder(BorderFactory.createTitledBorder(TOOL_PANEL_TITLE));
     jPanel.setVisible(true);
 
@@ -181,10 +179,5 @@ public class ToolPanelImpl extends AbstractOperations implements ToolPanel {
       }
     }
     return imagePaths;
-  }
-
-  @Override
-  public JPanel getPanel() {
-    return jPanel;
   }
 }

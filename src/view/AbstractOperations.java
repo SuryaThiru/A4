@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -16,14 +17,17 @@ import static view.Identifiers.ALLOWED_EXTENSIONS;
 public abstract class AbstractOperations extends JFrame implements Operations {
 
   final Component parentComponent;
+  final JPanel jPanel;
 
   /**
    * This constructor initialises the AbstractOperations class and all its associated variables.
    *
    * @param parentComponent represents the main parent component of the gui
+   * @param jPanel          represents the paneL
    */
-  protected AbstractOperations(Component parentComponent) {
+  protected AbstractOperations(Component parentComponent, JPanel jPanel) {
     this.parentComponent = parentComponent;
+    this.jPanel = jPanel;
   }
 
   protected String loadHelper(Boolean calledByLoad, String dialogTitle, Component component)
@@ -48,5 +52,10 @@ public abstract class AbstractOperations extends JFrame implements Operations {
     } else {
       throw new IOException("Please enter correct Path");
     }
+  }
+
+  @Override
+  public JPanel getPanel() {
+    return jPanel;
   }
 }
