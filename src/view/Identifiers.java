@@ -13,7 +13,7 @@ public class Identifiers {
   static final String IMAGE_TITLE = "Active Image";
   static final String HISTOGRAM_TITLE = "Active Histogram";
   static final String TOOL_PANEL_TITLE = "Tools";
-  static final String FILE_PANEL_TITLE = "Tools";
+  static final String FILE_PANEL_TITLE = "File";
   static final String EXPOSURE_BUTTON_TITLE = "Exposure";
   static final String FILTER_BUTTON_TITLE = "Filter";
   static final String[] ALLOWED_FILTERS = {"Blur", "Sharpen"};
