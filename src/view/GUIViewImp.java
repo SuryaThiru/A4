@@ -204,7 +204,7 @@ public class GUIViewImp extends JFrame implements GUIView {
       File f = fileChooser.getSelectedFile();
       return f.getAbsolutePath();
     } else {
-      this.displayError("Please enter correct Path");
+      //this.displayError("Please enter correct Path");
       return null;
     }
   }
@@ -219,6 +219,10 @@ public class GUIViewImp extends JFrame implements GUIView {
     String brightenValue = JOptionPane.showInputDialog(
             "Enter brighten value?", 0);
 
+    if(brightenValue == null) {
+      return 0;
+    }
+
     return Integer.parseInt(brightenValue);
   }
 
@@ -228,6 +232,10 @@ public class GUIViewImp extends JFrame implements GUIView {
     String filterValue = (String) JOptionPane.showInputDialog(
             GUIViewImp.this, "Select Filter type",
             "Filter type", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+    if(filterValue == null) {
+      return null;
+    }
 
     return filterValue.toLowerCase();
   }

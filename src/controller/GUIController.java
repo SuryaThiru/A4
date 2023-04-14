@@ -93,6 +93,9 @@ public class GUIController implements Features {
       }
       String updatedImageName = images[index - 1] + 'b';
       int brighten = view.brighten();
+      if(brighten == 0) {
+        return;
+      }
       imageControllerImp.brighten(brighten, images[index - 1], updatedImageName);
       updateImage(updatedImageName);
     } catch (IOException ex) {
@@ -109,6 +112,9 @@ public class GUIController implements Features {
         throw new IOException("image operations are not possible without an image");
       }
       String filter = view.filter();
+      if (filter == null) {
+        return;
+      }
       String updatedImageName = images[index - 1] + filter;
       imageControllerImp.filter(images[index - 1], updatedImageName, filter);
       updateImage(updatedImageName);
@@ -126,6 +132,9 @@ public class GUIController implements Features {
         throw new IOException("image operations are not possible without an image");
       }
       String conversionType = view.greyscaleFunction();
+      if(conversionType == null) {
+        return;
+      }
       String updatedImageName = images[index - 1] + conversionType;
       switch (conversionType) {
         case "Value":
@@ -164,7 +173,11 @@ public class GUIController implements Features {
         throw new IOException("image operations are not possible without an image");
       }
       String updatedImageName;
-      if (view.flip().equals("Horizontal-Flip")) {
+      String flip = view.flip();
+      if(flip == null) {
+        return;
+      }
+      if (flip.equals("Horizontal-Flip")) {
         updatedImageName = images[index - 1] + 'h';
         imageControllerImp.flipHorizontal(images[index - 1], updatedImageName);
       } else {
@@ -219,6 +232,9 @@ public class GUIController implements Features {
       }
       String[] imageNames = new String[3];
       String[] imagePaths = view.rgbCombine();
+      if (imagePaths == null || imagePaths[0] == null) {
+        throw new IOException("Combine of RGB aborted");
+      }
       for (int i = 0; i < imagePaths.length; i++) {
         imageNames[i] = load(imagePaths[i]);
       }
@@ -239,6 +255,9 @@ public class GUIController implements Features {
         throw new IOException("image operations are not possible without an image");
       }
       String split = view.split();
+      if(split == null) {
+        return;
+      }
       imageControllerImp.split(images[index - 1], images[index - 1] + "-red",
               images[index - 1] + "-green", images[index - 1] + "-blue");
       updateImage(images[index - 1] + '-' + split);
