@@ -54,7 +54,11 @@ public class GUIController implements Features {
 
   @Override
   public void load() {
+    try {
     load(view.load());
+  } catch (IOException ex) {
+    view.displayError(ex.getMessage());
+  }
   }
 
   String load(String imagePath) {
