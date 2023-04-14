@@ -203,8 +203,10 @@ public class GUIViewImp extends JFrame implements GUIView {
     if (value == JFileChooser.APPROVE_OPTION) {
       File f = fileChooser.getSelectedFile();
       return f.getAbsolutePath();
+    } else if (value == JFileChooser.CANCEL_OPTION) {
+      return null;
     } else {
-      //this.displayError("Please enter correct Path");
+      this.displayError("Please enter correct Path");
       return null;
     }
   }
