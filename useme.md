@@ -102,23 +102,22 @@
 
 
 ## —> Using GUI
-Open the image from `res/images/flower.ppm` or `res/images/flower.jpeg` or `res/images/flower.png` or `res/images/flower.bmp`
-![img.png](img.png)
-1. **Exposure** - Used to brighten or darken the image.![img_1.png](img_1.png)
+Open the image from `res/images/flower.ppm` or `res/images/flower.jpeg` or `res/images/flower.png` or `res/images/flower.bmp`![working-application-load-gui.png](working-application-load-gui.png)
+1. **Exposure** - Used to brighten or darken the![img_1.png](res%2Fimages%2Fuseme%2Fimg_1.png)
     Give +ve values for brightening and -ve values for darkening the image.
-2. **Filter** - Used to _Blur_ or _Sharpen_ an image.![img_2.png](img_2.png)
-3. **GreyscaleFunctions** — This button is used to turn the image into a greyscale image using one of the below methods.![img_3.png](img_3.png)
+2. **Filter** - Used to _Blur_ or _Sharpen_ an image.![img_2.png](res%2Fimages%2Fuseme%2Fimg_2.png)
+3. **GreyscaleFunctions** — This button is used to turn the image into a greyscale image using one of the below methods.![img_3.png](res%2Fimages%2Fuseme%2Fimg_3.png)
    1. value-component — Convert a rgb image to greyscale using the value component.
    2. luma-component — Convert a rgb image to greyscale using the luma component.
    3. intensity-component — Convert a rgb image to greyscale using the intensity component.
    4. red-component — Convert a rgb image to greyscale using the red component.
    5. green-component — Convert a rgb image to greyscale using the green component.
    6. blue-component — Convert a rgb image to greyscale using the blue component.
-4. **Dither** - This button dithers the existing image.![img_4.png](img_4.png)
-5. **Flip** - The button lets us flip an image _horizontally_ or _vertically_.![img_5.png](img_5.png)
-6. **Sepia** - This button add a sepia-tone to the image. ![img_6.png](img_6.png)
-7. **Split to RGB Components** - This button lets us split the rgb into a single channel greyscale image of red, greed or blue component. ![img_7.png](img_7.png)
-8. **Combine RGB Components** - This button lets us combine the rgb into a 3 channel rgb image of red, greed or blue component.![img_8.png](img_8.png)
+4. **Dither** - This button dithers the existing image.![img_4.png](res%2Fimages%2Fuseme%2Fimg_4.png)
+5. **Flip** - The button lets us flip an image _horizontally_ or _vertically_.![img![img_5.png](res%2Fimages%2Fuseme%2Fimg_5.png)
+6. **Sepia** - This button add a sepia-tone to the image. ![im![img_6.png](res%2Fimages%2Fuseme%2Fimg_6.png)
+7. **Split to RGB Components** - This button lets us split the rgb into a single channel greyscale image of red, greed or blue component.![img_7.png](res%2Fimages%2Fuseme%2Fimg_7.png)
+8. **Combine RGB Components** - This button lets us combine the rgb into a 3 channel rgb image of red, greed or blue component.![img_8.png](res%2Fimages%2Fuseme%2Fimg_8.png)
 9. **← Undo** - This button is used to revert the latest change to an image.
 9. **→ Redo** -  This button is used to repeat the operation which was previously undone.
 10. **Open a file** - This button lets us load an image to the application.
