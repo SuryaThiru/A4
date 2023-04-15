@@ -1,5 +1,8 @@
 package view;
 
+/**
+ * This class contains all identifiers/constants for the view gui.
+ */
 public class Identifiers {
   static final String[] COMPONENTS = {"RED", "GREEN", "BLUE"};
   static final String[] ALLOWED_EXTENSIONS = {"jpeg", "png", "ppm", "bmp", "jpg"};
