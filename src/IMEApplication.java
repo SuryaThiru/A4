@@ -43,8 +43,11 @@ public class IMEApplication {
       new CommandController(new InputStreamReader(System.in), imageController, view)
               .startProgram();
     } else {
-      GUIView view = new GUIViewImp("Image Manipulator");
-      new GUIController(imageController, view);
+      ImageView view = new TextView(System.out);
+      new CommandController(new InputStreamReader(System.in), imageController, view)
+              .startProgram();
+      GUIView guiView = new GUIViewImp("Image Manipulator");
+      new GUIController(imageController, guiView);
     }
   }
 }
