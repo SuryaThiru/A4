@@ -40,6 +40,7 @@ public class ImageControllerImp implements ImageController {
   @Override
   public void load(String imagePath, String imageName) throws IOException {
     String fileExtension = getFileExtension(imagePath);
+    image = new RGBImage(0, 0, 0);
 
     if (fileExtension.equals("png") || fileExtension.equals("jpeg")
             || fileExtension.equals("bmp")) {

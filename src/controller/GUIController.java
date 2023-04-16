@@ -148,7 +148,7 @@ public class GUIController implements Features {
           imageControllerImp.combineByLuma(images[index - 1], updatedImageName);
           break;
         case "Intensity":
-          imageControllerImp.combineByIntensity(images[index], updatedImageName);
+          imageControllerImp.combineByIntensity(images[index - 1], updatedImageName);
           break;
         case "Red":
           imageControllerImp.combineByComponent(0, images[index - 1], updatedImageName);
