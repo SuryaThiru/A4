@@ -192,6 +192,19 @@ public class ImageControllerTest {
       return this;
     }
 
+    /**
+     * Apply mosaicking on the image.
+     *
+     * @param seeds number of points in the image to cluster pixels to
+     * @return mosaicked image
+     */
+    @Override
+    public Image mosaick(int seeds) {
+      // TODO: Test
+      log.append("mosaick\n");
+      return this;
+    }
+
     @Override
     public int[][] calculateHistogram() {
       return new int[0][];
@@ -366,6 +379,10 @@ public class ImageControllerTest {
             + "saved fractal-dithered successfully"
             + "\n"
             + "application ended\n", iv.outputString().toString());
+  }
+
+  public void testMosaic() {
+    // TODO: add mosaic controller test
   }
 
   @Test

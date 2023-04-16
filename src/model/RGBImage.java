@@ -1,15 +1,17 @@
 package model;
 
-import java.awt.image.BufferedImage;
-import java.util.Scanner;
-
 import static helper.ImageUtil.duplicatePixels;
+
+import java.awt.image.BufferedImage;
+import java.util.List;
+import java.util.Scanner;
 
 
 /**
  * This class represents an RGB Image and contains the operations performed on it.
  */
 public class RGBImage extends AbstractImage {
+
   GrayscaleImage redChannel;
   GrayscaleImage greenChannel;
   GrayscaleImage blueChannel;
@@ -111,7 +113,7 @@ public class RGBImage extends AbstractImage {
   @Override
   public Image duplicate() {
     RGBImage t = new RGBImage(width, height, maxColorValue,
-            duplicatePixels(pixels, width, height));
+        duplicatePixels(pixels, width, height));
     t.split();
 
     return t;
@@ -169,13 +171,49 @@ public class RGBImage extends AbstractImage {
     }
 
     if (!((channels[0].getWidth() == channels[1].getWidth()
-            && channels[0].getWidth() == channels[2].getWidth())
-            && (channels[0].getHeight() == channels[1].getHeight()
-            && channels[0].getHeight() == channels[2].getHeight()))) {
+        && channels[0].getWidth() == channels[2].getWidth())
+        && (channels[0].getHeight() == channels[1].getHeight()
+        && channels[0].getHeight() == channels[2].getHeight()))) {
       throw new IllegalArgumentException("the three image should be of the same height and width");
     }
 
     return true;
+  }
+
+  /**
+   * Get a mosaicked version of the image.
+   *
+   * @param seeds number of points in the image to cluster pixels to
+   * @return mosaicked image
+   */
+  @Override
+  public Image mosaick(int seeds) {
+    List<List<int[]>> seedToPixels = getMosaicClusters(seeds);
+
+    // assign pixels the average color of the cluster
+    Pixel[][] outPixels = new PixelImpl[height][width];
+    for (int s = 0; s < seeds; s++) {
+      int[] avg = new int[3];
+      int cnt = seedToPixels.get(s).size();
+      if (cnt == 0) {
+        continue;
+      }
+
+      for (int[] pt : seedToPixels.get(s)) {
+        Pixel pixel = getPixel(pt[0], pt[1]);
+        avg[0] += pixel.getChannel(0);
+        avg[1] += pixel.getChannel(1);
+        avg[2] += pixel.getChannel(2);
+      }
+      avg[0] = avg[0] / cnt;
+      avg[1] = avg[1] / cnt;
+      avg[2] = avg[2] / cnt;
+
+      for (int[] pt : seedToPixels.get(s)) {
+        outPixels[pt[0]][pt[1]] = new PixelImpl(avg[0], avg[1], avg[2]);
+      }
+    }
+    return new RGBImage(width, height, maxColorValue, outPixels);
   }
 
   void split() {
@@ -191,11 +229,11 @@ public class RGBImage extends AbstractImage {
       for (int j = 0; j < width; j++) {
         Pixel pixel = pixels[i][j];
         redPixels[i][j] = new PixelImpl(pixel.getChannel(0),
-                pixel.getChannel(0), pixel.getChannel(0));
+            pixel.getChannel(0), pixel.getChannel(0));
         greenPixels[i][j] = new PixelImpl(pixel.getChannel(1),
-                pixel.getChannel(1), pixel.getChannel(1));
+            pixel.getChannel(1), pixel.getChannel(1));
         bluePixels[i][j] = new PixelImpl(pixel.getChannel(2),
-                pixel.getChannel(2), pixel.getChannel(2));
+            pixel.getChannel(2), pixel.getChannel(2));
       }
     }
 

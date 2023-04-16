@@ -173,6 +173,14 @@ public interface Image {
   Image dither() throws UnsupportedOperationException;
 
   /**
+   * Get a mosaicked version of the image.
+   *
+   * @param seeds number of points in the image to cluster pixels to
+   * @return mosaicked image
+   */
+  Image mosaick(int seeds);
+
+  /**
    * Calculates the histogram for the image.
    *
    * @return a 2D array of integers representing the histogram

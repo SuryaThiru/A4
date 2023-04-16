@@ -1,7 +1,11 @@
 package model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * This abstract class for Greyscale and RGBImage and contains the common functionality.
@@ -90,21 +94,21 @@ public abstract class AbstractImage implements Image {
 
   @Override
   public boolean compareImages(Image updatedImage)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
 
     if (!((width == updatedImage.getWidth())
-            && (height == updatedImage.getHeight()))) {
+        && (height == updatedImage.getHeight()))) {
       throw new IllegalArgumentException("the two image should be of the same height and width");
     }
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         if ((updatedImage.getPixel(y, x).numChannels()
-                != this.getPixel(y, x).numChannels())) {
+            != this.getPixel(y, x).numChannels())) {
           return false;
         }
         if (!(Arrays.equals(this.getPixel(y, x).getChannels(),
-                updatedImage.getPixel(y, x).getChannels()))) {
+            updatedImage.getPixel(y, x).getChannels()))) {
           return false;
         }
       }
@@ -405,4 +409,72 @@ public abstract class AbstractImage implements Image {
     }
   }
 
+  protected int[][] getRandomPixels(int seeds) {
+    Random random = new Random(42);
+    int[] xPxls = random.ints(0, getWidth())
+        .limit(seeds)
+        .toArray();
+    int[] yPxls = random.ints(0, getHeight())
+        .limit(seeds)
+        .toArray();
+    return new int[][]{xPxls, yPxls};
+  }
+
+  /**
+   * Get list of seeds and corresponding list of points in image that belong to the cluster.
+   *
+   * @param seeds number of seeds to use for mosaicking
+   * @return array of seeds containing list of points
+   */
+  protected List<List<int[]>> getMosaicClusters(int seeds) {
+    if (seeds <= 0) {
+      throw new IllegalArgumentException("Seeds must be a positive number");
+    }
+
+    int[][] pts = getRandomPixels(seeds);
+    // seed to pixels that belong in the cluster
+    List<List<int[]>> seedToPixels = new ArrayList<>();
+    for (int i = 0; i < seeds; i++) {
+      seedToPixels.add(new LinkedList<>());
+    }
+
+    // assign seeds to pixels
+    for (int h = 0; h < height; h++) {
+      for (int w = 0; w < width; w++) {
+        int closestSeed = 0;
+        double closestDist = pixelDist(
+            new int[]{pts[0][closestSeed], pts[1][closestSeed]},
+            new int[]{h, w});
+
+        for (int s = 1; s < seeds; s++) {
+          double dist = pixelDist(
+              new int[]{pts[0][s], pts[1][s]},
+              new int[]{h, w});
+          if (dist < closestDist) {
+            closestSeed = s;
+            closestDist = dist;
+          }
+        }
+
+        seedToPixels.get(closestSeed).add(new int[]{h, w});
+      }
+    }
+
+    return seedToPixels;
+  }
+
+  /**
+   * Get the distance of pixels in the image.
+   *
+   * @param p1 array containing width and height of first pixel
+   * @param p2 array containing width and height of first pixel
+   * @return distance between the pixel
+   */
+  protected double pixelDist(int[] p1, int[] p2) {
+    assert p1.length == 2 && p2.length == 2;
+
+    int sum = (p1[0] - p2[0]) * (p1[0] - p2[0]) +
+        (p1[1] - p2[1]) * (p1[1] - p2[1]);
+    return Math.sqrt(sum);
+  }
 }

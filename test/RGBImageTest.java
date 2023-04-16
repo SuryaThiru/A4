@@ -1,19 +1,16 @@
-import org.junit.Test;
+import static helper.ImageUtil.ppmFileValidation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-
 import javax.imageio.ImageIO;
-
 import model.GrayscaleImage;
 import model.Image;
 import model.Pixel;
 import model.RGBImage;
-
-import static helper.ImageUtil.ppmFileValidation;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
  * This class represents the test for RGB class.
@@ -211,7 +208,6 @@ public class RGBImageTest {
     assertTrue(x instanceof GrayscaleImage);
   }
 
-
   //  @Test
   //  public void testJpegLoading() throws IOException {
   //    String imagePath = "res/images/flower.jpeg";
@@ -235,7 +231,6 @@ public class RGBImageTest {
     model.brighten(-70);
     assertTrue(checkImages(model, "res/images/flower.ppm"));
   }
-
 
   //  @Test
   //  public void testBmpLoading() throws IOException {
@@ -287,6 +282,18 @@ public class RGBImageTest {
     model.sharpen();
     //model.save("res/images/flower-sharpened.ppm");
     assertTrue(checkImages(model, "res/images/flower-sharpened.ppm"));
+  }
+
+  @Test
+  public void testMosaick() {
+    String imagePath = "res/images/flower.ppm";
+
+    Image model = new RGBImage(0, 0, 0);
+    Scanner sc = ppmFileValidation(imagePath);
+    String content = extractContent(sc);
+    model.load(content);
+    model = model.mosaick(800);
+    assertTrue(checkImages(model, "res/images/flower-mosaick.ppm"));
   }
 
   @Test
