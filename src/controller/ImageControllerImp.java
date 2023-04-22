@@ -349,8 +349,7 @@ public class ImageControllerImp implements ImageController {
     this.image = image;
 
     Image updatedImage = image.duplicate();
-    updatedImage.mosaick(seeds);
-    images.put(updatedImageName, updatedImage);
+    images.put(updatedImageName, updatedImage.mosaick(seeds));
   }
 
   @Override
