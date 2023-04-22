@@ -341,6 +341,19 @@ public class ImageControllerImp implements ImageController {
   }
 
   @Override
+  public void mosaick(int seeds, String imageName, String updatedImageName) throws IOException {
+    Image image = images.get(imageName);
+    if (image == null) {
+      throw new IOException("image not found");
+    }
+    this.image = image;
+
+    Image updatedImage = image.duplicate();
+    updatedImage.mosaick(seeds);
+    images.put(updatedImageName, updatedImage);
+  }
+
+  @Override
   public int[][] calculateHistogram(String imageName) throws IOException {
     Image image = images.get(imageName);
     if (image == null) {

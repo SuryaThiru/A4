@@ -21,6 +21,7 @@ import static view.Identifiers.EXPOSURE_BUTTON_TITLE;
 import static view.Identifiers.FILTER_BUTTON_TITLE;
 import static view.Identifiers.FLIP_BUTTON_TITLE;
 import static view.Identifiers.GRAYSCALE_BUTTON_TITLE;
+import static view.Identifiers.MOSAIC_BUTTON_TITLE;
 import static view.Identifiers.SEPIA_BUTTON_TITLE;
 import static view.Identifiers.SPLIT_BUTTON_TITLE;
 import static view.Identifiers.TOOL_PANEL_TITLE;
@@ -37,6 +38,7 @@ public class ToolPanelImpl extends AbstractOperations implements ToolPanel {
   final JButton flipButton;
   final JButton splitButton;
   final JButton combineButton;
+  final JButton mosaicButton;
 
   /**
    * This constructor initialises the ToolPanelImpl object and set up the initial panel for tools.
@@ -83,6 +85,10 @@ public class ToolPanelImpl extends AbstractOperations implements ToolPanel {
     this.combineButton.setActionCommand(COMBINE_BUTTON_TITLE);
     jPanel.add(this.combineButton);
 
+    this.mosaicButton = new JButton(MOSAIC_BUTTON_TITLE);
+    this.mosaicButton.setActionCommand(MOSAIC_BUTTON_TITLE);
+    jPanel.add(this.mosaicButton);
+
   }
 
   @Override
@@ -110,6 +116,9 @@ public class ToolPanelImpl extends AbstractOperations implements ToolPanel {
     });
     this.combineButton.addActionListener(evt -> {
       features.combine();
+    });
+    this.mosaicButton.addActionListener(evt -> {
+      features.mosaick();
     });
   }
 
@@ -176,5 +185,17 @@ public class ToolPanelImpl extends AbstractOperations implements ToolPanel {
       }
     }
     return imagePaths;
+  }
+
+  @Override
+  public int mosaick() {
+    String seedValue = JOptionPane.showInputDialog(
+        "Enter number of seeds", 0);
+
+    if (seedValue == null) {
+      return 0;
+    }
+
+    return Integer.parseInt(seedValue);
   }
 }

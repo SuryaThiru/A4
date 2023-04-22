@@ -29,6 +29,7 @@ public class Identifiers {
   static final String SPLIT_BUTTON_TITLE = "Split to RGB Components";
   static final String[] ALLOWED_SPLITS = {"red", "green", "blue"};
   static final String COMBINE_BUTTON_TITLE = "Combine RGB Components";
+  static final String MOSAIC_BUTTON_TITLE = "Mosaic";
   static final String UNDO_BUTTON_TITLE = "← Undo";
   static final String REDO_BUTTON_TITLE = "→ Redo";
   static final String OPEN_BUTTON_TITLE = "Open Image";

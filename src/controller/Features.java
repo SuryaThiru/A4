@@ -56,6 +56,11 @@ public interface Features {
   void split();
 
   /**
+   * This method is used to mosaic the image.
+   */
+  void mosaick();
+
+  /**
    * This method is used to undo the image operation and revert the image back.
    */
   void undo();

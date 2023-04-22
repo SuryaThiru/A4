@@ -125,6 +125,11 @@ public class GUIViewImp extends JFrame implements GUIView {
   }
 
   @Override
+  public int mosaick() {
+    return toolPanel.mosaick();
+  }
+
+  @Override
   public JPanel getPanel() {
     throw new UnsupportedOperationException("individual panel cannot be extracted");
   }

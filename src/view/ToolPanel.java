@@ -48,4 +48,11 @@ public interface ToolPanel extends Operations {
    * @return returns a string.
    */
   String[] rgbCombine() throws IOException;
+
+  /**
+   * This method handles the mosaicking of an image.
+   *
+   * @return returns an integer number of seeds
+   */
+  int mosaick();
 }

@@ -158,6 +158,17 @@ public interface ImageController {
   void filter(String imageName, String updatedImageName, String s) throws IOException;
 
   /**
+   * his method loops through all pixels in the image, and increases their red, green, and blue.
+   *
+   * @param seeds            represents the number of seeds to be used for mosaicking.
+   * @param imageName        represents the image name.
+   * @param updatedImageName represents the new image name.
+   * @throws IOException throws an exception.
+   */
+  void mosaick(int seeds, String imageName, String updatedImageName) throws IOException;
+
+
+  /**
    * Perform histogram calculation based on current image data. This should take into account
    * any image operations that have been applied.
    *

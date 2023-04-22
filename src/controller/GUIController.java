@@ -270,6 +270,26 @@ public class GUIController implements Features {
   }
 
   @Override
+  public void mosaick() {
+    try {
+      if (images[0] == null) {
+        throw new IOException("image operations are not possible without an image");
+      }
+      String updatedImageName = images[index - 1] + 'm';
+      int seeds = view.mosaick();
+      if (seeds == 0) {
+        return;
+      }
+      imageControllerImp.mosaick(seeds, images[index - 1], updatedImageName);
+      updateImage(updatedImageName);
+    } catch (IOException ex) {
+      view.displayError(ex.getMessage());
+    } catch (UnsupportedOperationException ex) {
+      view.displayError(ex.getMessage());
+    }
+  }
+
+  @Override
   public void undo() {
     try {
       if (images[0] == null) {

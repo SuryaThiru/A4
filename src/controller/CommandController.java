@@ -1,5 +1,6 @@
 package controller;
 
+import controller.commands.Mosaick;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -98,6 +99,9 @@ public class CommandController {
         break;
       case "sharpen":
         command = new Filter(scan, imageControllerImp, view, "sharpen");
+        break;
+      case "mosaic":
+        command = new Mosaick(scan, imageControllerImp, view);
         break;
       case "run":
         try {
