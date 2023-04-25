@@ -29,7 +29,9 @@ public class Mosaick extends AbstractCommands {
     String updatedImageName = scan.next();
 
     imageControllerImp.mosaick(value, imageName, updatedImageName);
-    view.display(String.format("mosaicked the image %s using %d seeds to %s successfully", imageName, value, updatedImageName));
+    view.display(
+        String.format("mosaicked the image %s using %d seeds to %s successfully", imageName, value,
+            updatedImageName));
 
   }
 }

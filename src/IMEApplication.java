@@ -26,7 +26,7 @@ public class IMEApplication {
   public static void main(String[] args) {
     Image imageModel = new RGBImage(0, 0, 0);
     ImageController imageController = new ImageControllerImp(imageModel);
-    if (args.length > 1 && args[0].equals("-file")) {
+    if (args.length >= 1 && args[0].equals("-file")) {
       try {
         ImageView view = new TextView(System.out);
         String fileName = args[1];
@@ -38,7 +38,7 @@ public class IMEApplication {
         System.err.println("Failed to read script file: " + e.getMessage());
         System.exit(1);
       }
-    } else if (args.length > 1 && args[0].equals("-text")) {
+    } else if (args.length >= 1 && args[0].equals("-text")) {
       ImageView view = new TextView(System.out);
       new CommandController(new InputStreamReader(System.in), imageController, view)
               .startProgram();
